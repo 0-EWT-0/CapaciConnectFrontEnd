@@ -13,7 +13,7 @@ En muchas comunidades existe una carencia de espacios accesibles y organizados p
 - Marquez Peralta Gael Aldair - Usuario de GIT: GahelMqz
 - Edgar Medrano Cordova - Usuario de GIT: Edgar-MedCor
 - Coox Carrillo Jonathan Rafael - Usuario de GIT: Jonathan0890
-- Marco Antonio Hau Pech - Usuario de GIT: Marcohau2O
+- Marco Antonio Hau Pech - Usuario de GIT: Marcohau20
 
 #Librerias:
 - TailwindCss
