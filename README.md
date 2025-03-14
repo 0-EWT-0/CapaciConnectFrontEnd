@@ -1,39 +1,30 @@
-# CapaciConnect
+# CapaciConnectFrontEnd
+CapaciConnect fornted repo
 
-This template should help get you started developing with Vue 3 in Vite.
+#CapaciConnect
 
-## Recommended IDE Setup
+Talleres de capacitación comunitaria
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+En muchas comunidades existe una carencia de espacios accesibles y organizados para adquirir habilidades prácticas que impulsen el desarrollo personal y profesional de sus miembros. A pesar del interés por aprender temas como programación, diseño gráfico, cocina o manualidades, frecuentemente no existen mecanismos eficientes para coordinar talleres, distribuir responsabilidades y asegurar la continuidad de estos espacios educativos.
 
-## Type Support for `.vue` Imports in TS
+#Integrantes:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Guerrero Salgado Emiliano - Usuario de GIT: 0-EWT-0
+- Marquez Peralta Gael Aldair - Usuario de GIT: GahelMqz
+- Edgar Medrano Cordova - Usuario de GIT: Edgar-MedCor
+- Coox Carrillo Jonathan Rafael - Usuario de GIT: Jonathan0890
+- Marco Antonio Hau Pech - Usuario de GIT: Marcohau20
 
-## Customize configuration
+#Librerias:
+- TailwindCss
+- Vee-validate
+- pinia
+- axios
+- yup
+- vue-core
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+#Ejecucion
 
-## Project Setup
+npm i 
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
