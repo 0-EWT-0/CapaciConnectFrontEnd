@@ -1,2 +1,118 @@
 @import './base.css';
-@import "tailwindcss";
+@import 'tailwindcss';
+
+* {
+  font-family: 'Livvic', sans-serif;
+  font-style: normal;
+}
+
+body {
+  background-color: white;
+}
+
+h1,
+h2 {
+  font-weight: 900;
+}
+
+h3 {
+  font-weight: 700;
+}
+
+h5 {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 75px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+p {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+* Responsive */ @media (max-width: 1200px) {
+  h1 {
+    font-size: 60px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3,
+  h5 {
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3,
+  h5 {
+    font-size: 13px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3,
+  h5 {
+    font-size: 12px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  h3,
+  h5 {
+    font-size: 11px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+}
