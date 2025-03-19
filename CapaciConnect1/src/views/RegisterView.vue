@@ -3,7 +3,7 @@
     <div class="w-1/2">
       <img :src="img" class="object-cover w-full h-full" />
     </div>
-    <div class="bg-[#040273] w-1/2 p-15 flex flex-col justify-center">
+    <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
       <form action="">
         <div class="py-4">
           <h2 class="text-white">Crear cuenta</h2>
