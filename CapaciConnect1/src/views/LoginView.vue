@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-red-400 w-screen h-screen flex">
+  <!-- <div class="bg-red-400 w-screen h-screen flex"> -->
+  <div class="w-screen h-screen flex">
     <div class="w-1/2">
       <img :src="img" class="object-cover w-full h-full" />
     </div>

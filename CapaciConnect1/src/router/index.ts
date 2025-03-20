@@ -184,7 +184,15 @@ const router = createRouter({
       name: 'panelMateriales',
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },*/
-    }
+    },
+
+
+
+    {
+      path: '/:pathMatch(.*)',
+      name: 'Not found',
+      component: () => import('@/views/404View.vue'),
+    },
   ],
 })
 

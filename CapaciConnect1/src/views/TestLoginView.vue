@@ -1,76 +1,19 @@
 <template>
-  <div class="bg-red-400 w-screen h-screen flex">
+  <div class="flex flex-col ">
     <div class="w-1/2">
-      <img :src="img" class="object-cover w-full h-full" />
+      <img :src="img" class="object-cover rounded-t-lg" />
     </div>
-    <div class="bg-[#040273] w-1/2 p-15 flex flex-col justify-center">
-      <form action="">
-        <div class="py-4">
-          <h2 class="text-white">Crear cuenta</h2>
-        </div>
+    <div class="w-1/2 p-4 rounded-b-lg bg-red-300">
+      <h3>Titulo del taller</h3>
+      <p>Descripcion del taller de manera resumida</p>
+      <div class="pt-4">
+      <h3 class="text-[#2563EB]">Tipo de taller</h3>
+    </div>
 
-        <div class="py-4">
-          <label class="text-white"><h3>Nombre(s)</h3></label>
-          <input
-            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-            type="text"
-            placeholder="Juan Carlos"
-          />
-        </div>
-
-        <div class="pb-4">
-          <label class="text-white"><h3>Apellidos</h3></label>
-          <input
-            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-            type="text"
-            placeholder="Torrez Zapata"
-          />
-        </div>
-
-        <div class="pb-4">
-          <label class="text-white"><h3>Correo electrónico</h3></label>
-          <input
-            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-            type="email"
-            placeholder="correo@gmail.com"
-          />
-        </div>
-
-        <div class="pb-4">
-          <label class="text-white"><h3>Teléfono</h3></label>
-          <input
-            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-            type="text"
-            placeholder="998 144 1712"
-          />
-        </div>
-
-        <div class="pb-4">
-          <label class="text-white"><h3>Contraseña</h3></label>
-          <input
-            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-            type="password"
-            placeholder="•••••"
-          />
-        </div>
-
-        <div class="pb-4 w-auto">
-          <button class="bg-[#2563EB] w-full p-4 rounded-lg cursor-pointer hover:bg-[#1d4ed8]">
-            <h3>Crear cuenta</h3>
-          </button>
-        </div>
-
-        <div class="pb-4 text-center">
-          <p class="text-white">
-            ¿Ya tienes una cuenta? Inicia sesión
-            <router-link :to="'/register'" class="text-[#2563EB]">aquí</router-link>
-          </p>
-        </div>
-      </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import img from '@/assets/imgs/imgRegister.jpg'
+import img from '@/assets/imgs/banner1.jpg'
 </script>

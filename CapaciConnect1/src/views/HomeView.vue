@@ -1,30 +1,7 @@
 <template>
   <Navbar />
+  <CarouselComponent />
   <main class="p-10">
-    <Carousel
-      :value="images"
-      :numVisible="1"
-      :numScroll="1"
-      :circular="true"
-      :autoplayInterval="3000"
-    >
-      <template #item="slotProps">
-        <div class="relative text-center p-10">
-          <img
-            :src="slotProps.data.src"
-            :alt="slotProps.data.alt"
-            class="w-[20rem] h-[20rem] justify-center items-center rounded-lg shadow-lg"
-          />
-          <div
-            class="flex justify-center items-center absolute bottom-5 left-5 bg-black bg-opacity-50 text-white p-3 rounded-lg"
-          >
-            <h3 class="text-lg font-bold">{{ slotProps.data.title }}</h3>
-            <p class="text-sm">{{ slotProps.data.description }}</p>
-          </div>
-        </div>
-      </template>
-    </Carousel>
-
     <div class="max-w-md mx-auto m-10">
       <label for="search" class="sr-only">Buscar</label>
       <div class="relative">
@@ -158,9 +135,8 @@
         </button>
       </div>
     </div>
-
-    <Footer />
   </main>
+  <Footer />
 </template>
 
 <script setup lang="ts">
@@ -168,6 +144,7 @@ import { RouterLink } from 'vue-router'
 import Footer from '@/components/global/Footer.vue'
 import Navbar from '@/components/global/Navbar.vue'
 import Carousel from 'primevue/carousel'
+import CarouselComponent from '@/components/common/CarouselComponent.vue'
 
 //DATOS PRETERMINADO
 const images = [
