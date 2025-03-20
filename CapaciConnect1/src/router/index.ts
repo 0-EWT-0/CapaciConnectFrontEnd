@@ -44,9 +44,24 @@ const router = createRouter({
       component: () => import('../views/ClasesView.vue'),
     },
     {
+      path: '/Calendario',
+      name: 'Calendario',
+      component: () => import('@/views/CalendarioView.vue')
+    },
+    {
       path: '/MisTalleres',
       name: 'misTalleres',
       component: () => import('../views/MisTalleresView.vue'),
+    },
+    {
+      path: '/Panel-Taller',
+      name: 'Panel-Taller',
+      component: () => import('@/views/Panel-TallerView.vue'),
+    },
+    {
+      path: '/Reportar',
+      name: 'Reportar',
+      component: () => import('@/views/ReportarView.vue'),
     },
     {
       path: '/Perfil',
