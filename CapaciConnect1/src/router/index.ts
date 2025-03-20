@@ -70,6 +70,18 @@ const router = createRouter({
       name: 'panelMateriales',
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },
+
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/TestLoginView.vue'),
+    },
+
+    {
+      path: '/:pathMatch(.*)',
+      name: 'Not found',
+      component: () => import('@/views/404View.vue'),
+    },
   ],
 })
 
