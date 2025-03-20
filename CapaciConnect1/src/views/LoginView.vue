@@ -1,42 +1,49 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen bg-gray-100">
-      <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h2 class="text-2xl font-bold text-center text-black mb-6">Iniciar sesión</h2>
-
-        <form class="space-y-4">
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="ejemplo@email.com"
-            class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="****"
-            class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium p-2 rounded-lg"
-        >
-          Ingresar
-        </button>
-      </form>
-
-      </div>
+  <div class="bg-red-400 w-screen h-screen flex">
+    <div class="w-1/2">
+      <img :src="img" class="object-cover w-full h-full" />
     </div>
-  </template>
+    <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
+      <form action="">
+        <div class="py-4">
+          <h2 class="text-white">Iniciar sesión</h2>
+        </div>
 
-<script setup lang="ts">
-import InputText from 'primevue/inputtext'
-import FloatLabel from 'primevue/floatlabel'
+        <div class="pb-4">
+          <label class="text-white"><h3 class="pb-2">Correo electrónico</h3></label>
+          <input
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
+            type="email"
+            placeholder="correo@gmail.com"
+          />
+        </div>
+
+        <div class="pb-4">
+          <label class="text-white"><h3 class="pb-2">Contraseña</h3></label>
+          <input
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
+            type="password"
+            placeholder="•••••"
+          />
+        </div>
+
+        <div class="pb-4 w-auto">
+          <button class="bg-[#2563EB] w-full p-4 rounded-lg cursor-pointer hover:bg-[#1d4ed8]">
+            <h3>Crear cuenta</h3>
+          </button>
+        </div>
+
+        <div class="pb-4 text-center">
+          <p class="text-white">
+            ¿No tienes una cuenta? Crea una
+            <router-link :to="'/register'" class="text-[#2563EB]">aquí</router-link>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import img from '@/assets/imgs/imgLogin.jpg'
 </script>
