@@ -193,6 +193,23 @@ const router = createRouter({
       name: 'Not found',
       component: () => import('@/views/404View.vue'),
     },
+
+
+    {
+      path: '/coordinador',
+      
+
+      children:[
+        {
+          path: '',
+          name: 'calendar',
+          component: () => import('../views/Coordinadores/CalendarioView.vue')
+        },]
+    },
+
+
+
+
   ],
 })
 
