@@ -1,13 +1,14 @@
 @import 'tailwindcss';
 
+
 * {
   font-family: 'Livvic', sans-serif;
   font-style: normal;
 }
-
+/*
 body {
   background-color: white;
-}
+} */
 
 h1,
 h2 {
