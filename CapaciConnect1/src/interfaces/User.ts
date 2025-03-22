@@ -5,6 +5,7 @@ export interface User {
   Phone: string
   Email: string
   Password: string
+  ComfirmPassword: string
   Profile_img: string
   Description: string
   Created_at: string
