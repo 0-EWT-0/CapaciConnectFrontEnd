@@ -82,6 +82,11 @@ const router = createRouter({
       name: 'panelMateriales',
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },
+    {
+      path: '/calendario',
+      name: 'calendario',
+      component: () => import('@/views/Coordinadores/CalendarioView.vue'),
+    },
 
     //ADMINISTRADOR
     {
@@ -170,19 +175,9 @@ const router = createRouter({
     },
 
 
-    {
-      path: '/coordinador',
 
 
-      children:[
-        {
-          path: '',
-          name: 'calendar',
-          component: () => import('../views/Coordinadores/CalendarioView.vue')
-        },]
-    },
-
-
+    
 
 
   ],

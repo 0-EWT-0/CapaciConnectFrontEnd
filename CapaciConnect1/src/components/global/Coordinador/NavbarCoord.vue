@@ -17,6 +17,11 @@
             📂 Materiales
           </button>
       </RouterLink>
+      <RouterLink to="/calendario">
+          <button class="flex items-center w-full px-4 py-3 text-sm rounded-md hover:bg-blue-900">
+            📅 Calendario
+          </button>
+      </RouterLink>
     </nav>
 
     <div class="mt-auto">

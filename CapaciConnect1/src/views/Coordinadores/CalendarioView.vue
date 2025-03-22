@@ -1,4 +1,6 @@
 <template>
+    <NavbarCoord />
+
   <div class="min-h-screen bg-gradient-to-r from-purple-50 to-blue-50 p-6">
 
     <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Gestión del Calendario de Actividades</h2>
@@ -143,6 +145,9 @@
 
 <script>
 import { ref } from "vue";
+
+import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue'
+
 
 export default {
   setup() {
