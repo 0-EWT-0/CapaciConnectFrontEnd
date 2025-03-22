@@ -31,7 +31,7 @@
 
         <div class="mb-5">
           <div class="card flex flex-col gap-6 items-center justify-center text-black">
-              <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" />
+              <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" class="bg-white"/>
           </div>
         </div>
 
