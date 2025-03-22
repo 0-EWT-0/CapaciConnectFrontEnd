@@ -1,29 +1,31 @@
 <template>
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-gray-900">Panel de Coordinador de Talleres</h1>
-      <div class="flex items-center gap-4">
-        <button class="p-2 rounded-full hover:bg-gray-100">
-          <i class="fas fa-bell text-gray-500"></i>
-        </button>
-        <div class="flex items-center gap-2">
-          <div
-            class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white"
-          >
-            MRC
-          </div>
-          <span class="text-sm font-medium text-gray-700">Marco Hau</span>
-        </div>
-        <button class="flex items-center px-3 py-2 text-lg rounded-md bg-red-500 text-white">
+  <div class="w-[20rem] h-screen bg-[#040273] text-white p-5 fixed">
+    <h2 class="text-lg font-bold m-5">Navbar</h2>
+    <nav class="mt-4">
+      <RouterLink to="/panelCoordinador">
+          <button class="flex items-center w-full px-4 py-3 text-sm rounded-md hover:bg-blue-900">
+            📊 Dashboard
+          </button>
+        </RouterLink>
+        <RouterLink to="/panelTalleres">
+          <button class="flex items-center w-full px-4 py-3 text-sm rounded-md hover:bg-blue-900">
+            🏫 Talleres
+          </button>
+        </RouterLink>
+        <RouterLink to="/panelMateriales">
+          <button class="flex items-center w-full px-4 py-3 text-sm rounded-md hover:bg-blue-900">
+            📂 Materiales
+          </button>
+      </RouterLink>
+    </nav>
+
+    <div class="mt-auto">
+        <button class="w-full mt-2 py-3 bg-red-500 text-white text-lg rounded-md hover:bg-red-600">
           Cerrar Sesión
         </button>
-      </div>
     </div>
-  </header>
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'Navbar',
-}
+<script setup lang="ts">
 </script>

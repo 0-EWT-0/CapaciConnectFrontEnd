@@ -13,10 +13,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@primeuix/themes": "^1.0.0",
     "@tailwindcss/vite": "^4.0.12",
     "@unhead/vue": "^2.0.0-rc.13",
     "@vorms/core": "^1.1.0",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "@vueuse/core": "^12.8.2",
     "apexcharts": "^4.5.0",
     "chart.js": "^4.4.8",

@@ -30,7 +30,58 @@ const router = createRouter({
       name: 'register',
       component: () => import('../views/RegisterView.vue'),
     },
+    {
+      path: '/Talleres',
+      name: 'talleres',
+      component: () => import('../views/TalleresView.vue'),
+    },
+    {
+      path: '/ContenidoTalleres',
+      name: 'contenidoTalleres',
+      component: () => import('../views/ContenidoTalleresView.vue'),
+    },
+    {
+      path: '/ClasesTaller',
+      name: 'clasesTaller',
+      component: () => import('../views/ClasesView.vue'),
+    },
+    {
+      path: '/MisTalleres',
+      name: 'misTalleres',
+      component: () => import('../views/MisTalleresView.vue'),
+    },
+    {
+      path: '/Perfil',
+      name: 'perfil',
+      component: () => import('../views/ProfileView.vue'),
+    },
+    {
+      path: '/Panel-Taller',
+      name: 'Panel-Taller',
+      component: () => import('@/views/Panel-TallerView.vue')
+    },
+    {
+      path: '/Reportar',
+      name: 'Reportar',
+      component: () => import('@/views/ReportarView.vue')
+    },
 
+    //VISTA COORDINADORES
+    {
+      path: '/panelCoordinador',
+      name: 'panelCoordinador',
+      component: () => import('@/views/Coordinadores/PanelCoordView.vue'),
+    },
+    {
+      path: '/panelTalleres',
+      name: 'panelTalleres',
+      component: () => import('@/views/Coordinadores/TalleresView.vue'),
+    },
+    {
+      path: '/panelMateriales',
+      name: 'panelMateriales',
+      component: () => import('@/views/Coordinadores/MaterialesView.vue'),
+    },
 
     //ADMINISTRADOR
     {
@@ -70,6 +121,7 @@ const router = createRouter({
       ]
     },
 
+
     //INSTRUTORES
     {
       path: '/instrutor',
@@ -106,48 +158,7 @@ const router = createRouter({
           component: () => import('../views/Instrutores/page-work.vue'),
         },
       ]
-  /*  {
-      path: '/Talleres',
-      name: 'talleres',
-      component: () => import('../views/TalleresView.vue'),
-    },
-    {
-      path: '/ContenidoTalleres',
-      name: 'contenidoTalleres',
-      component: () => import('../views/ContenidoTalleresView.vue'),
-    },
-    {
-      path: '/ClasesTaller',
-      name: 'clasesTaller',
-      component: () => import('../views/ClasesView.vue'),
-    },
-    {
-      path: '/MisTalleres',
-      name: 'misTalleres',
-      component: () => import('../views/MisTalleresView.vue'),
-    },
-    {
-      path: '/Perfil',
-      name: 'perfil',
-      component: () => import('../views/ProfileView.vue'),
-    },
 
-    //VISTA COORDINADORES
-    {
-      path: '/panelCoordinador',
-      name: 'panelCoordinador',
-      component: () => import('@/views/Coordinadores/PanelCoordView.vue'),
-    },
-    {
-      path: '/panelTalleres',
-      name: 'panelTalleres',
-      component: () => import('@/views/Coordinadores/TalleresView.vue'),
-    },
-    {
-      path: '/panelMateriales',
-      name: 'panelMateriales',
-      component: () => import('@/views/Coordinadores/MaterialesView.vue'),
-    },*/
     },
 
 
@@ -157,6 +168,23 @@ const router = createRouter({
       name: 'Not found',
       component: () => import('@/views/404View.vue'),
     },
+
+
+    {
+      path: '/coordinador',
+
+
+      children:[
+        {
+          path: '',
+          name: 'calendar',
+          component: () => import('../views/Coordinadores/CalendarioView.vue')
+        },]
+    },
+
+
+
+
   ],
 })
 

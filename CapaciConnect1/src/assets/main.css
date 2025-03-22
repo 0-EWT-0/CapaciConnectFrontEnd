@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 
+
 * {
   font-family: 'Livvic', sans-serif;
   font-style: normal;
@@ -114,4 +115,10 @@ p {
   p {
     font-size: 11px;
   }
+}
+
+.p-card, .p-inputtext, .p-textarea {
+    background-color: white !important;
+    color: black !important;
+    border-color: #d1d5db !important; /* Gris claro */
 }

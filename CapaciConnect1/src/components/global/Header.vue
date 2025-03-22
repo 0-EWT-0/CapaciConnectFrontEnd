@@ -3,7 +3,7 @@
     <!-- Logo y título a la izquierda -->
     <div class="flex items-center space-x-4">
       <RouterLink to="/inicio">
-        <img src="../../assets/logo.svg" alt="Logo" class="h-10" />
+        <img src="../../assets/imgs/capacityLogo.png" alt="Logo" class="h-10" />
       </RouterLink>
       <h2 class="text-3xl font-bold text-white">Capacity</h2>
     </div>
@@ -32,24 +32,24 @@
       <div class="relative inline-block text-left">
         <button
           @click="isMenuOpen = !isMenuOpen"
-          class="flex items-center space-x-2 bg-gray-200 p-2 rounded-lg hover:bg-gray-300"
+          class="flex items-center space-x-2 bg-[#040273] p-2 rounded-lg hover:bg-blue-900"
         >
-          <img src="../../assets/logo.svg" alt="Foto de perfil" class="w-10 h-10 rounded-full" />
+          <img src="../../assets/imgs/capacityLogo.png" alt="Foto de perfil" class="w-10 h-10 rounded-full" />
         </button>
 
         <!-- Menú desplegable -->
-        <div v-if="isMenuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+        <div v-if="isMenuOpen" class="absolute right-0 mt-5 w-48 bg-[#040273] shadow-lg rounded-lg">
           <a
             href="#"
             @click.prevent="editarPerfil"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            class="block px-6 py-4 text-sm text-white hover:bg-blue-900"
           >
             Mi perfil
           </a>
           <a
             href="#"
             @click.prevent="cerrarSesion"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            class="block px-6 py-4 text-sm text-white hover:bg-blue-900"
           >
             Cerrar sesión
           </a>

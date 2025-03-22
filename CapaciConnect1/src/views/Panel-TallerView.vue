@@ -45,15 +45,19 @@
 
     <!-- Botones de Acción -->
     <div class="flex justify-center gap-6 my-8">
-        <button class="px-15 py-6 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-700 transition">
+        <RouterLink to="/MisTalleres">
+            <button class="px-15 py-6 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-700 transition">
             ⬅ Regresar
-        </button>
+            </button>
+        </RouterLink>
         <button class="px-15 py-6 bg-red-500 text-white rounded-lg shadow-lg hover:bg-red-700 transition">
             🚪 Abandonar
         </button>
-        <button class="px-15 py-6 bg-yellow-500 text-white rounded-lg shadow-lg hover:bg-yellow-700 transition">
-            ⚠ Reportar
-        </button>
+        <RouterLink to="/Reportar">
+            <button class="px-15 py-6 bg-yellow-500 text-white rounded-lg shadow-lg hover:bg-yellow-700 transition">
+                ⚠ Reportar
+            </button>
+        </RouterLink>
     </div>
 
     <Footer/>

@@ -7,14 +7,14 @@
 
       <!-- Buscador -->
       <div class="flex items-center border border-gray-300 rounded overflow-hidden w-full sm:w-96">
-        <input type="text" placeholder="Buscar mis talleres..." class="p-2 w-full outline-none" />
+        <input type="text" placeholder="Buscar mis talleres..." class="p-2 w-full outline-none text-black" />
         <button class="bg-gray-600 text-white px-4 py-2">🔍</button>
       </div>
     </div>
 
     <!-- Controles de filtros -->
     <div class="flex justify-between items-center mb-6 rounded-lg mx-10">
-      <div class="flex gap-4">
+      <!-- <div class="flex gap-4">
         <label class="text-lg font-semibold">Ordenar por:</label>
         <Select
           v-model="selectedOrder"
@@ -23,7 +23,7 @@
           placeholder="Ordenado por:"
           class="border border-gray-300 rounded p-2"
         />
-      </div>
+      </div> -->
   
       <!-- Grid de talleres -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -35,7 +35,7 @@
             <img src="../assets/logo.svg" alt="Imagen del taller" class="w-full h-40 object-cover">
 
             <div class="p-4">
-              <h2 class="text-lg font-bold">Titulo del Taller</h2>
+              <h2 class="text-lg text-black font-bold">Titulo del Taller</h2>
               <p class="text-gray-600 text-sm">Descripción del taller de manera resumida</p>
 
               <p class="text-blue-600 font-semibold mt-2">Tipo de Taller</p>
