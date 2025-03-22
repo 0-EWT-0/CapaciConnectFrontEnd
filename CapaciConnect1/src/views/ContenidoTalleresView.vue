@@ -2,11 +2,11 @@
   <Header />
   <div class="bg-gray-100 p-8">
     <!-- Barra superior -->
-    <div class="text-white flex justify-between p-2">
-      <span class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
+    <div class="text-white flex flex-col justify-between p-2">
+      <span class="bg-green-500 m-2 p-2 rounded-lg h-10 w-[20rem] text-center"
         >Inicio el 01 Enero 2023</span
       >
-      <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
+      <span class="bg-red-500 m-2 p-2 rounded-lg h-10 w-[20rem] text-center"
         >Cierre el 01 Enero 2025</span
       >
     </div>
@@ -14,7 +14,7 @@
     <!-- Imagen principal y título -->
     <div class="text-center mt-4">
       <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
-      <h1 class="text-4xl font-bold mt-4">Taller de Programación con Python</h1>
+      <h1 class="text-4xl font-bold text-black mt-4">Taller de Programación con Python</h1>
       <p class="text-gray-700 mt-2">
         Aprenda a programar y analizar datos con Python. Desarrolle programas para recopilar,
         limpiar, analizar y visualizar datos.
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Contenido del taller -->
-    <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
+    <div class="mt-8 bg-gray-200 m-10 text-black  p-10 rounded-xl">
       <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
       <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
@@ -61,15 +61,19 @@
     <!-- Sección de comentarios -->
     <div class="mt-8">
       <h2 class="text-2xl font-bold text-gray-800">Comentarios</h2>
-      <img
-        src="../assets/logo.svg"
-        class="h-15 w-15 rounded-full flex items-center justify-center text-xl mt-2"
-      />
+
       <div class="mt-4">
-        <textarea
-          class="w-full p-2 border border-gray-300 rounded"
+        <div class="flex">
+          <img
+        src="../assets/logo.svg"
+        class="h-15 w-15 rounded-full m-2 flex items-center justify-center text-xl mt-2"
+      />
+          <textarea
+          class="w-full text-gray-600 m-2 p-2 border border-gray-300 rounded"
           placeholder="Escriba su comentario aquí..."
         ></textarea>
+        </div>
+
         <div class="mt-2 flex gap-2">
           <button class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
             Cancelar
@@ -87,7 +91,7 @@
             src="../assets/logo.svg"
             class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
           />
-          <span
+          <span class="text-gray-700"
             >Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
             amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
             amet...</span
@@ -102,7 +106,7 @@
             src="../assets/logo.svg"
             class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
           />
-          <span
+          <span class="text-gray-700"
             >Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
             amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
             amet...</span
@@ -112,11 +116,13 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
 import Header from '@/components/global/Header.vue'
 import { ref } from 'vue'
+
 
 const activeIndex = ref(null)
 
