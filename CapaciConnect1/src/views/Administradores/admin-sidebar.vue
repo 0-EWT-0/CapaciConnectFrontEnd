@@ -5,11 +5,7 @@
       <!-- Encabezado de usuario -->
       <div class="flex items-center p-4 mb-4">
         <div class="relative w-8 h-8 overflow-hidden rounded-full mr-2">
-          <img
-            src=""
-            alt="Usuario"
-            class="object-cover w-full h-full"
-          />
+          <img src="" alt="Usuario" class="object-cover w-full h-full" />
         </div>
         <span class="font-semibold">Usuario</span>
       </div>
@@ -39,13 +35,7 @@
 <script lang="ts">
 import { defineComponent, type Component } from 'vue'
 import { useRoute } from 'vue-router'
-import {
-  HomeIcon,
-  BriefcaseIcon,
-  UsersIcon,
-  FileTextIcon,
-  SettingsIcon,
-} from 'lucide-vue-next'
+import { HomeIcon, BriefcaseIcon, UsersIcon, FileTextIcon, SettingsIcon } from 'lucide-vue-next'
 
 interface MenuItem {
   name: string
@@ -66,13 +56,12 @@ export default defineComponent({
     const route = useRoute()
 
     const menuItems: MenuItem[] = [
-   { name: "Usuarios", icon: HomeIcon, href: "/adminuser" }, // Nota: '/adminuser' para mantener consistencia.
-   { name: "Talleres", icon: BriefcaseIcon, href: "/adminTaller" },
-   { name: "Roles", icon: UsersIcon, href: "/adminRol" },
-   { name: "Reportes", icon: FileTextIcon, href: "/adminReport" },
-   { name: "Tipos de taller", icon: SettingsIcon, href: "/adminTipos" },
-];
-
+      { name: 'Usuarios', icon: HomeIcon, href: '/adminuser' }, // Nota: '/adminuser' para mantener consistencia.
+      { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' },
+      { name: 'Roles', icon: UsersIcon, href: '/adminRol' },
+      { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
+      { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
+    ]
 
     const isActive = (path: string): boolean => {
       return route.path === path
@@ -80,8 +69,8 @@ export default defineComponent({
 
     return {
       menuItems,
-      isActive
+      isActive,
     }
-  }
+  },
 })
 </script>

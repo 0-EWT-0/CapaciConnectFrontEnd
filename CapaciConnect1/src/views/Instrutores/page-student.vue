@@ -1,31 +1,31 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Search, Download, UserPlus, Filter } from "lucide-vue-next"
+import { Search, Download, UserPlus, Filter } from 'lucide-vue-next'
 
 const students = ref([
   {
-    name: "Emily Chen",
-    initials: "EC",
-    email: "emily.chen@example.com",
-    workshop: "Web Development",
-    progress: "75%",
-    lastAttended: "Today",
+    name: 'Emily Chen',
+    initials: 'EC',
+    email: 'emily.chen@example.com',
+    workshop: 'Web Development',
+    progress: '75%',
+    lastAttended: 'Today',
   },
   {
-    name: "Marcus Johnson",
-    initials: "MJ",
-    email: "marcus.j@example.com",
-    workshop: "Advanced JavaScript",
-    progress: "60%",
-    lastAttended: "Yesterday",
+    name: 'Marcus Johnson',
+    initials: 'MJ',
+    email: 'marcus.j@example.com',
+    workshop: 'Advanced JavaScript',
+    progress: '60%',
+    lastAttended: 'Yesterday',
   },
   {
-    name: "Sofia Rodriguez",
-    initials: "SR",
-    email: "sofia.r@example.com",
-    workshop: "UX Design",
-    progress: "40%",
-    lastAttended: "2 days ago",
+    name: 'Sofia Rodriguez',
+    initials: 'SR',
+    email: 'sofia.r@example.com',
+    workshop: 'UX Design',
+    progress: '40%',
+    lastAttended: '2 days ago',
   },
 ])
 </script>
@@ -39,11 +39,15 @@ const students = ref([
         <p class="text-gray-500 mt-1">Manage and track all students across your workshops.</p>
       </div>
       <div class="flex items-center gap-2">
-        <button class="px-4 py-2 border border-gray-300 rounded-md flex items-center hover:bg-gray-50 transition-colors">
+        <button
+          class="px-4 py-2 border border-gray-300 rounded-md flex items-center hover:bg-gray-50 transition-colors"
+        >
           <Download class="mr-2 h-4 w-4 text-gray-700" />
           <span class="text-gray-700">Export</span>
         </button>
-        <button class="px-4 py-2 bg-blue-600 text-white rounded-md flex items-center hover:bg-blue-700 transition-colors">
+        <button
+          class="px-4 py-2 bg-blue-600 text-white rounded-md flex items-center hover:bg-blue-700 transition-colors"
+        >
           <UserPlus class="mr-2 h-4 w-4" />
           <span>Add Student</span>
         </button>
@@ -62,7 +66,9 @@ const students = ref([
           class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
-      <button class="px-4 py-2 border border-gray-300 rounded-md flex items-center hover:bg-gray-50 transition-colors w-full md:w-auto">
+      <button
+        class="px-4 py-2 border border-gray-300 rounded-md flex items-center hover:bg-gray-50 transition-colors w-full md:w-auto"
+      >
         <Filter class="mr-2 h-4 w-4 text-gray-700" />
         <span class="text-gray-700">Filter</span>
       </button>
@@ -128,10 +134,14 @@ const students = ref([
               <!-- Actions Column -->
               <td class="px-4 py-3">
                 <div class="flex items-center gap-2">
-                  <button class="px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors">
+                  <button
+                    class="px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                  >
                     View
                   </button>
-                  <button class="px-2 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+                  <button
+                    class="px-2 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
+                  >
                     Message
                   </button>
                 </div>
@@ -155,7 +165,9 @@ const students = ref([
         >
           Previous
         </button>
-        <button class="px-3 py-1 text-sm border border-gray-300 rounded-md bg-white text-gray-600 hover:bg-gray-50">
+        <button
+          class="px-3 py-1 text-sm border border-gray-300 rounded-md bg-white text-gray-600 hover:bg-gray-50"
+        >
           Next
         </button>
       </div>

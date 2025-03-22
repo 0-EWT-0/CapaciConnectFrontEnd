@@ -58,7 +58,7 @@ interface FormData {
 
 const formData = ref<FormData>({
   nombre: '',
-  descripcion: ''
+  descripcion: '',
 })
 
 const handleSubmit = (e: Event) => {

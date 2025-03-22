@@ -5,27 +5,31 @@
       <img :src="img" class="object-cover w-full h-full" />
     </div>
     <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
-      <form action="">
+      <Form :validation-schema="validationUser">
         <div class="py-4">
           <h2 class="text-white">Iniciar sesión</h2>
         </div>
 
         <div class="pb-4">
           <label class="text-white"><h3 class="pb-2">Correo electrónico</h3></label>
-          <input
+          <Field
+            name="email"
             class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             type="email"
             placeholder="correo@gmail.com"
           />
+          <ValidationMessage prop="email" />
         </div>
 
         <div class="pb-4">
           <label class="text-white"><h3 class="pb-2">Contraseña</h3></label>
-          <input
+          <Field
+            name="password"
             class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             type="password"
-            placeholder="•••••"
+            placeholder="••••••••"
           />
+          <ValidationMessage prop="password" />
         </div>
 
         <div class="pb-4 w-auto">
@@ -40,11 +44,14 @@
             <router-link :to="'/register'" class="text-[#2563EB]">aquí</router-link>
           </p>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 
 <script setup>
 import img from '@/assets/imgs/imgLogin.jpg'
+import ValidationMessage from '@/components/common/ValidationMessage.vue'
+import { validationUser } from '@/schemas/validations'
+import { Field, Form } from 'vee-validate'
 </script>

@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router"
-import { CalendarDays, Users, BookOpen, LayoutDashboard, BarChart3, Settings } from "lucide-vue-next"
+import { RouterLink } from 'vue-router'
+import {
+  CalendarDays,
+  Users,
+  BookOpen,
+  LayoutDashboard,
+  BarChart3,
+  Settings,
+} from 'lucide-vue-next'
 </script>
 
 <template>
@@ -8,7 +15,8 @@ import { CalendarDays, Users, BookOpen, LayoutDashboard, BarChart3, Settings } f
     <header class="text-center space-y-4 mb-8">
       <h1 class="text-4xl font-bold">Instructor Portal</h1>
       <p class="text-xl text-gray-500 max-w-2xl mx-auto">
-        Manage your workshops, track student progress, and access all teaching resources from one central location.
+        Manage your workshops, track student progress, and access all teaching resources from one
+        central location.
       </p>
     </header>
 
@@ -63,7 +71,8 @@ import { CalendarDays, Users, BookOpen, LayoutDashboard, BarChart3, Settings } f
           <Users class="h-5 w-5 text-blue-600" />
         </div>
         <p class="text-sm text-gray-500 mb-4">
-          View student profiles, track attendance, and monitor learning progress across all workshops.
+          View student profiles, track attendance, and monitor learning progress across all
+          workshops.
         </p>
         <RouterLink
           to="/instructor/students"
@@ -103,7 +112,8 @@ import { CalendarDays, Users, BookOpen, LayoutDashboard, BarChart3, Settings } f
           <BarChart3 class="h-5 w-5 text-blue-600" />
         </div>
         <p class="text-sm text-gray-500 mb-4">
-          Get detailed insights on student engagement, satisfaction ratings, and teaching effectiveness.
+          Get detailed insights on student engagement, satisfaction ratings, and teaching
+          effectiveness.
         </p>
         <RouterLink
           to="/instructor/analytics"

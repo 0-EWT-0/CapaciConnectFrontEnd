@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col ">
+  <div class="flex flex-col">
     <div class="w-1/2">
       <img :src="img" class="object-cover rounded-t-lg" />
     </div>
@@ -7,9 +7,8 @@
       <h3>Titulo del taller</h3>
       <p>Descripcion del taller de manera resumida</p>
       <div class="pt-4">
-      <h3 class="text-[#2563EB]">Tipo de taller</h3>
-    </div>
-
+        <h3 class="text-[#2563EB]">Tipo de taller</h3>
+      </div>
     </div>
   </div>
 </template>

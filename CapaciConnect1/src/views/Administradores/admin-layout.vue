@@ -1,7 +1,5 @@
 <template>
   <div class="flex min-h-screen flex-col">
-
-
     <!-- Main Content -->
     <div class="flex flex-1">
       <!-- Desktop Sidebar -->
@@ -22,12 +20,12 @@
 
       <!-- Main Content Area -->
       <main class="flex-1 bg-gray-50 p-6 md:p-8">
-        <rouer-view/>
+        <rouer-view />
         <div class="max-w-7xl mx-auto">
           <!-- Slot para contenido específico de la página -->
           <slot />
         </div>
-        <RouterView/>
+        <RouterView />
       </main>
     </div>
   </div>

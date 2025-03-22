@@ -15,12 +15,10 @@
             <!-- Encabezado -->
             <div class="flex gap-4 items-start">
               <div class="flex-shrink-0">
-                <div class="w-14 h-14 rounded-full bg-gray-100 border-2 border-emerald-100 overflow-hidden">
-                  <img
-                    src=""
-                    alt="Avatar"
-                    class="w-full h-full object-cover"
-                  />
+                <div
+                  class="w-14 h-14 rounded-full bg-gray-100 border-2 border-emerald-100 overflow-hidden"
+                >
+                  <img src="" alt="Avatar" class="w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -37,23 +35,53 @@
             <!-- Detalles -->
             <div class="mt-4 space-y-2">
               <div class="flex items-center gap-2 text-sm text-gray-600">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                <svg
+                  class="w-4 h-4 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
                 </svg>
                 <span class="font-medium">Taller:</span>
                 <span class="truncate">{{ reporte.tituloTaller }}</span>
               </div>
 
               <div class="flex items-center gap-2 text-sm text-gray-600">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                <svg
+                  class="w-4 h-4 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
                 </svg>
                 <span>{{ reporte.email }}</span>
               </div>
 
               <div class="flex items-center gap-2 text-sm text-gray-500">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                <svg
+                  class="w-4 h-4 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
                 <span>{{ reporte.fecha }}</span>
               </div>
@@ -66,7 +94,12 @@
                 class="w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-white bg-[#1a2e4c] rounded-lg hover:bg-[#15243d] transition-colors flex items-center justify-center gap-2"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
                 Marcar como finalizado
               </button>
@@ -93,20 +126,22 @@ interface Reporte {
 const reportes = ref<Reporte[]>([
   {
     id: 1,
-    titulo: "Reporte de seguridad en taller",
-    descripcion: "Se detectó un problema con las medidas de seguridad durante el último taller de pintura. Es necesario revisar los protocolos y equipos de protección.",
-    tituloTaller: "Taller de Pintura Avanzada",
-    email: "seguridad@talleres.com",
-    fecha: "2023-01-17"
+    titulo: 'Reporte de seguridad en taller',
+    descripcion:
+      'Se detectó un problema con las medidas de seguridad durante el último taller de pintura. Es necesario revisar los protocolos y equipos de protección.',
+    tituloTaller: 'Taller de Pintura Avanzada',
+    email: 'seguridad@talleres.com',
+    fecha: '2023-01-17',
   },
   {
     id: 2,
-    titulo: "Solicitud de materiales adicionales",
-    descripcion: "Los participantes del taller de escultura han solicitado mayor cantidad de materiales básicos para las próximas sesiones.",
-    tituloTaller: "Taller de Escultura Moderna",
-    email: "materiales@talleres.com",
-    fecha: "2023-01-18"
-  }
+    titulo: 'Solicitud de materiales adicionales',
+    descripcion:
+      'Los participantes del taller de escultura han solicitado mayor cantidad de materiales básicos para las próximas sesiones.',
+    tituloTaller: 'Taller de Escultura Moderna',
+    email: 'materiales@talleres.com',
+    fecha: '2023-01-18',
+  },
 ])
 
 const handleFinalizar = (id: number) => {

@@ -58,12 +58,12 @@ const router = createRouter({
     {
       path: '/Panel-Taller',
       name: 'Panel-Taller',
-      component: () => import('@/views/Panel-TallerView.vue')
+      component: () => import('@/views/Panel-TallerView.vue'),
     },
     {
       path: '/Reportar',
       name: 'Reportar',
-      component: () => import('@/views/ReportarView.vue')
+      component: () => import('@/views/ReportarView.vue'),
     },
 
     //VISTA COORDINADORES
@@ -97,45 +97,45 @@ const router = createRouter({
         {
           path: '',
           name: 'admin-dashboard',
-          component: () => import('../views/Administradores/admin-dashboard.vue')
+          component: () => import('../views/Administradores/admin-dashboard.vue'),
         },
         {
           path: '/adminuser',
           name: 'admin-user',
-          component: () => import ('../views/Administradores/pageAdminView.vue')
+          component: () => import('../views/Administradores/pageAdminView.vue'),
         },
         {
           path: '/adminTaller',
           name: 'admin-talleres',
-          component: () => import ('../views/Administradores/pageTalleresView.vue')
-        },{
+          component: () => import('../views/Administradores/pageTalleresView.vue'),
+        },
+        {
           path: '/adminRol',
           name: 'admin-roles',
-          component: () => import ('../views/Administradores/pageRolesView.vue')
+          component: () => import('../views/Administradores/pageRolesView.vue'),
         },
         {
           path: '/adminReport',
           name: 'admin-reportes',
-          component: () => import ('../views/Administradores/pageReporteView.vue')
+          component: () => import('../views/Administradores/pageReporteView.vue'),
         },
         {
           path: '/adminTipos',
           name: 'admin-tipos-taller',
-          component: () => import ('../views/Administradores/pageTiposTallerView.vue')
+          component: () => import('../views/Administradores/pageTiposTallerView.vue'),
         },
-      ]
+      ],
     },
-
 
     //INSTRUTORES
     {
       path: '/instrutor',
       component: InstrutoresLayout,
-      children:[
+      children: [
         {
           path: '',
           name: 'instructor-dashboard',
-          component: () => import('../views/Instrutores/InstrutoresView.vue')
+          component: () => import('../views/Instrutores/InstrutoresView.vue'),
         },
         {
           path: 'instrutor/loading-student',
@@ -162,24 +162,14 @@ const router = createRouter({
           name: 'page-work',
           component: () => import('../views/Instrutores/page-work.vue'),
         },
-      ]
-
+      ],
     },
-
-
 
     {
       path: '/:pathMatch(.*)',
       name: 'Not found',
       component: () => import('@/views/404View.vue'),
     },
-
-
-
-
-    
-
-
   ],
 })
 
