@@ -43,68 +43,32 @@ const router = createRouter({
           name: 'admin-dashboard',
           component: () => import('../views/Administradores/admin-dashboard.vue')
         },
-
-        // Gestión de usuarios
         {
-          path: 'users',
-          name: 'users',
-          component: () => import('../views/Administradores/user-table.vue'),
+          path: '/adminuser',
+          name: 'admin-user',
+          component: () => import ('../views/Administradores/pageAdminView.vue')
         },
         {
-          path: 'users/:id',
-          name: 'user-detail',
-          component: () => import('../views/Administradores/page-user.vue'),
-          props: true
+          path: '/adminTaller',
+          name: 'admin-talleres',
+          component: () => import ('../views/Administradores/pageTalleresView.vue')
+        },{
+          path: '/adminRol',
+          name: 'admin-roles',
+          component: () => import ('../views/Administradores/pageRolesView.vue')
         },
         {
-          path: 'add-user',
-          name: 'add-user',
-          component: () => import('../views/Administradores/add-userView.vue'),
-        },
-
-        // Estadísticas y métricas
-        {
-          path: 'stats',
-          name: 'dashboard-stats',
-          component: () => import('../views/Administradores/dashboard-stats.vue'),
+          path: '/adminReport',
+          name: 'admin-reportes',
+          component: () => import ('../views/Administradores/pageReporteView.vue')
         },
         {
-          path: 'metrics',
-          name: 'user-metrics',
-          component: () => import('../views/Administradores/user-metrics.vue'),
+          path: '/adminTipos',
+          name: 'admin-tipos-taller',
+          component: () => import ('../views/Administradores/pageTiposTallerView.vue')
         },
-        {
-          path: 'analytics',
-          name: 'analytics',
-          component: () => import('../views/Administradores/page-analytics.vue'),
-        },
-
-        // Actividad y contenido
-        {
-          path: 'activity',
-          name: 'recent-activity',
-          component: () => import('../views/Administradores/recent-activity.vue'),
-        },
-        {
-          path: 'top-pages',
-          name: 'top-pages',
-          component: () => import('../views/Administradores/top-pages.vue'),
-        },
-
-        // Configuración y vistas adicionales
-        {
-          path: 'settings',
-          name: 'settings',
-          component: () => import('../views/Administradores/page-settings.vue'),
-        },
-        {
-          path: 'overview',
-          name: 'overview',
-          component: () => import('../views/Administradores/overView.vue'),
-        }
       ]
     },
-
 
     //INSTRUTORES
     {

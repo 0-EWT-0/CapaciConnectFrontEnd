@@ -1,161 +1,87 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<template>
+  <aside class="bg-[#05057a] text-white w-full h-full flex flex-col">
+    <!-- Contenido principal -->
+    <div class="flex-1">
+      <!-- Encabezado de usuario -->
+      <div class="flex items-center p-4 mb-4">
+        <div class="relative w-8 h-8 overflow-hidden rounded-full mr-2">
+          <img
+            src=""
+            alt="Usuario"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <span class="font-semibold">Usuario</span>
+      </div>
+
+      <!-- Menú de navegación -->
+      <nav>
+        <ul class="space-y-1">
+          <li v-for="item in menuItems" :key="item.name">
+            <router-link
+              :to="item.href"
+              class="flex items-center px-4 py-3 space-x-3 transition-colors hover:bg-[#0000bb] hover:text-white"
+              :class="{ 'bg-[#0000bb] font-medium': isActive(item.href) }"
+            >
+              <component :is="item.icon" class="h-5 w-5" />
+              <span>{{ item.name }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Barra decorativa lateral -->
+    <div class="h-full w-1 bg-[#0000bb]"></div>
+  </aside>
+</template>
+
+<script lang="ts">
+import { defineComponent, type Component } from 'vue'
 import { useRoute } from 'vue-router'
-import type { Component } from 'vue'
 import {
-  BarChart3,
-  Settings,
-  Users,
-  LayoutDashboard,
-  ChevronDown,
-  ChevronRight,
-  Activity,
-  Gauge,
-  LineChart,
-  TrendingUp,
-  UserPlus
+  HomeIcon,
+  BriefcaseIcon,
+  UsersIcon,
+  FileTextIcon,
+  SettingsIcon,
 } from 'lucide-vue-next'
 
-interface NavItem {
-  title: string
-  href: string
+interface MenuItem {
+  name: string
   icon: Component
-  submenu?: NavItem[]
+  href: string
 }
 
-const navItems: NavItem[] = [
-  {
-    title: "Dashboard",
-    href: "/admin",
-    icon: LayoutDashboard,
-    submenu: [
-      {
-        title: "Resumen Principal",
-        href: "/admin", // ✅ Ruta base
-        icon: Gauge
-      },
-      {
-        title: "Estadísticas",
-        href: "/admin/stats",
-        icon: TrendingUp
-      },
-      {
-        title: "Visión General",
-        href: "/admin/overview",
-        icon: LineChart
-      }
-    ]
+export default defineComponent({
+  name: 'AppSidebar',
+  components: {
+    HomeIcon,
+    BriefcaseIcon,
+    UsersIcon,
+    FileTextIcon,
+    SettingsIcon,
   },
-  {
-    title: "Usuarios",
-    href: "/admin/users",
-    icon: Users,
-    submenu: [
-      {
-        title: "Lista de Usuarios",
-        href: "/admin/users",
-        icon: Users
-      },
-      {
-        title: "Agregar Usuario",
-        href: "/admin/add-user",
-        icon: UserPlus
-      },
-      {
-        title: "Detalles de Usuario",
-        href: "/admin/users/:id", // Ruta dinámica
-        icon: BarChart3
-      }
-    ]
-  },
-  {
-    title: "Analítica",
-    href: "/admin/analytics",
-    icon: BarChart3
-  },
-  {
-    title: "Actividad Reciente",
-    href: "/admin/activity",
-    icon: Activity
-  },
-  {
-    title: "Configuración",
-    href: "/admin/settings",
-    icon: Settings
+  setup() {
+    const route = useRoute()
+
+    const menuItems: MenuItem[] = [
+   { name: "Usuarios", icon: HomeIcon, href: "/adminuser" }, // Nota: '/adminuser' para mantener consistencia.
+   { name: "Talleres", icon: BriefcaseIcon, href: "/adminTaller" },
+   { name: "Roles", icon: UsersIcon, href: "/adminRol" },
+   { name: "Reportes", icon: FileTextIcon, href: "/adminReport" },
+   { name: "Tipos de taller", icon: SettingsIcon, href: "/adminTipos" },
+];
+
+
+    const isActive = (path: string): boolean => {
+      return route.path === path
+    }
+
+    return {
+      menuItems,
+      isActive
+    }
   }
-]
-
-const route = useRoute()
-const openItems = ref<Record<string, boolean>>({})
-
-// Función mejorada para detectar rutas activas
-const isActive = (href: string) => {
-  const routePath = route.path.replace(/\/$/, '') // Elimina slash final
-  const comparePath = href.replace(/\/$/, '') // Normaliza ambas rutas
-  return routePath === comparePath || routePath.startsWith(comparePath + '/')
-}
-
-const toggleSubmenu = (title: string) => {
-  openItems.value[title] = !openItems.value[title]
-}
+})
 </script>
-
-<template>
-  <div class="hidden border-r bg-white md:block md:w-64">
-    <div class="h-[calc(100vh-4rem)] overflow-y-auto">
-      <div class="py-4">
-        <div class="px-3 py-2">
-          <h2 class="mb-2 px-4 text-lg font-semibold">Admin Panel</h2>
-          <div class="space-y-1">
-            <router-view>
-              <div v-for="item in navItems" :key="item.title">
-                <template v-if="item.submenu">
-                  <button
-                    @click="toggleSubmenu(item.title)"
-                    class="flex w-full items-center justify-between px-4 py-2 text-left hover:bg-gray-100 rounded-lg"
-                    :class="{ 'bg-gray-100': isActive(item.href) }"
-                  >
-                    <div class="flex items-center">
-                      <component :is="item.icon" class="mr-2 h-4 w-4" />
-                      {{ item.title }}
-                    </div>
-                    <component
-                      :is="openItems[item.title] ? ChevronDown : ChevronRight"
-                      class="h-4 w-4"
-                    />
-                  </button>
-
-                  <div v-show="openItems[item.title]" class="pl-6 pt-1 space-y-1">
-                    <router-link
-                      v-for="subItem in item.submenu"
-                      :key="subItem.href"
-                      :to="subItem.href"
-                      class="flex items-center px-4 py-2 hover:bg-gray-100 rounded-lg"
-                      :class="{
-                        'bg-gray-100': route.path === subItem.href ||
-                          (subItem.href.includes(':id') && route.path.startsWith('/admin/users/'))
-                      }"
-                    >
-                      <component :is="subItem.icon" class="mr-2 h-4 w-4" />
-                      {{ subItem.title }}
-                    </router-link>
-                  </div>
-                </template>
-
-                <router-link
-                  v-else
-                  :to="item.href"
-                  class="flex items-center px-4 py-2 hover:bg-gray-100 rounded-lg"
-                  :class="{ 'bg-gray-100': isActive(item.href) }"
-                >
-                  <component :is="item.icon" class="mr-2 h-4 w-4" />
-                  {{ item.title }}
-                </router-link>
-              </div>
-            </router-view>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>

@@ -7,7 +7,6 @@
     </div>
 
     <!-- Dashboard Stats -->
-    <DashboardStats />
 
     <!-- Main Content Grid -->
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
@@ -17,7 +16,6 @@
           <h2 class="text-xl font-semibold">Overview</h2>
           <p class="text-gray-500 text-sm">System activity for the past 30 days</p>
         </div>
-        <Overview />
       </div>
 
       <!-- Recent Activity Card -->
@@ -26,14 +24,10 @@
           <h2 class="text-xl font-semibold">Recent Activity</h2>
           <p class="text-gray-500 text-sm">Latest actions in the system</p>
         </div>
-        <RecentActivity />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Overview from '@/views/Administradores/overView.vue'
-import RecentActivity from '@/views/Administradores/recent-activity.vue'
-import DashboardStats from '@/views/Administradores/dashboard-stats.vue'
 </script>
