@@ -42,7 +42,7 @@ export const RegisterService = async (
   phone: string,
   email: string,
   password: string,
-  confirmedPassword: string,
+  confirmpassword: string,
 ) => {
   try {
     var result = await genericRequest(`${base_url}/Auth/register`, 'POST', {
@@ -51,7 +51,7 @@ export const RegisterService = async (
       phone,
       email,
       password,
-      confirmedPassword,
+      confirmpassword,
     })
     return result
   } catch (error: any) {
