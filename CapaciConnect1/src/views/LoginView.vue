@@ -5,7 +5,7 @@
       <img :src="img" class="object-cover w-full h-full" />
     </div>
     <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
-      <Form :validation-schema="validationUser">
+      <Form :validation-schema="validationUserLogin" @submit="handleLogin">
         <div class="py-4">
           <h2 class="text-white">Iniciar sesión</h2>
         </div>
@@ -13,6 +13,7 @@
         <div class="pb-4">
           <label class="text-white"><h3 class="pb-2">Correo electrónico</h3></label>
           <Field
+            v-model="email"
             name="email"
             class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             type="email"
@@ -24,6 +25,7 @@
         <div class="pb-4">
           <label class="text-white"><h3 class="pb-2">Contraseña</h3></label>
           <Field
+            v-model="password"
             name="password"
             class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             type="password"
@@ -34,7 +36,7 @@
 
         <div class="pb-4 w-auto">
           <button class="bg-[#2563EB] w-full p-4 rounded-lg cursor-pointer hover:bg-[#1d4ed8]">
-            <h3>Crear cuenta</h3>
+            <h3>Iniciar sesión</h3>
           </button>
         </div>
 
@@ -52,6 +54,21 @@
 <script setup>
 import img from '@/assets/imgs/imgLogin.jpg'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
-import { validationUser } from '@/schemas/validations'
+import { validationUserLogin } from '@/schemas/validations'
+import { LoginService } from '@/services/AuthService'
+import { useAuthStore } from '@/stores/auth'
 import { Field, Form } from 'vee-validate'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const authStore = useAuthStore()
+
+// Maneja el login
+const handleLogin = async () => {
+  await authStore.login(email.value, password.value)
+}
 </script>
