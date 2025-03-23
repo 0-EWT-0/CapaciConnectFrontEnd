@@ -26,7 +26,9 @@
     <!-- Menú Hamburguesa para móviles -->
     <div class="md:hidden">
       <button @click="toggleMenu">
-        <i :class="menuOpen ? 'pi pi-times hover:text-[#2563EB]' : 'pi pi-bars hover:text-[#2563EB]'"></i>
+        <i
+          :class="menuOpen ? 'pi pi-times hover:text-[#2563EB]' : 'pi pi-bars hover:text-[#2563EB]'"
+        ></i>
       </button>
     </div>
 
@@ -36,7 +38,9 @@
       class="md:hidden z-10 absolute top-16 left-0 w-full bg-[#040273] px-19 py-4 flex flex-col space-y-4"
     >
       <RouterLink to="/" @click="toggleMenu">
-        <h3 class="flex items-center hover:text-[#2563EB]"><i class="pi pi-book mr-2"></i>Talleres</h3>
+        <h3 class="flex items-center hover:text-[#2563EB]">
+          <i class="pi pi-book mr-2"></i>Talleres
+        </h3>
       </RouterLink>
 
       <RouterLink to="/" @click="toggleMenu">
@@ -45,9 +49,7 @@
         </h3>
       </RouterLink>
 
-      <BaseButton variant="red" @click="handleLogout">
-        Cerrar sesión
-      </BaseButton>
+      <BaseButton variant="red" @click="handleLogout"> Cerrar sesión </BaseButton>
     </div>
   </header>
 </template>
@@ -55,18 +57,26 @@
 <script setup>
 import { ref } from 'vue'
 import BaseButton from '../common/BaseButton.vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-// Estado para el menú hamburguesa
 const menuOpen = ref(false)
-
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
 
-const authStore = useAuthStore()
 
+// Importar el store de autenticación
+const authStore = useAuthStore()
+const router = useRouter()
+
+// Función para manejar el cierre de sesión
 const handleLogout = async () => {
-  await authStore.logout()
+  try {
+    await authStore.logout()
+ 
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
 }
 </script>

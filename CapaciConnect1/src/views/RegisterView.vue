@@ -106,9 +106,11 @@ import img from '@/assets/imgs/imgRegister.jpg'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUser } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'
-
+// import { useToast } from "primevue/usetoast";
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+
+// const toast = useToast();
 
 const name = ref('')
 const last_names = ref('')
@@ -119,8 +121,8 @@ const confirmpassword = ref('')
 
 const authStore = useAuthStore()
 
-// Maneja el registro
 const handleRegister = async () => {
+  try{
   await authStore.register(
     name.value,
     last_names.value,
@@ -129,5 +131,8 @@ const handleRegister = async () => {
     password.value,
     confirmpassword.value,
   )
+} catch (error) {
+    console.error('Error during register:', error)
+  }
 }
 </script>

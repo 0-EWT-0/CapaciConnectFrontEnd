@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminLayout from '@/views/Administradores/admin-layout.vue'
 import InstrutoresLayout from '@/views/Instrutores/instrutoresLayout.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +12,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
+      
     },
     {
       path: '/Inicio',
@@ -171,6 +173,15 @@ const router = createRouter({
       component: () => import('@/views/404View.vue'),
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+    next({ name: 'login' }) // Redirigir a la página de inicio de sesión si no está autenticado
+  } else {
+    next() // Continuar con la navegación
+  }
 })
 
 export default router

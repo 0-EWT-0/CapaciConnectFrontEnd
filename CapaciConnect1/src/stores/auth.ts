@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await LogoutService()
       if (response?.status === 200) {
         user.value = {} as User
-        router.push('/')
+        router.push('/login')
       }
     } catch (error: any) {
       console.error('Error in logout:', error)
