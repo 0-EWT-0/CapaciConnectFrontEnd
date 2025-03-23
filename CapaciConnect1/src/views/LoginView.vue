@@ -55,20 +55,19 @@
 import img from '@/assets/imgs/imgLogin.jpg'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUserLogin } from '@/schemas/validations'
-import { LoginService } from '@/services/AuthService'
 import { useAuthStore } from '@/stores/auth'
 import { Field, Form } from 'vee-validate'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const email = ref('')
 const password = ref('')
 const authStore = useAuthStore()
 
-// Maneja el login
 const handleLogin = async () => {
-  await authStore.login(email.value, password.value)
+  try {
+    await authStore.login(email.value, password.value)
+  } catch (error) {
+    console.error('Error during login:', error)
+  }
 }
 </script>
