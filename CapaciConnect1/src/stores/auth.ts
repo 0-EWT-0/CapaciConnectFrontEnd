@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
         user.value = response.data
-        const token = response.data.token // almacena el tocken de la respuesta
+        token.value = response.data.token // almacena el tocken de la respuesta
         router.push('/')
       }
     } catch (error: any) {
@@ -53,6 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await LogoutService()
       if (response?.status === 200) {
         user.value = {} as User
+        console.log(user)
         router.push('/login')
       }
     } catch (error: any) {
