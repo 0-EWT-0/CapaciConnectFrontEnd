@@ -9,7 +9,7 @@
         <div class="text-black">Actualiza tu información personal</div>
       </template>
       <template #content>
-        <form class="p-fluid p-8">
+        <form @submit.prevent="guardarCambios" class="p-fluid p-8">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Columna de imagen de perfil -->
             <div class="flex flex-col items-center gap-6">
@@ -37,15 +37,15 @@
                   <label for="telefono" class="block text-lg font-bold mb-1 text-center text-black">Teléfono</label>
                   <InputMask
                     id="telefono"
-                    v-model="usuario.telefono"
                     mask="(999) 999-9999"
+                    v-model="usuario.telefono"
                     placeholder="(123) 456-7890"
                     class="w-full rounded-lg text-center"
                   />
                 </div>
               </div>
               <p class="text-center">
-                  <span class="text-blue-600 font-semibold">Tipo de Rol</span>
+                  <span class="text-blue-600 font-semibold">{{ usuario.id_rol_id }}</span>
                 </p>
             </div>
 
@@ -56,15 +56,15 @@
                   <label for="descripcion" class="block text-lg font-bold mb-1 text-black">Descripción</label>
                   <Textarea
                     id="descripcion"
-                    v-model="usuario.descripcion"
                     rows="6"
+                    v-model="usuario.descripcion"
                     autoResize
                     class="w-full rounded-lg"
                     placeholder="Cuéntanos un poco sobre ti..."
                   />
                 </div>
                 <p class="text-sm text-gray-500 mt-2">
-                  Se unió el <span class="text-blue-600 font-semibold">01 Enero 2025</span>
+                  Se unió el <span class="text-blue-600 font-semibold">{{ usuario.created_at }}</span>
                 </p>
               </div>
             </div>
@@ -73,10 +73,10 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <button class="bg-red-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
+          <button @click="cancelarEdicion" class="bg-red-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
             Cancelar
           </button>
-          <button class="bg-green-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
+          <button @click="guardarCambios" class="bg-green-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
             Guardar Cambios
           </button>
         </div>
@@ -114,7 +114,8 @@
 
 <script setup>
 import Header from '@/components/global/Header.vue'
-import { reactive } from 'vue'
+import { reactive, onMounted, watchEffect } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 // Componentes PrimeVue
 import Card from 'primevue/card'
@@ -122,14 +123,60 @@ import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Textarea from 'primevue/textarea'
 
+const userStore = useUserStore();
+
+onMounted(async () => {
+  await userStore.getUserById(1);
+});
+
 // Estado del usuario
 const usuario = reactive({
-  nombre: 'Juan',
-  apellido: 'Pérez',
-  email: 'juan.perez@ejemplo.com',
-  telefono: '(555) 123-4567',
-  descripcion:
-    'Desarrollador web con experiencia en Vue.js y React. Me apasiona crear interfaces de usuario intuitivas y accesibles.',
-  imagenPerfil: '/placeholder.svg?height=300&width=300',
+  nombre: '',
+  apellido: '',
+  email: '',
+  telefono: '',
+  id_rol_id: '',
+  created_at: '',
 })
+
+watchEffect(() => {
+    if (userStore.user) {
+        usuario.nombre = userStore.user.name || '';
+        usuario.apellido = userStore.user.last_names || '';
+        usuario.email = userStore.user.email || '';
+        usuario.id_rol_id = userStore.user.id_rol_id || '';
+        usuario.created_at = userStore.user.created_at || '';
+    }
+});
+
+  const guardarCambios = async () => {
+      try {
+          const response = await userStore.updateUser(1, {
+              name: usuario.nombre,
+              last_names: usuario.apellido,
+              email: usuario.email,
+              phone: usuario.telefono,
+              description: usuario.descripcion,
+          });
+
+          if (response && response.success) {
+              alert('¡Perfil actualizado con éxito!');
+          } else {
+              alert('Error al actualizar: ' + (response.message || 'Respuesta inesperada'));
+          }
+      } catch (error) {
+          console.error('Error al guardar cambios:', error);
+          alert('Hubo un error al guardar los datos.');
+      }
+  };
+
+  const cancelarEdicion = () => {
+        if (userStore.user) {
+          usuario.nombre = userStore.user.name || '';
+          usuario.apellido = userStore.user.last_names || '';
+          usuario.email = userStore.user.email || '';
+          usuario.telefono = userStore.user.phone || '';
+          usuario.descripcion = userStore.user.description || '';
+        }
+      };
 </script>

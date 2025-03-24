@@ -51,20 +51,21 @@
 
       <!-- Contenedor de tarjetas en formato grid -->
       <div class="flex flex-col items-center">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center p-5">
+        <div v-if="workshops && workshops.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center p-5">
           <!-- Tarjeta 1 -->
           <div
-            v-for="index in 3"
-            :key="index"
-            class="flex flex-col justify-between h-[20rem] w-[25rem] bg-gray-200 text-black font-bold text-2xl rounded-lg shadow-md overflow-hidden"
+            v-for="workshop in workshops"
+            :key="workshop.id_workshop"
+            class="flex flex-col justify-between h-[20rem] w-[25rem] bg-white text-black font-bold text-2xl rounded-lg shadow-md overflow-hidden"
           >
             <img src="../assets/logo.svg" class="w-full h-52 object-cover rounded-t-lg" />
             <div class="p-5 text-center">
-              <p class="text-2xl">Título Taller</p>
-              <p class="text-base text-gray-600">Instructor Taller</p>
+              <p class="text-2xl">{{ workshop.title }}</p>
+              <p class="text-base text-gray-600">{{ workshop.id_user_id }}</p>
             </div>
           </div>
         </div>
+        <p v-else class="text-gray-500">No hay workshops disponibles.</p>
       </div>
 
       <RouterLink to="/Talleres">
@@ -79,21 +80,21 @@
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Temas</h1>
 
       <!-- Grid de 3 columnas y 2 filas -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10">
+      <div v-if="types && types.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10">
         <!-- Tarjeta 1 -->
         <div
-          v-for="index in 6"
-          :key="index"
+          v-for="type in types"
+          :key="type.id_type"
           class="flex justify-center items-center h-[5rem] w-[20rem] bg-[#33415C] text-white font-bold text-xl rounded-lg shadow-md"
         >
-          <p class="text-center">Tema 1</p>
+          <p class="text-center">{{ type.type_name }}</p>
         </div>
       </div>
 
       <!-- Botón -->
-      <button class="bg-white text-[#2563EB] px-10 py-6 rounded-md mt-10 border border-[#2563EB]">
+      <!-- <button class="bg-white text-[#2563EB] px-10 py-6 rounded-md mt-10 border border-[#2563EB]">
         Mostrar Más
-      </button>
+      </button> -->
     </div>
 
     <div class="flex flex-col items-center m-10">
@@ -134,16 +135,29 @@
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
 import Carousel from 'primevue/carousel'
+import { useWorkshopStore, useTypeStore  } from '@/stores/user'
+import { onMounted, computed } from 'vue'
+
+const workshopStore = useWorkshopStore();
+const typeStore = useTypeStore()
+
+onMounted(async () => {
+  await workshopStore.fetchWorkshops();
+  await typeStore.fetchType();
+})
+
+const workshops = computed(() => workshopStore.workshops);
+const types = computed(() => typeStore.types);
 
 const images = [
   {
-    src: 'https://imgs.search.brave.com/StHMYfoGPw7_H4IYi7bvMOksuzhx6Ep9_qpq0cup9iE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb25j/ZXB0by5kZS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAxNS8wMy9u/YXR1cmFsZXphLW1l/ZGlvLWFtYmllbnRl/LWUxNTA1NDA3MDkz/NTMxLmpwZWc',
+    src: 'src/assets/imgs/banner1.jpg',
   },
   {
-    src: 'https://imgs.search.brave.com/1fwxmvz9BVGu2yQtBK9wCEmyku0jKEz3FUdsRZzsLZc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bWV4aWNvZGVzY29u/b2NpZG8uY29tLm14/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDEw/LzA1L2NpdWRhZC1k/ZS1tZXhpY28tYW5n/ZWwtaW5kZXBlbmRl/bmNpYS1kZXBvc2l0/cGhvdG9zLmpwZw',
+    src: 'src/assets/imgs/banner2.jpg',
   },
   {
-    src: 'https://imgs.search.brave.com/g_Nd3jCJ5ofrHIgjuhUYp2ordkrPdBMZiIxh39R0jxE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb25j/ZXB0by5kZS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAxNC8wOC90/ZWNub2xvZ2lhLWUx/NTUxMzg2NzI2NDM1/LmpwZw',
+    src: 'src/assets/imgs/banner3.jpg',
   },
 ]
 </script>

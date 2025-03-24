@@ -1,36 +1,39 @@
 <template>
   <Header />
-  <div class="bg-gray-100 p-8">
+  <div class="bg-white p-8">
     <!-- Barra superior -->
     <div class="text-white flex justify-between p-2">
-      <span class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Inicio el 01 Enero 2023</span
+      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
+        >Inicio el {{ formatDate(calendarData.date_start) }}</span
       >
       <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Cierre el 01 Enero 2025</span
+        >Cierre el {{ formatDate(calendarData.date_end) }}</span
       >
     </div>
 
     <!-- Imagen principal y título -->
     <div class="text-center mt-4">
       <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
-      <h1 class="text-4xl font-bold mt-4">Taller de Programación con Python</h1>
+      <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
       <p class="text-gray-700 mt-2">
-        Aprenda a programar y analizar datos con Python. Desarrolle programas para recopilar,
-        limpiar, analizar y visualizar datos.
+        {{ workshop.description }}.
       </p>
     </div>
 
     <!-- Información del instructor -->
     <div class="mt-4 text-gray-600">
-      <p>Instructor: <span class="text-[#2563EB]">Juan Carlos</span></p>
-      <p>Fecha de creación: <span class="text-[#2563EB]">01 Enero 2025</span></p>
+      <p>Instructor: <span class="text-[#2563EB]">{{ workshop.id_user_id }}</span></p>
+      <p>Fecha de creación: <span class="text-[#2563EB]">{{ formatDate(workshop.created_at) }}</span></p>
     </div>
 
     <!-- Botón de inscripción -->
     <div class="mt-6 text-center flex justify-between mx-10">
-      <button class="bg-blue-500 text-white py-5 px-15 rounded-lg hover:bg-blue-600 text-xl">
-        Inscribirse
+      <button
+        @click="handleSubscribe"
+        :disabled="isSubscribed"
+        class="bg-blue-500 text-white py-5 px-15 rounded-lg hover:bg-blue-600 text-xl disabled:opacity-50"
+      >
+        {{ isSubscribed ? 'Ya inscrito' : 'Inscribirse' }}
       </button>
     </div>
 
@@ -40,7 +43,7 @@
       <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
           @click="toggleClase(index)"
-          class="flex justify-between items-center w-full text-left text-lg font-medium"
+          class="flex justify-between items-center w-full text-left text-lg font-medium text-black"
         >
           <span> {{ clase.titulo }} </span>
           <span> {{ activeIndex === index ? '▲' : '▼' }} </span>
@@ -49,7 +52,7 @@
           <li
             v-for="(recurso, i) in clase.recursos"
             :key="i"
-            class="flex justify-between items-center"
+            class="flex justify-between items-center text-black"
           >
             <span>{{ recurso }}</span>
             <span>📁</span>
@@ -66,58 +69,249 @@
         class="h-15 w-15 rounded-full flex items-center justify-center text-xl mt-2"
       />
       <div class="mt-4">
-        <textarea
-          class="w-full p-2 border border-gray-300 rounded"
+        <textarea v-model="newComment"
+          class="w-full p-2 border border-gray-300 rounded text-black"
           placeholder="Escriba su comentario aquí..."
         ></textarea>
         <div class="mt-2 flex gap-2">
-          <button class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
+          <button @click="cancelComment" class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
             Cancelar
           </button>
-          <button class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
-            Comentar
+          <button @click="submitComment" class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
+            Enviar Comentarios
           </button>
         </div>
       </div>
 
       <!-- Comentarios de ejemplo -->
       <div class="mt-5">
-        <div class="bg-white shadow-md p-5 flex justify-between items-center">
-          <img
-            src="../assets/logo.svg"
-            class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
-          />
-          <span
-            >Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
-            amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
-            amet...</span
-          >
-          <div class="flex gap-2">
-            <button class="bg-red-500 text-white p-5 m-5 rounded-xl">Editar</button>
-            <button class="text-red-500 hover:text-red-800">Eliminar</button>
+        <div v-if="ownComments.length > 0">
+          <div v-for="comment in ownComments" :key="comment.id_comment" class="bg-white shadow-md p-5 flex justify-between items-center">
+            <img
+              src="../assets/logo.svg"
+              class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
+            />
+            <span class="text-black"
+              >{{ comment.comment }}</span
+            >
+            <div class="flex gap-2">
+              <button @click="editComment(comment)" class="bg-red-500 text-white p-5 m-5 rounded-xl">Editar</button>
+              <button @click="deleteComment(comment.id_comment)" class="text-red-500 hover:text-red-800">Eliminar</button>
+            </div>
           </div>
         </div>
-        <div class="bg-white shadow-md p-5 flex justify-between items-center mt-2">
-          <img
-            src="../assets/logo.svg"
-            class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
-          />
-          <span
-            >Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
-            amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit amet...Lorem ipsum dolor sit
-            amet...</span
+        <div v-else>
+          <p class="text-gray-500">Aún no has añadido comentarios.</p>
+        </div>
+
+        <div class="mt-6">
+          <div v-if="otherComments.length > 0">
+            <div v-for="comment in comments" :key="comment.id_comment" class="bg-white shadow-md p-5 flex justify-between items-center mt-2">
+              <img
+                src="../assets/logo.svg"
+                class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
+              />
+              <span class="text-black"
+                >{{ comment.comment }}</span
+              >
+            </div>
+        </div>
+        <div v-else>
+          <p class="text-gray-500">No hay comentarios de otros usuarios.</p>
+        </div>
+    </div>
+
+      <div
+      v-if="isEditing"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h3 class="text-xl font-bold mb-4">Editar Comentario</h3>
+        <textarea
+          v-model="editCommentText"
+          class="w-full p-2 border border-gray-300 rounded"
+        ></textarea>
+        <div class="flex justify-end gap-2 mt-4">
+          <button
+            class="bg-gray-400 text-white py-1 px-4 rounded hover:bg-gray-500"
+            @click="cancelEdit"
           >
-          <div class="flex gap-2"></div>
+            Cancelar
+          </button>
+          <button
+            class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
+            @click="saveEdit"
+          >
+            Guardar
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
+</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Header from '@/components/global/Header.vue'
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useWorkshopStore } from '@/stores/user'
 
+
+const route = useRoute();
+const id_workshop = Number(route.params.id_workshop);
+
+const workshopStore = useWorkshopStore();
+
+const workshop = computed(() => {
+  return (
+  workshopStore.workshops.find((w) => w.id_workshop === id_workshop) || {
+    title: 'No encontrado',
+    description: 'No se encontro el taller.',
+    content: '',
+    image: ''
+  }
+)
+})
+
+const calendarData = ref([]);
+const comments = ref([]);
+const newComment = ref('');
+const isEditing = ref(false);
+const editCommentId = ref<number | null>(null);
+const editCommentText = ref('');
+const subscriptions =  ref<{ id_workshop_id: number }[]>([]);
+const isSubscribed = computed(() =>
+  subscriptions.value.some((sub) => sub.id_workshop_id === id_workshop)
+);
+
+onMounted(async () => {
+  await workshopStore.fetchCommentsByWorkshop(id_workshop);
+  comments.value = workshopStore.comments;
+   console.log('comentarios', comments.value)
+});
+
+const currentUser = ref({
+  id_user: 1, // Cambiar esto por el ID del usuario actual (por ejemplo, desde el login)
+});
+
+// Filtra los comentarios propios
+const ownComments = computed(() => {
+  return comments.value.filter((comment) => comment.id_user_id === currentUser.value.id_user);
+});
+
+// Filtra los comentarios de otros usuarios
+const otherComments = computed(() => {
+  return comments.value.filter((comment) => comment.id_user_id !== currentUser.value.id_user);
+});
+
+onMounted(async () => {
+  if (workshopStore.workshops.length === 0) {
+    await workshopStore.fetchWorkshops();
+  }
+});
+onMounted(async () => {
+  await workshopStore.fetchSubscriptions(); // Cargar las inscripciones
+});
+
+const submitComment = async () => {
+  if (newComment.value.trim() === '') {
+    alert('El comentario no puede estar vacío');
+    return;
+  }
+
+  const commentData = {
+    comment: newComment.value,
+    id_workshop_id: id_workshop,
+  };
+
+  await workshopStore.createComment(commentData);
+  newComment.value = '';
+};
+
+
+const editComment = (comment) => {
+  if (!comment || typeof comment.id_comment === 'undefined') {
+    console.error('El comentario no está definido o no tiene un id_comment:', comment);
+    return;
+  }
+
+  if (comment.id_user_id !== currentUser.id_user) {
+    alert('No tienes permiso para editar este comentario');
+    return;
+  }
+
+  editCommentId.value = comment.id_comment;
+  editCommentText.value = comment.comment;
+  isEditing.value = true;
+};
+
+// Función para guardar los cambios
+const saveEdit = async () => {
+  if (editCommentId.value !== null) {
+    await workshopStore.updateComment(editCommentId.value, { comment: editCommentText.value });
+    isEditing.value = false; // Cierra el modal
+  }
+};
+
+// Función para cancelar la edición
+const cancelEdit = () => {
+  isEditing.value = false;
+};
+
+const deleteComment = async (id_comment) => {
+  const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?');
+  if (confirmDelete) {
+    await workshopStore.deleteComment(id_comment);
+  }
+};
+
+//Inscripciones 
+const handleSubscribe = async () => {
+  try {
+    if(isSubscribed.value) {
+      alert('Ya esta inscrito en este taller');
+      return;
+    }
+
+    await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop});
+    alert('Inscripto exitosa');
+    subscriptions.value.push({ id_workshop_id: id_workshop });
+  } catch(error) {
+    if (error.message === 'Ya estás inscrito en este taller.') {
+      alert(error.message); // Mostrar el mensaje claro
+    } else {
+      console.error('Error al inscribirse:', error);
+      alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.');
+    }
+  }
+}
+
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('es-ES', options);
+};
+
+onMounted(async () => {
+  try {
+    const workshopStore = useWorkshopStore();
+    const calendars = await workshopStore.fetchCalendarsByWorkshopId(id_workshop);
+
+    console.log('Calendarios obtenidos:', calendars); // Para depuración
+
+    if (calendars && calendars.length > 0) {
+      calendarData.value = calendars[0]; // Solo asigna el primer calendario
+    } else {
+      console.log('No se encontraron datos del calendario para este taller.');
+      calendarData.value = null; // Asegura que sea null si no hay datos
+    }
+  } catch (error) {
+    console.error('Error al obtener datos del calendario:', error);
+  }
+});
+
+//Contenidod
 const activeIndex = ref(null)
 
 const toggleClase = (index) => {

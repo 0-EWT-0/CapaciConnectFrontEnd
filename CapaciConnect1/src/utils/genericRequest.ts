@@ -21,7 +21,6 @@ export const genericRequest = async (url: string, method: string, body?: any) =>
 export const genericRequestAuth = async (url: string, method: string, body?: any) => {
   const authStore = useAuthStore()
   const token = authStore.token // obtiene el token del authStore de la repsuesta del login
-
   try {
     const response = await axios({
       url: url,
