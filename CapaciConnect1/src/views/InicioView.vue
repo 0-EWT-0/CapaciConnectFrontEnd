@@ -46,23 +46,19 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center m-10">
+    <div class="flex flex-col items-center m-5">
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Talleres destacados</h1>
 
       <!-- Contenedor de tarjetas en formato grid -->
-      <div class="flex flex-col items-center">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center p-5">
-          <!-- Tarjeta 1 -->
-          <div
-            v-for="index in 3"
-            :key="index"
-            class="flex flex-col justify-between h-[20rem] w-[25rem] bg-gray-200 text-black font-bold text-2xl rounded-lg shadow-md overflow-hidden"
-          >
-            <img src="../assets/logo.svg" class="w-full h-52 object-cover rounded-t-lg" />
-            <div class="p-5 text-center">
-              <p class="text-2xl">Título Taller</p>
-              <p class="text-base text-gray-600">Instructor Taller</p>
-            </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div v-for="index in 3" :key="index" class="bg-white rounded-lg m-10 shadow-lg overflow-hidden">
+          <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
+          <div class="p-4">
+            <h2 class="text-lg text-black font-bold p-2">Título del taller</h2>
+            <p class="text-gray-600 p-3">Descripción del taller de manera resumida</p>
+            <a href="/contenidoTalleres" class="text-blue-600 font-semibold mt-2 block p-4"
+              >Tipo de taller</a
+            >
           </div>
         </div>
       </div>
@@ -126,8 +122,9 @@
         Mostrar Más
       </button>
     </div>
-    <Footer />
+
   </main>
+  <Footer />  
 </template>
 
 <script setup lang="ts">

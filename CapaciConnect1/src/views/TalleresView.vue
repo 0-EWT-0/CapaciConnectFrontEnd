@@ -10,16 +10,16 @@
         <input
           type="text"
           placeholder="Buscar talleres..."
-          class="text-black w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="text-black w-full p-3  bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <!-- Filtros -->
       <div class="flex gap-4 mb-6">
-        <button class="w-1/2 bg-gray-100 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por tipos
         </button>
-        <button class="w-1/2 bg-gray-100 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por fecha
         </button>
       </div>
@@ -39,8 +39,9 @@
       </div>
     </div>
 
-    <Footer />
   </main>
+
+  <Footer />
 </template>
 
 <script setup>

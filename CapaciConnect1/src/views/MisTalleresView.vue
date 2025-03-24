@@ -3,18 +3,26 @@
   <div class="max-w-[90rem] mx-auto p-10">
     <!-- Contenedor flex para alinear título y buscador -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-black text-3xl font-bold">Todos mis talleres</h1>
+      <h1 class="text-black text-3xl font-bold">Talleres en curso</h1>
 
-      <!-- Buscador -->
-      <div class="flex items-center border border-gray-300 rounded overflow-hidden w-full sm:w-96">
+    </div>
+     <div class="mb-6">
         <input
           type="text"
-          placeholder="Buscar mis talleres..."
-          class="p-2 w-full outline-none text-black"
+          placeholder="Buscar talleres..."
+          class="text-black w-full p-3  bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button class="bg-gray-600 text-white px-4 py-2">🔍</button>
       </div>
-    </div>
+
+      <!-- Filtros -->
+      <div class="flex gap-4 mb-6">
+        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+          Filtrar por tipos
+        </button>
+        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+          Filtrar por fecha
+        </button>
+      </div>
 
     <!-- Controles de filtros -->
     <div class="flex justify-between items-center mb-6 rounded-lg mx-10">
