@@ -48,6 +48,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  watch(token, (newValue) => {
+    if (newValue === '' || newValue === undefined) {
+      logout()
+      router.push('/login')
+    }
+  })
+
   async function logout() {
     try {
       const response = await LogoutService()
