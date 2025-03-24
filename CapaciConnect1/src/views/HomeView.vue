@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+
   <CarouselComponent />
   <main class="p-10">
     <div class="max-w-md mx-auto m-10">

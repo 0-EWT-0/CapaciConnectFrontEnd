@@ -14,7 +14,8 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
         user.value = response.data
-        const token = response.data.token // almacena el tocken de la respuesta
+        token.value = response.data.token // almacena el tocken de la respuesta
+        router.push('/')
       }
     } catch (error: any) {
       console.error('Error in login:', error)
@@ -27,7 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
     phone: string,
     email: string,
     password: string,
-    confirmedPassword: string,
+    confirmpassword: string,
   ) {
     try {
       const response = await RegisterService(
@@ -36,22 +37,31 @@ export const useAuthStore = defineStore('auth', () => {
         phone,
         email,
         password,
-        confirmedPassword,
+        confirmpassword,
       )
       if (response?.status === 200) {
         user.value = response.data
+        router.push('/login')
       }
     } catch (error: any) {
       console.error('Error in register:', error)
     }
   }
 
+  watch(token, (newValue) => {
+    if (newValue === '' || newValue === undefined) {
+      logout()
+      router.push('/login')
+    }
+  })
+
   async function logout() {
     try {
       const response = await LogoutService()
       if (response?.status === 200) {
         user.value = {} as User
-        router.push('/')
+        console.log(user)
+        router.push('/login')
       }
     } catch (error: any) {
       console.error('Error in logout:', error)

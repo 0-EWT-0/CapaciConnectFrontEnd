@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <NavbarCoord/>
+    <NavbarCoord />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <!-- Sidebar -->
@@ -102,7 +102,9 @@
               <li class="px-4 py-4">
                 <div class="flex items-center justify-between">
                   <div>
-                    <p class="text-sm font-medium text-indigo-600">Introducción a la Fotografía Digital</p>
+                    <p class="text-sm font-medium text-indigo-600">
+                      Introducción a la Fotografía Digital
+                    </p>
                     <div class="flex items-center mt-1">
                       <CalendarDays class="h-4 w-4 text-gray-400 mr-1" />
                       <p class="text-xs text-gray-500">'15 Mar 2025'</p>
@@ -110,7 +112,9 @@
                       <p class="text-xs text-gray-500">'Sala A'</p>
                     </div>
                   </div>
-                  <button class="text-sm text-indigo-600 hover:text-indigo-800">Ver detalles</button>
+                  <button class="text-sm text-indigo-600 hover:text-indigo-800">
+                    Ver detalles
+                  </button>
                 </div>
               </li>
             </ul>
@@ -121,5 +125,4 @@
   </div>
 </template>
 
-<script lang="ts">
-</script>
+<script lang="ts"></script>

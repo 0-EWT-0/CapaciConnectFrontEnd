@@ -15,14 +15,15 @@
           <div class="flex flex-col sm:flex-row gap-4 items-start">
             <!-- Avatar -->
             <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <div class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100">
-                <img
-                  src=""
-                  :alt="usuario.nombre"
-                  class="w-full h-full object-cover"
-                />
+              <div
+                class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
+              >
+                <img src="" :alt="usuario.nombre" class="w-full h-full object-cover" />
               </div>
-              <span v-if="usuario.rol" class="hidden sm:block absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-emerald-500 text-white text-xs rounded-full">
+              <span
+                v-if="usuario.rol"
+                class="hidden sm:block absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-emerald-500 text-white text-xs rounded-full"
+              >
                 {{ usuario.rol }}
               </span>
             </div>
@@ -34,7 +35,9 @@
               </h3>
 
               <!-- Info Contacto -->
-              <div class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600">
+              <div
+                class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600"
+              >
                 <span class="truncate">{{ usuario.email }}</span>
                 <span class="hidden sm:block text-gray-300">•</span>
                 <span>{{ usuario.telefono }}</span>
@@ -100,24 +103,24 @@ interface Usuario {
 const usuarios: Usuario[] = [
   {
     id: 1,
-    nombre: "Ana María",
-    apellidos: "Gómez Sánchez",
-    email: "ana.gomez@example.com",
-    telefono: "+52 55 9876 5432",
-    rol: "Administrador",
-    descripcion: "Ingeniera en sistemas con 5 años de experiencia en desarrollo web.",
-    fechaCreacion: "15 Marzo 2024"
+    nombre: 'Ana María',
+    apellidos: 'Gómez Sánchez',
+    email: 'ana.gomez@example.com',
+    telefono: '+52 55 9876 5432',
+    rol: 'Administrador',
+    descripcion: 'Ingeniera en sistemas con 5 años de experiencia en desarrollo web.',
+    fechaCreacion: '15 Marzo 2024',
   },
   {
     id: 2,
-    nombre: "Carlos Eduardo",
-    apellidos: "Hernández Torres",
-    email: "carlos.hernandez@example.com",
-    telefono: "+52 55 1122 3344",
-    rol: "Editor",
-    descripcion: "Diseñador gráfico especializado en interfaces de usuario.",
-    fechaCreacion: "10 Abril 2024"
-  }
+    nombre: 'Carlos Eduardo',
+    apellidos: 'Hernández Torres',
+    email: 'carlos.hernandez@example.com',
+    telefono: '+52 55 1122 3344',
+    rol: 'Editor',
+    descripcion: 'Diseñador gráfico especializado en interfaces de usuario.',
+    fechaCreacion: '10 Abril 2024',
+  },
 ]
 
 const handleDelete = (id: number) => {

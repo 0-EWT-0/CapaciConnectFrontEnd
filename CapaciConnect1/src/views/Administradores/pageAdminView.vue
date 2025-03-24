@@ -13,9 +13,8 @@ import UserList from '@/views/Administradores/userListView.vue'
 export default defineComponent({
   name: 'PageAdminView',
   components: {
-
     UserCreateForm,
-    UserList
+    UserList,
   },
 })
 </script>

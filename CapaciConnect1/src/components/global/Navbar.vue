@@ -1,37 +1,82 @@
 <template>
-  <header class="flex justify-between items-center px-19 py-4 bg-[#040273]">
-    <!--  -->
+  <header class="flex justify-between items-center px-19 md:px-19 py-4 bg-[#040273]">
+    <!-- Logo y Nombre -->
     <div class="flex items-center space-x-4">
-      <img src="@/assets/imgs/capacityLogo.png" class="w-13 h-13" />
-      <h2 class="text-white">Capacity</h2>
+      <img src="@/assets/imgs/capacityLogo.png" class="w-10 h-10 md:w-13 md:h-13" />
+      <h2 class="text-white text-lg md:text-xl">Capacity</h2>
     </div>
-    <!--  -->
-    <div class="flex items-center gap-x-11">
-      <div class="flex gap-x-11">
-        <h3 class="hover:text-[#2563EB] cursor-pointer">Talleres</h3>
-        <h3 class="hover:text-[#2563EB] cursor-pointer">Mi aprendizaje</h3>
-        <h3 class="hover:text-[#2563EB] cursor-pointer">Calendario</h3>
-      </div>
 
-      <div>
-        <BaseButton variant="blue">Iniciar sesion</BaseButton>
+    <!-- Menú Desktop -->
+    <div class="hidden md:flex items-center gap-x-11">
+      <div class="flex gap-x-11">
+        <RouterLink to="/Talleres">
+          <h3 class="hover:text-[#2563EB] cursor-pointer">Talleres</h3>
+        </RouterLink>
+        <RouterLink to="/MisTalleres">
+          <h3 class="hover:text-[#2563EB] cursor-pointer">Mi aprendizaje</h3>
+        </RouterLink>
       </div>
+      <div>
+        <RouterLink to="/login">
+          <BaseButton variant="red" @click="handleLogout">Cerrar sesión</BaseButton>
+        </RouterLink>
+      </div>
+    </div>
+
+    <!-- Menú Hamburguesa para móviles -->
+    <div class="md:hidden">
+      <button @click="toggleMenu">
+        <i
+          :class="menuOpen ? 'pi pi-times hover:text-[#2563EB]' : 'pi pi-bars hover:text-[#2563EB]'"
+        ></i>
+      </button>
+    </div>
+
+    <!-- Menú desplegable móvil -->
+    <div
+      v-if="menuOpen"
+      class="md:hidden z-10 absolute top-16 left-0 w-full bg-[#040273] px-19 py-4 flex flex-col space-y-4"
+    >
+      <RouterLink to="/" @click="toggleMenu">
+        <h3 class="flex items-center hover:text-[#2563EB]">
+          <i class="pi pi-book mr-2"></i>Talleres
+        </h3>
+      </RouterLink>
+
+      <RouterLink to="/" @click="toggleMenu">
+        <h3 class="flex items-center hover:text-[#2563EB]">
+          <i class="pi pi-graduation-cap mr-2"></i>Mi aprendizaje
+        </h3>
+      </RouterLink>
+
+      <BaseButton variant="red" @click="handleLogout"> Cerrar sesión </BaseButton>
     </div>
   </header>
 </template>
 
 <script setup>
-// import IconField from 'primevue/iconfield'
-// import InputIcon from 'primevue/inputicon'
-// import InputText from 'primevue/inputtext'
+import { ref } from 'vue'
 import BaseButton from '../common/BaseButton.vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
-// export default {
-//   name: 'Navbar',
-//   components: {
-//     IconField,
-//     InputIcon,
-//     InputText,
-//   },
-// }
+const menuOpen = ref(false)
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value
+}
+
+
+// Importar el store de autenticación
+const authStore = useAuthStore()
+const router = useRouter()
+
+// Función para manejar el cierre de sesión
+const handleLogout = async () => {
+  try {
+    await authStore.logout()
+ 
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
+}
 </script>

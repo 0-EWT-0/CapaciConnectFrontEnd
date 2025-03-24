@@ -1,24 +1,83 @@
 <script setup lang="ts">
-import { Layers } from "lucide-vue-next"
+import { Layers } from 'lucide-vue-next'
 
 // Datos de ejemplo
 const upcomingWorkshops = [
-  { title: "Web Development Fundamentals", time: "Today, 10:00 AM - 12:00 PM", students: 24, colorClass: "bg-blue-500" },
-  { title: "Advanced JavaScript Concepts", time: "Tomorrow, 2:00 PM - 4:00 PM", students: 18, colorClass: "bg-purple-500" },
-  { title: "UX Design Principles", time: "Wed, 11:00 AM - 1:00 PM", students: 15, colorClass: "bg-green-500" },
-  { title: "Mobile App Development", time: "Thu, 3:00 PM - 5:00 PM", students: 20, colorClass: "bg-orange-500" },
+  {
+    title: 'Web Development Fundamentals',
+    time: 'Today, 10:00 AM - 12:00 PM',
+    students: 24,
+    colorClass: 'bg-blue-500',
+  },
+  {
+    title: 'Advanced JavaScript Concepts',
+    time: 'Tomorrow, 2:00 PM - 4:00 PM',
+    students: 18,
+    colorClass: 'bg-purple-500',
+  },
+  {
+    title: 'UX Design Principles',
+    time: 'Wed, 11:00 AM - 1:00 PM',
+    students: 15,
+    colorClass: 'bg-green-500',
+  },
+  {
+    title: 'Mobile App Development',
+    time: 'Thu, 3:00 PM - 5:00 PM',
+    students: 20,
+    colorClass: 'bg-orange-500',
+  },
 ]
 
 const messages = [
-  { name: "Emily Chen", initials: "EC", time: "2h ago", content: "I'm having trouble with the last assignment. Could we schedule a quick call?" },
-  { name: "Marcus Johnson", initials: "MJ", time: "Yesterday", content: "Thank you for the feedback on my project. I've implemented your suggestions." },
-  { name: "Sofia Rodriguez", initials: "SR", time: "2 days ago", content: "Will there be makeup classes for the session I missed last week?" },
+  {
+    name: 'Emily Chen',
+    initials: 'EC',
+    time: '2h ago',
+    content: "I'm having trouble with the last assignment. Could we schedule a quick call?",
+  },
+  {
+    name: 'Marcus Johnson',
+    initials: 'MJ',
+    time: 'Yesterday',
+    content: "Thank you for the feedback on my project. I've implemented your suggestions.",
+  },
+  {
+    name: 'Sofia Rodriguez',
+    initials: 'SR',
+    time: '2 days ago',
+    content: 'Will there be makeup classes for the session I missed last week?',
+  },
 ]
 
 const allWorkshops = [
-  { title: "Web Development Fundamentals", description: "Introduction to HTML, CSS and JavaScript", status: "Active", statusClass: "bg-green-100 text-green-800", students: 24, sessions: "6/8", nextSession: "Today, 10:00 AM" },
-  { title: "Advanced JavaScript Concepts", description: "Deep dive into modern JS features", status: "Active", statusClass: "bg-green-100 text-green-800", students: 18, sessions: "4/10", nextSession: "Tomorrow, 2:00 PM" },
-  { title: "UX Design Principles", description: "Creating user-centered digital experiences", status: "Active", statusClass: "bg-green-100 text-green-800", students: 15, sessions: "2/6", nextSession: "Wed, 11:00 AM" },
+  {
+    title: 'Web Development Fundamentals',
+    description: 'Introduction to HTML, CSS and JavaScript',
+    status: 'Active',
+    statusClass: 'bg-green-100 text-green-800',
+    students: 24,
+    sessions: '6/8',
+    nextSession: 'Today, 10:00 AM',
+  },
+  {
+    title: 'Advanced JavaScript Concepts',
+    description: 'Deep dive into modern JS features',
+    status: 'Active',
+    statusClass: 'bg-green-100 text-green-800',
+    students: 18,
+    sessions: '4/10',
+    nextSession: 'Tomorrow, 2:00 PM',
+  },
+  {
+    title: 'UX Design Principles',
+    description: 'Creating user-centered digital experiences',
+    status: 'Active',
+    statusClass: 'bg-green-100 text-green-800',
+    students: 15,
+    sessions: '2/6',
+    nextSession: 'Wed, 11:00 AM',
+  },
 ]
 </script>
 
@@ -30,7 +89,9 @@ const allWorkshops = [
         <p class="text-gray-500">Manage your workshops and students from a single dashboard.</p>
       </div>
       <div class="flex items-center gap-2">
-        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create Workshop</button>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Create Workshop
+        </button>
         <button class="px-4 py-2 border rounded hover:bg-gray-50">View Schedule</button>
       </div>
     </div>
