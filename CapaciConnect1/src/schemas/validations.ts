@@ -8,7 +8,7 @@ export const validationUser = yup.object({
     .string()
     .required('El correo es requerido')
     .email('El correo debe de tener el carácter "@"'),
-  phone: yup.string().required('El teléfono es requerido'),
+  // phone: yup.string().required('El teléfono es requerido'),
   password: yup
     .string()
     .required('La contraseña es requerida')

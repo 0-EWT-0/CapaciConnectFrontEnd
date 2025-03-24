@@ -1,6 +1,6 @@
 <template>
-  <Header />
-  <div class="bg-gray-100  p-8">
+  <Navbar />
+  <div class="bg-gray-100 p-8">
     <!-- Barra superior -->
     <div class="text-white flex flex-col justify-between p-2">
       <span class="bg-green-500 p-2 mb-2 rounded-lg h-10 w-[20rem] text-center"
@@ -62,17 +62,17 @@
     <div class="mt-8">
       <h2 class="text-2xl font-bold text-gray-800">Comentarios</h2>
 
-      <div class="mt-4 flex ">
+      <div class="mt-4 flex">
         <img
-        src="../assets/logo.svg"
-        class="h-15 w-15 rounded-full m-2 flex items-center justify-center text-xl mt-2"
-      />
+          src="../assets/logo.svg"
+          class="h-15 w-15 rounded-full m-2 flex items-center justify-center text-xl mt-2"
+        />
         <textarea
-          class="w-full p-2  text-gray-500 shadow-md bg-white rounded"
+          class="w-full p-2 text-gray-500 shadow-md bg-white rounded"
           placeholder="Escriba su comentario aquí..."
         ></textarea>
         <div class="mt-2 flex gap-2">
-          <button class="bg-gray-300  text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
+          <button class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
             Cancelar
           </button>
           <button class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
@@ -98,7 +98,9 @@
             <button class="text-red-500 hover:text-red-800">Eliminar</button>
           </div>
         </div>
-        <div class="bg-white shadow-md text-black rounded-md  p-5 flex justify-between items-center mt-2">
+        <div
+          class="bg-white shadow-md text-black rounded-md p-5 flex justify-between items-center mt-2"
+        >
           <img
             src="../assets/logo.svg"
             class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
@@ -116,7 +118,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/global/Header.vue'
+import Navbar from '@/components/global/Navbar.vue'
 import { ref } from 'vue'
 
 const activeIndex = ref(null)

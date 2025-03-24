@@ -27,7 +27,9 @@
               />
             </div>
             <div>
-              <label for="date_end" class="block text-sm font-medium text-black">Fecha de Fin</label>
+              <label for="date_end" class="block text-sm font-medium text-black"
+                >Fecha de Fin</label
+              >
               <input
                 type="datetime-local"
                 v-model="newCalendar.date_end"
@@ -68,16 +70,24 @@
           >
             <div class="flex justify-between items-center">
               <div>
-                <h3 class="text-lg font-semibold text-gray-800">Taller {{ activity.workshop_id }}</h3>
+                <h3 class="text-lg font-semibold text-gray-800">
+                  Taller {{ activity.workshop_id }}
+                </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
                 </p>
               </div>
               <div class="flex space-x-2">
-                <button @click="editActivity(activity)" class="text-indigo-600 hover:text-indigo-900">
+                <button
+                  @click="editActivity(activity)"
+                  class="text-indigo-600 hover:text-indigo-900"
+                >
                   Editar
                 </button>
-                <button @click="deleteActivity(activity.id)" class="text-red-600 hover:text-red-900">
+                <button
+                  @click="deleteActivity(activity.id)"
+                  class="text-red-600 hover:text-red-900"
+                >
                   Eliminar
                 </button>
               </div>
@@ -154,8 +164,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue';
+import { ref } from 'vue'
+import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue'
 
 export default {
   components: {
@@ -175,52 +185,52 @@ export default {
         date_end: '2023-10-02T13:00',
         workshop_id: 102,
       },
-    ]);
+    ])
 
     const newCalendar = ref({
       date_start: '',
       date_end: '',
       workshop_id: null,
-    });
+    })
 
-    const isEditing = ref(false);
+    const isEditing = ref(false)
     const editingActivity = ref({
       id: null,
       date_start: '',
       date_end: '',
       workshop_id: null,
-    });
+    })
 
     const createCalendar = () => {
       const newActivity = {
         id: activities.value.length + 1,
         ...newCalendar.value,
-      };
-      activities.value.push(newActivity);
-      newCalendar.value = { date_start: '', date_end: '', workshop_id: null };
-    };
+      }
+      activities.value.push(newActivity)
+      newCalendar.value = { date_start: '', date_end: '', workshop_id: null }
+    }
 
     const editActivity = (activity) => {
-      editingActivity.value = { ...activity };
-      isEditing.value = true;
-    };
+      editingActivity.value = { ...activity }
+      isEditing.value = true
+    }
 
     const updateActivity = () => {
-      const index = activities.value.findIndex((a) => a.id === editingActivity.value.id);
+      const index = activities.value.findIndex((a) => a.id === editingActivity.value.id)
       if (index !== -1) {
-        activities.value.splice(index, 1, { ...editingActivity.value });
+        activities.value.splice(index, 1, { ...editingActivity.value })
       }
-      isEditing.value = false;
-    };
+      isEditing.value = false
+    }
 
     const deleteActivity = (id) => {
-      activities.value = activities.value.filter((activity) => activity.id !== id);
-    };
+      activities.value = activities.value.filter((activity) => activity.id !== id)
+    }
 
     const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      return date.toLocaleString();
-    };
+      const date = new Date(dateString)
+      return date.toLocaleString()
+    }
 
     return {
       activities,
@@ -232,9 +242,9 @@ export default {
       updateActivity,
       deleteActivity,
       formatDate,
-    };
+    }
   },
-};
+}
 </script>
 
 <style></style>

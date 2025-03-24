@@ -51,7 +51,11 @@
 
       <!-- Contenedor de tarjetas en formato grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        <div v-for="index in 3" :key="index" class="bg-white rounded-lg m-10 shadow-lg overflow-hidden">
+        <div
+          v-for="index in 3"
+          :key="index"
+          class="bg-white rounded-lg m-10 shadow-lg overflow-hidden"
+        >
           <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
           <div class="p-4">
             <h2 class="text-lg text-black font-bold p-2">Título del taller</h2>
@@ -122,9 +126,8 @@
         Mostrar Más
       </button>
     </div>
-
   </main>
-  <Footer />  
+  <Footer />
 </template>
 
 <script setup lang="ts">

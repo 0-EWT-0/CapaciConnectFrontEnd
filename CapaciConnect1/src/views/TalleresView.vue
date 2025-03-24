@@ -1,16 +1,16 @@
 <template>
-  <Header />
+  <Navbar />
   <main class="p-10">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
-      <h1 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h1>
+      <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
 
       <!-- Buscador -->
       <div class="mb-6">
         <input
           type="text"
           placeholder="Buscar talleres..."
-          class="text-black w-full p-3  bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -38,7 +38,6 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <Footer />
@@ -46,5 +45,5 @@
 
 <script setup>
 import Footer from '@/components/global/Footer.vue'
-import Header from '@/components/global/Header.vue'
+import Navbar from '@/components/global/Navbar.vue'
 </script>

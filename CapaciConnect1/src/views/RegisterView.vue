@@ -49,14 +49,17 @@
           </div>
           <div class="pb-4 w-1/2">
             <label class="text-white"><h3 class="pb-2">Teléfono</h3></label>
-            <Field
-              v-model="phone"
-              name="phone"
+            <input
               class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-              type="text"
-              placeholder="+52 998 300 3598"
+              v-model="phone"
+              type="tel"
+              name="phone"
+              id="phone"
+              aria-describedby="phone-description"
             />
-            <ValidationMessage prop="phone" />
+            <h3 class="text-[#DC2626] font-bold" id="phone-description" v-if="phoneError">
+              {{ phoneError }}
+            </h3>
           </div>
         </div>
 
@@ -85,9 +88,7 @@
         </div>
 
         <div class="pb-4 w-auto">
-          <button class="bg-[#2563EB] w-full p-4 rounded-lg cursor-pointer hover:bg-[#1d4ed8]">
-            <h3>Crear cuenta</h3>
-          </button>
+          <BaseButton variant="blue" @click="validatePhone">Crear cuenta</BaseButton>
         </div>
 
         <div class="pb-4 text-center">
@@ -106,9 +107,12 @@ import img from '@/assets/imgs/imgRegister.jpg'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUser } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'
+import 'intl-tel-input/build/css/intlTelInput.css'
+import intlTelInput from 'intl-tel-input'
 // import { useToast } from "primevue/usetoast";
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 // const toast = useToast();
 
@@ -121,18 +125,57 @@ const confirmpassword = ref('')
 
 const authStore = useAuthStore()
 
+const iti = ref({})
+const phoneError = ref('')
+const error = ref('')
+
 const handleRegister = async () => {
-  try{
-  await authStore.register(
-    name.value,
-    last_names.value,
-    phone.value,
-    email.value,
-    password.value,
-    confirmpassword.value,
-  )
-} catch (error) {
+  try {
+    await authStore.register(
+      name.value,
+      last_names.value,
+      phone.value,
+      email.value,
+      password.value,
+      confirmpassword.value,
+    )
+  } catch (error) {
     console.error('Error during register:', error)
   }
 }
+
+onMounted(() => {
+  const input = document.querySelector('#phone')
+  iti.value = intlTelInput(input, {
+    loadUtils: () => import('../../node_modules/intl-tel-input/build/js/utils.js'),
+    initialCountry: 'MX',
+    containerClass: 'w-full text-[#565656]',
+  })
+})
+
+const validatePhone = () => {
+  phoneError.value = ''
+  error.value = ''
+
+  if (!iti.value.isValidNumber()) {
+    error.value = iti.value.getValidationError()
+
+    if (error.value == 2) {
+      phoneError.value = 'Demasaido corto'
+    } else if (error.value == 3) {
+      phoneError.value = 'Demasiado largo'
+    } else {
+      phoneError.value = 'Número inválido'
+    }
+  }
+}
 </script>
+
+<style scoped>
+.iti {
+  --iti-path-flags-1x: url('../../node_modules/intl-tel-input/build/img/flags.webp');
+  --iti-path-flags-2x: url('../../node_modules/intl-tel-input/build/img/flags@2x.webp');
+  --iti-path-globe-1x: url('../../node_modules/intl-tel-input/build/img/globe.webp');
+  --iti-path-globe-2x: url('../../node_modules/intl-tel-input/build/img/globe@2x.webp');
+}
+</style>
