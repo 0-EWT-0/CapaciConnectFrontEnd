@@ -1,9 +1,9 @@
 <template>
   <Header />
-  <div class="bg-gray-100 p-8">
+  <div class="bg-gray-100  p-8">
     <!-- Barra superior -->
-    <div class="text-white flex justify-between p-2">
-      <span class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
+    <div class="text-white flex flex-col justify-between p-2">
+      <span class="bg-green-500 p-2 mb-2 rounded-lg h-10 w-[20rem] text-center"
         >Inicio el 01 Enero 2023</span
       >
       <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
@@ -14,7 +14,7 @@
     <!-- Imagen principal y título -->
     <div class="text-center mt-4">
       <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
-      <h1 class="text-4xl font-bold mt-4">Taller de Programación con Python</h1>
+      <h1 class="text-4xl font-bold mt-4 text-black">Taller de Programación con Python</h1>
       <p class="text-gray-700 mt-2">
         Aprenda a programar y analizar datos con Python. Desarrolle programas para recopilar,
         limpiar, analizar y visualizar datos.
@@ -40,7 +40,7 @@
       <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
           @click="toggleClase(index)"
-          class="flex justify-between items-center w-full text-left text-lg font-medium"
+          class="flex justify-between text-gray-800 items-center w-full text-left text-lg font-medium"
         >
           <span> {{ clase.titulo }} </span>
           <span> {{ activeIndex === index ? '▲' : '▼' }} </span>
@@ -67,11 +67,11 @@
       />
       <div class="mt-4">
         <textarea
-          class="w-full p-2 border border-gray-300 rounded"
+          class="w-full p-2  text-gray-500 shadow-md bg-white rounded"
           placeholder="Escriba su comentario aquí..."
         ></textarea>
         <div class="mt-2 flex gap-2">
-          <button class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
+          <button class="bg-gray-300  text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
             Cancelar
           </button>
           <button class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
@@ -82,7 +82,7 @@
 
       <!-- Comentarios de ejemplo -->
       <div class="mt-5">
-        <div class="bg-white shadow-md p-5 flex justify-between items-center">
+        <div class="bg-white shadow-md text-black rounded-md p-5 flex justify-between items-center">
           <img
             src="../assets/logo.svg"
             class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
@@ -97,7 +97,7 @@
             <button class="text-red-500 hover:text-red-800">Eliminar</button>
           </div>
         </div>
-        <div class="bg-white shadow-md p-5 flex justify-between items-center mt-2">
+        <div class="bg-white shadow-md text-black rounded-md  p-5 flex justify-between items-center mt-2">
           <img
             src="../assets/logo.svg"
             class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
