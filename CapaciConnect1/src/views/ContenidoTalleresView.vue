@@ -61,11 +61,12 @@
     <!-- Sección de comentarios -->
     <div class="mt-8">
       <h2 class="text-2xl font-bold text-gray-800">Comentarios</h2>
-      <img
+
+      <div class="mt-4 flex ">
+        <img
         src="../assets/logo.svg"
-        class="h-15 w-15 rounded-full flex items-center justify-center text-xl mt-2"
+        class="h-15 w-15 rounded-full m-2 flex items-center justify-center text-xl mt-2"
       />
-      <div class="mt-4">
         <textarea
           class="w-full p-2  text-gray-500 shadow-md bg-white rounded"
           placeholder="Escriba su comentario aquí..."
