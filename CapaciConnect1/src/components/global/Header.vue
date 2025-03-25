@@ -10,15 +10,15 @@
 
     <!-- Navegación y botón a la derecha -->
     <div class="flex items-center space-x-6">
-      <nav class="flex items-center space-x-6">
-        <div class="w-[40rem]">
+      <nav class="hidden md:flex items-center space-x-6">
+        <!-- <div class="w-[40rem] relative">
           <input
             type="text"
             class="w-full p-3 pl-10 text-white border border-white rounded-full shadow-sm focus:ring-2 focus:ring-white focus:border-white transition-all duration-300"
             placeholder="Buscar..."
           />
           <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white"></i>
-        </div>
+        </div> -->
         <RouterLink to="/Talleres">
           <a class="text-white hover:text-white m-10">Talleres</a>
         </RouterLink>
@@ -29,6 +29,7 @@
           <a class="text-white hover:text-white m-10">Calendario</a>
         </RouterLink>
       </nav>
+      <!-- Perfil con menu desplegable-->
       <div class="relative inline-block text-left">
         <button
           @click="isMenuOpen = !isMenuOpen"
@@ -42,7 +43,7 @@
         </button>
 
         <!-- Menú desplegable -->
-        <div v-if="isMenuOpen" class="absolute right-0 mt-5 w-48 bg-[#040273] shadow-lg rounded-lg">
+        <div v-if="isMenuOpen" class="absolute right-0 top-full mt-2 w-48 bg-[#040273] shadow-lg rounded-lg z-50">
           <a
             href="#"
             @click.prevent="editarPerfil"

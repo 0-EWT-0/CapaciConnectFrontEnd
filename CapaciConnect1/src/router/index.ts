@@ -12,7 +12,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
-      
     },
     {
       path: '/Inicio',
@@ -38,9 +37,10 @@ const router = createRouter({
       component: () => import('../views/TalleresView.vue'),
     },
     {
-      path: '/ContenidoTalleres',
+      path: '/Taller/:id_workshop',
       name: 'contenidoTalleres',
       component: () => import('../views/ContenidoTalleresView.vue'),
+      props: true,
     },
     {
       path: '/ClasesTaller',
@@ -66,6 +66,11 @@ const router = createRouter({
       path: '/Reportar',
       name: 'Reportar',
       component: () => import('@/views/ReportarView.vue'),
+    },
+    {
+      path: '/Calendario',
+      name: 'Calendario',
+      component: () => import('@/views/CalendarioView.vue')
     },
 
     //VISTA COORDINADORES

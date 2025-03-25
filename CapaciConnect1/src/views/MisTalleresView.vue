@@ -1,19 +1,26 @@
 <template>
-  <Header />
+  <Navbar />
   <div class="max-w-[90rem] mx-auto p-10">
     <!-- Contenedor flex para alinear título y buscador -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-black text-3xl font-bold">Todos mis talleres</h1>
+      <h1 class="text-black text-3xl font-bold">Talleres en curso</h1>
+    </div>
+    <div class="mb-6">
+      <input
+        type="text"
+        placeholder="Buscar talleres..."
+        class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-      <!-- Buscador -->
-      <div class="flex items-center border border-gray-300 rounded overflow-hidden w-full sm:w-96">
-        <input
-          type="text"
-          placeholder="Buscar mis talleres..."
-          class="p-2 w-full outline-none text-black"
-        />
-        <button class="bg-gray-600 text-white px-4 py-2">🔍</button>
-      </div>
+    <!-- Filtros -->
+    <div class="flex gap-4 mb-6">
+      <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+        Filtrar por tipos
+      </button>
+      <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
+        Filtrar por fecha
+      </button>
     </div>
 
     <!-- Controles de filtros -->
@@ -61,10 +68,10 @@
 </template>
 
 <script setup>
-import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
 import Select from 'primevue/select'
 import { ref } from 'vue'
+import Navbar from '@/components/global/Navbar.vue'
 
 const selectedOrder = ref()
 const order = ref([

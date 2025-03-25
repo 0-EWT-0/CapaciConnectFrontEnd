@@ -1,11 +1,11 @@
 import { genericRequest, genericRequestAuth } from '@/utils/genericRequest'
 
-const base_url = 'https://localhost:44368/api'
+const base_url = import.meta.env.VITE_ENDPOINT_API
 
-const headers = {
-  'Content-Type': 'application/json',
-  Authorization: 'Bearer ' + localStorage.getItem('token'),
-}
+// const headers = {
+//   'Content-Type': 'application/json',
+//   Authorization: 'Bearer ' + localStorage.getItem('token'),
+// }
 
 const handleError = async (error: any, context: string) => {
   const errorMessage = `Error during ${context}: ${error.message}`
@@ -42,7 +42,7 @@ export const RegisterService = async (
   phone: string,
   email: string,
   password: string,
-  confirmpassword: string,
+  confirmedPassword: string,
 ) => {
   try {
     var result = await genericRequest(`${base_url}/Auth/register`, 'POST', {
@@ -51,7 +51,7 @@ export const RegisterService = async (
       phone,
       email,
       password,
-      confirmpassword,
+      confirmedPassword,
     })
     return result
   } catch (error: any) {
@@ -62,7 +62,7 @@ export const RegisterService = async (
 export const LogoutService = async () => {
   try {
     const result = await genericRequestAuth(`${base_url}/Auth/logout`, 'POST')
-    return result
+    return result ?? []
   } catch (error: any) {
     await handleError(error, 'LogoutService')
   }
