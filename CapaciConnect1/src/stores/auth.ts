@@ -3,10 +3,12 @@ import { defineStore } from 'pinia'
 import { LoginService, RegisterService, LogoutService } from '@/services/AuthService'
 import router from '@/router'
 import type { User } from '@/interfaces/User'
+import { setToken as saveTokenToStorage, getToken, clearToken } from '@/utils/tokenStorage'
+import { setToken } from '../utils/tokenStorage';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({} as User)
-  const token = ref('')
+  const token = ref(getToken())
   const isLoggedIn = computed(() => token.value !== '' && token.value !== undefined)
 
   async function login(email: string, password: string) {
@@ -14,7 +16,8 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
         user.value = response.data
-        token.value = response.data.token // almacena el tocken de la respuesta
+        token.value = response.data.token
+        saveTokenToStorage(response.data.token)
         router.push('/')
       }
     } catch (error: any) {
@@ -61,6 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
       if (response?.status === 200) {
         user.value = {} as User
         console.log(user)
+        clearToken()
         router.push('/login')
       }
     } catch (error: any) {
