@@ -22,19 +22,40 @@
               </div>
               <div class="space-y-4 w-[15rem]">
                 <div class="field">
-                  <label for="nombre" class="block text-lg font-bold mb-1 text-center text-black">Nombre</label>
-                  <InputText id="nombre" v-model="usuario.nombre" class="w-full rounded-lg text-center" />
+                  <label for="nombre" class="block text-lg font-bold mb-1 text-center text-black"
+                    >Nombre</label
+                  >
+                  <InputText
+                    id="nombre"
+                    v-model="usuario.nombre"
+                    class="w-full rounded-lg text-center"
+                  />
                 </div>
                 <div class="field">
-                  <label for="apellido" class="block text-lg font-bold mb-1 text-center text-black">Apellido</label>
-                  <InputText id="apellido" v-model="usuario.apellido" class="w-full rounded-lg text-center" />
+                  <label for="apellido" class="block text-lg font-bold mb-1 text-center text-black"
+                    >Apellido</label
+                  >
+                  <InputText
+                    id="apellido"
+                    v-model="usuario.apellido"
+                    class="w-full rounded-lg text-center"
+                  />
                 </div>
                 <div class="field">
-                  <label for="email" class="block text-lg font-bold mb-1 text-center text-black">Email</label>
-                  <InputText id="email" v-model="usuario.email" type="email" class="w-full rounded-lg text-center" />
+                  <label for="email" class="block text-lg font-bold mb-1 text-center text-black"
+                    >Email</label
+                  >
+                  <InputText
+                    id="email"
+                    v-model="usuario.email"
+                    type="email"
+                    class="w-full rounded-lg text-center"
+                  />
                 </div>
                 <div class="field">
-                  <label for="telefono" class="block text-lg font-bold mb-1 text-center text-black">Teléfono</label>
+                  <label for="telefono" class="block text-lg font-bold mb-1 text-center text-black"
+                    >Teléfono</label
+                  >
                   <InputMask
                     id="telefono"
                     mask="(999) 999-9999"
@@ -53,7 +74,9 @@
             <div class="col-span-2">
               <div class="p-1">
                 <div class="field">
-                  <label for="descripcion" class="block text-lg font-bold mb-1 text-black">Descripción</label>
+                  <label for="descripcion" class="block text-lg font-bold mb-1 text-black"
+                    >Descripción</label
+                  >
                   <Textarea
                     id="descripcion"
                     rows="6"
@@ -84,31 +107,33 @@
     </Card>
 
     <h2 class="text-xl font-bold mt-10 text-black">Cursos completados</h2>
- 
-       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
-         <div v-for="index in 6" class="bg-white rounded-lg shadow-lg overflow-hidden">
- 
-           <!-- Cinta de cerrado -->
-           <div class="bg-gray-800 text-white text-sm font-bold px-3 py-1 rounded-t-lg">Cerrado</div>
- 
-           <!-- Imagen -->
-           <img src="../assets/logo.svg" alt="Imagen del taller" class="w-full h-40 object-cover">
- 
-           <!-- Contenido -->
-           <div class="p-4">
-             <h2 class="text-lg font-bold">Título del taller</h2>
-             <p class="text-gray-600 text-sm">Descripción del taller de manera resumida</p>
-             <p class="text-blue-600 font-semibold mt-2">Tipo de taller</p>
- 
-             <!-- Barra de progreso -->
-             <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
-               <div class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full" style="width: 100%;">
-                 100% Completado
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+      <div v-for="index in 6" class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Cinta de cerrado -->
+        <div class="bg-gray-800 text-white text-sm font-bold px-3 py-1 rounded-t-lg">Cerrado</div>
+
+        <!-- Imagen -->
+        <img src="../assets/logo.svg" alt="Imagen del taller" class="w-full h-40 object-cover" />
+
+        <!-- Contenido -->
+        <div class="p-4">
+          <h2 class="text-lg font-bold">Título del taller</h2>
+          <p class="text-gray-600 text-sm">Descripción del taller de manera resumida</p>
+          <p class="text-blue-600 font-semibold mt-2">Tipo de taller</p>
+
+          <!-- Barra de progreso -->
+          <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
+            <div
+              class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
+              style="width: 100%"
+            >
+              100% Completado
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

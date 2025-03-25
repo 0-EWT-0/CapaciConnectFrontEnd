@@ -35,7 +35,11 @@
           @click="isMenuOpen = !isMenuOpen"
           class="flex items-center space-x-2 bg-[#040273] p-2 rounded-lg hover:bg-blue-900"
         >
-          <img src="../../assets/imgs/capacityLogo.png" alt="Foto de perfil" class="w-10 h-10 rounded-full" />
+          <img
+            src="../../assets/imgs/capacityLogo.png"
+            alt="Foto de perfil"
+            class="w-10 h-10 rounded-full"
+          />
         </button>
 
         <!-- Menú desplegable -->

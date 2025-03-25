@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center m-10">
+    <div class="flex flex-col items-center m-5">
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Talleres destacados</h1>
 
       <!-- Contenedor de tarjetas en formato grid -->
@@ -127,8 +127,8 @@
         Mostrar Más
       </button>
     </div>
-    <Footer />
   </main>
+  <Footer />
 </template>
 
 <script setup lang="ts">

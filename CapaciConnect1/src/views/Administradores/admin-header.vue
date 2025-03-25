@@ -16,13 +16,20 @@ onClickOutside(dropdownRef, () => {
 <template>
   <header class="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-white px-4 md:px-6">
     <!-- Mobile Menu -->
-    <button class="md:hidden p-2 rounded-lg border hover:bg-gray-100" @click="isMobileMenuOpen = true">
+    <button
+      class="md:hidden p-2 rounded-lg border hover:bg-gray-100"
+      @click="isMobileMenuOpen = true"
+    >
       <Menu class="h-5 w-5" />
       <span class="sr-only">Toggle menu</span>
     </button>
 
     <!-- Mobile Sidebar Overlay -->
-    <div v-if="isMobileMenuOpen" class="fixed inset-0 bg-black/50 z-50" @click="isMobileMenuOpen = false">
+    <div
+      v-if="isMobileMenuOpen"
+      class="fixed inset-0 bg-black/50 z-50"
+      @click="isMobileMenuOpen = false"
+    >
       <div class="w-64 bg-white h-full p-4" @click.stop>
         <AdminSidebar @close="isMobileMenuOpen = false" />
       </div>
@@ -38,12 +45,19 @@ onClickOutside(dropdownRef, () => {
       <div class="relative max-w-md">
         <div v-if="isSearchOpen" class="flex items-center">
           <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
-          <input type="search" placeholder="Search..."
-            class="w-full rounded-lg bg-white pl-8 pr-4 py-2 border focus:outline-none" autofocus
-            @blur="isSearchOpen = false" />
+          <input
+            type="search"
+            placeholder="Search..."
+            class="w-full rounded-lg bg-white pl-8 pr-4 py-2 border focus:outline-none"
+            autofocus
+            @blur="isSearchOpen = false"
+          />
         </div>
-        <button v-else class="ml-auto hidden md:flex p-2 rounded-lg border hover:bg-gray-100"
-          @click="isSearchOpen = true">
+        <button
+          v-else
+          class="ml-auto hidden md:flex p-2 rounded-lg border hover:bg-gray-100"
+          @click="isSearchOpen = true"
+        >
           <Search class="h-5 w-5" />
           <span class="sr-only">Search</span>
         </button>
@@ -59,7 +73,10 @@ onClickOutside(dropdownRef, () => {
 
     <!-- Profile Dropdown -->
     <div class="relative">
-      <button class="rounded-full hover:bg-gray-100 p-1" @click="isProfileMenuOpen = !isProfileMenuOpen">
+      <button
+        class="rounded-full hover:bg-gray-100 p-1"
+        @click="isProfileMenuOpen = !isProfileMenuOpen"
+      >
         <div class="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
           <span class="text-sm font-medium">AD</span>
         </div>
@@ -81,7 +98,9 @@ onClickOutside(dropdownRef, () => {
             Settings
           </button>
           <div class="border-t my-1"></div>
-          <button class="w-full px-3 py-2 text-left text-sm hover:bg-gray-100 rounded-lg text-red-600">
+          <button
+            class="w-full px-3 py-2 text-left text-sm hover:bg-gray-100 rounded-lg text-red-600"
+          >
             Logout
           </button>
         </div>

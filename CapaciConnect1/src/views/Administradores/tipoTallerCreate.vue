@@ -42,7 +42,7 @@ interface FormData {
 }
 
 const formData = ref<FormData>({
-  nombre: ''
+  nombre: '',
 })
 
 const handleSubmit = (e: Event) => {

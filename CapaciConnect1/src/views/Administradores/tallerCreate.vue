@@ -9,7 +9,9 @@
         <!-- Sección Principal -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-3">
-            <label for="titulo" class="block text-sm font-medium text-gray-700">Título del taller</label>
+            <label for="titulo" class="block text-sm font-medium text-gray-700"
+              >Título del taller</label
+            >
             <input
               id="titulo"
               v-model="formData.titulo"
@@ -19,7 +21,9 @@
           </div>
 
           <div class="space-y-3">
-            <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+            <label for="fechaInicio" class="block text-sm font-medium text-gray-700"
+              >Fecha de Inicio</label
+            >
             <input
               id="fechaInicio"
               v-model="formData.fechaInicio"
@@ -29,7 +33,9 @@
           </div>
 
           <div class="space-y-3 col-span-full">
-            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <label for="descripcion" class="block text-sm font-medium text-gray-700"
+              >Descripción</label
+            >
             <textarea
               id="descripcion"
               v-model="formData.descripcion"
@@ -40,7 +46,9 @@
           </div>
 
           <div class="space-y-3">
-            <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+            <label for="fechaFin" class="block text-sm font-medium text-gray-700"
+              >Fecha de Fin</label
+            >
             <input
               id="fechaFin"
               v-model="formData.fechaFin"
@@ -50,7 +58,9 @@
           </div>
 
           <div class="space-y-3 col-span-full">
-            <label for="contenido" class="block text-sm font-medium text-gray-700">Contenido detallado</label>
+            <label for="contenido" class="block text-sm font-medium text-gray-700"
+              >Contenido detallado</label
+            >
             <textarea
               id="contenido"
               v-model="formData.contenido"
@@ -65,7 +75,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-xl">
           <div class="space-y-4">
             <div class="space-y-3">
-              <label for="tipoTaller" class="block text-sm font-medium text-gray-700">Tipo de taller</label>
+              <label for="tipoTaller" class="block text-sm font-medium text-gray-700"
+                >Tipo de taller</label
+              >
               <input
                 id="tipoTaller"
                 v-model="formData.tipoTaller"
@@ -78,12 +90,16 @@
                   id="nombreTipo"
                   class="w-4 h-4 border-2 border-gray-300 rounded checked:bg-emerald-500"
                 />
-                <label for="nombreTipo" class="text-sm text-gray-600">Mostrar tipo públicamente</label>
+                <label for="nombreTipo" class="text-sm text-gray-600"
+                  >Mostrar tipo públicamente</label
+                >
               </div>
             </div>
 
             <div class="space-y-3">
-              <label for="imagen" class="block text-sm font-medium text-gray-700">Imagen promocional</label>
+              <label for="imagen" class="block text-sm font-medium text-gray-700"
+                >Imagen promocional</label
+              >
               <input
                 id="imagen"
                 type="file"
@@ -96,14 +112,18 @@
                   id="sinImagen"
                   class="w-4 h-4 border-2 border-gray-300 rounded checked:bg-emerald-500"
                 />
-                <label for="sinImagen" class="text-sm text-gray-600">Usar imagen predeterminada</label>
+                <label for="sinImagen" class="text-sm text-gray-600"
+                  >Usar imagen predeterminada</label
+                >
               </div>
             </div>
           </div>
 
           <div class="space-y-4">
             <div class="space-y-3">
-              <label for="instructor" class="block text-sm font-medium text-gray-700">Instructor principal</label>
+              <label for="instructor" class="block text-sm font-medium text-gray-700"
+                >Instructor principal</label
+              >
               <input
                 id="instructor"
                 v-model="formData.instructor"
@@ -116,7 +136,9 @@
                   id="nombreInstructor"
                   class="w-4 h-4 border-2 border-gray-300 rounded checked:bg-emerald-500"
                 />
-                <label for="nombreInstructor" class="text-sm text-gray-600">Mostrar nombre públicamente</label>
+                <label for="nombreInstructor" class="text-sm text-gray-600"
+                  >Mostrar nombre públicamente</label
+                >
               </div>
             </div>
           </div>
@@ -158,7 +180,7 @@ const formData = ref<FormData>({
   contenido: '',
   tipoTaller: '',
   instructor: '',
-  imagen: null
+  imagen: null,
 })
 
 const handleImageChange = (e: Event) => {

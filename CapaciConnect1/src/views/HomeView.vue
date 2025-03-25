@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+
   <CarouselComponent />
   <main class="p-10">
     <div class="max-w-md mx-auto m-10">
@@ -19,75 +20,33 @@
             d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z"
           />
         </svg>
-        <input
-          type="text"
-          id="search"
-          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="¿Qué quieres aprender hoy?"
-        />
       </div>
     </div>
 
-    <div class="flex flex-col items-center m-10">
+    <div class="flex flex-col items-center m-5">
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Talleres destacados</h1>
 
       <!-- Contenedor de tarjetas en formato grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
         <div
-          class="flex flex-col justify-between h-[15rem] w-[20rem] bg-gray-200 text-black font-bold text-xl rounded-lg shadow-md"
+          v-for="index in 3"
+          :key="index"
+          class="bg-white rounded-lg m-10 shadow-lg overflow-hidden"
         >
-          <div class="bg-gray-300 text-center p-17 rounded-t-lg">Ilustración</div>
+          <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
           <div class="p-4">
-            <p class="text-lg">Nombre del Taller</p>
-            <p class="text-sm text-gray-600">Instructor</p>
+            <h2 class="text-lg text-black font-bold p-2">Título del taller</h2>
+            <p class="text-gray-600 p-3">Descripción del taller de manera resumida</p>
+            <a href="/contenidoTalleres" class="text-blue-600 font-semibold mt-2 block p-4"
+              >Tipo de taller</a
+            >
           </div>
         </div>
-
-        <div
-          class="flex flex-col justify-between h-[15rem] w-[20rem] bg-gray-200 text-black font-bold text-xl rounded-lg shadow-md"
-        >
-          <div class="bg-gray-300 text-center p-17 rounded-t-lg">Ilustración</div>
-          <div class="p-4">
-            <p class="text-lg">Nombre del Taller</p>
-            <p class="text-sm text-gray-600">Instructor</p>
-          </div>
-        </div>
-
-        <div
-          class="flex flex-col justify-between h-[15rem] w-[20rem] bg-gray-200 text-black font-bold text-xl rounded-lg shadow-md"
-        >
-          <div class="bg-gray-300 text-center p-17 rounded-t-lg">Ilustración</div>
-          <div class="p-4">
-            <p class="text-lg">Nombre del Taller</p>
-            <p class="text-sm text-gray-600">Instructor</p>
-          </div>
-        </div>
-
-        <div
-          class="flex flex-col justify-between h-[15rem] w-[20rem] bg-gray-200 text-black font-bold text-xl rounded-lg shadow-md"
-        >
-          <div class="bg-gray-300 text-center p-17 rounded-t-lg">Ilustración</div>
-          <div class="p-4">
-            <p class="text-lg">Nombre del Taller</p>
-            <p class="text-sm text-gray-600">Instructor</p>
-          </div>
-        </div>
-
-        <div
-          class="flex flex-col justify-between h-[15rem] w-[20rem] bg-gray-200 text-black font-bold text-xl rounded-lg shadow-md"
-        >
-          <div class="bg-gray-300 text-center p-17 rounded-t-lg">Ilustración</div>
-          <div class="p-4">
-            <p class="text-lg">Nombre del Taller</p>
-            <p class="text-sm text-gray-600">Instructor</p>
-          </div>
-        </div>
-
-        <RouterLink to="/talleres">
-          <button
-            class="bg-gray-600 text-white px-8 py-4 rounded-md hover:bg-gray-700 transition m-10"
-          >
-            Ver mas
+      </div>
+      <div class="flex-justify-start">
+        <RouterLink to="/Talleres">
+          <button class="bg-white text-[#2563EB] px-10 py-6 rounded-md border border-[#2563EB]">
+            Mostrar Más
           </button>
         </RouterLink>
       </div>
