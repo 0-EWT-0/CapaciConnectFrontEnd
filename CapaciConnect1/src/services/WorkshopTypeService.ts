@@ -1,51 +1,63 @@
-import type { WorkshopType, WorkshopTypeDTO } from '@/interfaces/workshopTypesInterface'
-
-const BASE_URL = 'https://localhost:44368/api/Type'
+import { genericRequestAuth } from "@/utils/genericRequest";
+import router from "@/router";
+import type { AxiosError } from "axios";
+import type { WorkshopType, WorkshopTypeDTO } from "@/interfaces/workshopTypesInterface";
 
 export class WorkshopTypeService {
+  private baseUrl = 'https://localhost:44368/api/Type';
+
   async getAllTypes(): Promise<WorkshopType[]> {
-    const response = await fetch(`${BASE_URL}/AllTypes`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    try {
+      const response = await genericRequestAuth(`${this.baseUrl}/AllTypes`, 'GET');
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch workshop types')
+      if (axiosError.response?.status === 401) {
+        router.push('/login');
+      }
+
+      throw new Error(
+        (axiosError.response?.data as { message?: string })?.message ||
+        'Error al obtener los tipos de taller'
+      );
     }
-
-    return await response.json()
   }
+
   async createType(typeData: WorkshopTypeDTO): Promise<WorkshopType> {
-    const token = localStorage.getItem('token') // Asegúrate de obtener el token válido
+    try {
+      const response = await genericRequestAuth(`${this.baseUrl}/CreateType`, 'POST', typeData);
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
 
-    const response = await fetch(`${BASE_URL}/CreateType`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, // Agrega el token aquí
-      },
-      body: JSON.stringify(typeData),
-    })
+      if (axiosError.response?.status === 401) {
+        router.push('/login');
+      }
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || 'Failed to create type')
+      throw new Error(
+        (axiosError.response?.data as { message?: string })?.message ||
+        'Error al crear el tipo de taller'
+      );
     }
-
-    return await response.json()
   }
 
   async deleteType(id: number): Promise<void> {
-    const response = await fetch(`${BASE_URL}/DeleteType/${id}`, {
-      method: 'DELETE',
-    })
+    try {
+      await genericRequestAuth(`${this.baseUrl}/DeleteType/${id}`, 'DELETE');
+    } catch (error) {
+      const axiosError = error as AxiosError;
 
-    if (!response.ok) {
-      throw new Error('Failed to delete type')
+      if (axiosError.response?.status === 401) {
+        router.push('/login');
+      }
+
+      throw new Error(
+        (axiosError.response?.data as { message?: string })?.message ||
+        'Error al eliminar el tipo de taller'
+      );
     }
   }
 }
 
-export const workshopTypeService = new WorkshopTypeService()
+export const workshopTypeService = new WorkshopTypeService();

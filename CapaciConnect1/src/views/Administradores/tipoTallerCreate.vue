@@ -18,6 +18,7 @@
             placeholder="Ej: Pintura Abstracta"
             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             required
+            :disabled="isLoading"
           />
         </div>
 
@@ -72,12 +73,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
+import type { WorkshopTypeDTO } from '@/interfaces/workshopTypesInterface'
 
-interface FormData {
-  type_name: string
-}
-
-const formData = ref<FormData>({
+const formData = ref<WorkshopTypeDTO>({
   type_name: '',
 })
 
@@ -86,35 +84,17 @@ const error = ref<string | null>(null)
 const successMessage = ref<string | null>(null)
 const isLoading = ref(false)
 
-const handleSubmit = async (e: Event) => {
-  e.preventDefault()
+const handleSubmit = async () => {
   error.value = null
   successMessage.value = null
   isLoading.value = true
 
   try {
-    // Configuración especial para desarrollo con CORS
-    const response = await fetch('https://localhost:44368/api/Type/CreateType', {
-      method: 'POST',
-      mode: 'cors', // Important for CORS
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        type_name: formData.value.type_name,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error('Error al crear el tipo de taller')
-    }
-
-    const data = await response.json()
+    await workshopTypeStore.createType(formData.value)
     successMessage.value = 'Tipo de taller creado exitosamente!'
     formData.value.type_name = ''
   } catch (err) {
-    error.value = 'Error al comunicarse con el servidor. Verifica la consola para más detalles.'
+    error.value = 'Error al crear el tipo de taller'
     console.error('Error creating workshop type:', err)
   } finally {
     isLoading.value = false
