@@ -15,15 +15,17 @@
     <div class="text-center mt-4">
       <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
       <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
-      <p class="text-gray-700 mt-2">
-        {{ workshop.description }}.
-      </p>
+      <p class="text-gray-700 mt-2">{{ workshop.description }}.</p>
     </div>
 
     <!-- Información del instructor -->
     <div class="mt-4 text-gray-600">
-      <p>Instructor: <span class="text-[#2563EB]">{{ workshop.id_user_id }}</span></p>
-      <p>Fecha de creación: <span class="text-[#2563EB]">{{ formatDate(workshop.created_at) }}</span></p>
+      <p>
+        Instructor: <span class="text-[#2563EB]">{{ workshop.id_user_id }}</span>
+      </p>
+      <p>
+        Fecha de creación: <span class="text-[#2563EB]">{{ formatDate(workshop.created_at) }}</span>
+      </p>
     </div>
 
     <!-- Botón de inscripción -->
@@ -69,15 +71,22 @@
         class="h-15 w-15 rounded-full flex items-center justify-center text-xl mt-2"
       />
       <div class="mt-4">
-        <textarea v-model="newComment"
+        <textarea
+          v-model="newComment"
           class="w-full p-2 border border-gray-300 rounded text-black"
           placeholder="Escriba su comentario aquí..."
         ></textarea>
         <div class="mt-2 flex gap-2">
-          <button @click="cancelComment" class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400">
+          <button
+            @click="cancelComment"
+            class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400"
+          >
             Cancelar
           </button>
-          <button @click="submitComment" class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600">
+          <button
+            @click="submitComment"
+            class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600"
+          >
             Enviar Comentarios
           </button>
         </div>
@@ -86,17 +95,29 @@
       <!-- Comentarios de ejemplo -->
       <div class="mt-5">
         <div v-if="ownComments.length > 0">
-          <div v-for="comment in ownComments" :key="comment.id_comment" class="bg-white shadow-md p-5 flex justify-between items-center">
+          <div
+            v-for="comment in ownComments"
+            :key="comment.id_comment"
+            class="bg-white shadow-md p-5 flex justify-between items-center"
+          >
             <img
               src="../assets/logo.svg"
               class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
             />
-            <span class="text-black"
-              >{{ comment.comment }}</span
-            >
+            <span class="text-black">{{ comment.comment }}</span>
             <div class="flex gap-2">
-              <button @click="editComment(comment)" class="bg-red-500 text-white p-5 m-5 rounded-xl">Editar</button>
-              <button @click="deleteComment(comment.id_comment)" class="text-red-500 hover:text-red-800">Eliminar</button>
+              <button
+                @click="editComment(comment)"
+                class="bg-red-500 text-white p-5 m-5 rounded-xl"
+              >
+                Editar
+              </button>
+              <button
+                @click="deleteComment(comment.id_comment)"
+                class="text-red-500 hover:text-red-800"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         </div>
@@ -106,50 +127,52 @@
 
         <div class="mt-6">
           <div v-if="otherComments.length > 0">
-            <div v-for="comment in comments" :key="comment.id_comment" class="bg-white shadow-md p-5 flex justify-between items-center mt-2">
+            <div
+              v-for="comment in comments"
+              :key="comment.id_comment"
+              class="bg-white shadow-md p-5 flex justify-between items-center mt-2"
+            >
               <img
                 src="../assets/logo.svg"
                 class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
               />
-              <span class="text-black"
-                >{{ comment.comment }}</span
-              >
+              <span class="text-black">{{ comment.comment }}</span>
             </div>
+          </div>
+          <div v-else>
+            <p class="text-gray-500">No hay comentarios de otros usuarios.</p>
+          </div>
         </div>
-        <div v-else>
-          <p class="text-gray-500">No hay comentarios de otros usuarios.</p>
-        </div>
-    </div>
 
-      <div
-      v-if="isEditing"
-      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
-    >
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-        <h3 class="text-xl font-bold mb-4">Editar Comentario</h3>
-        <textarea
-          v-model="editCommentText"
-          class="w-full p-2 border border-gray-300 rounded"
-        ></textarea>
-        <div class="flex justify-end gap-2 mt-4">
-          <button
-            class="bg-gray-400 text-white py-1 px-4 rounded hover:bg-gray-500"
-            @click="cancelEdit"
-          >
-            Cancelar
-          </button>
-          <button
-            class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
-            @click="saveEdit"
-          >
-            Guardar
-          </button>
+        <div
+          v-if="isEditing"
+          class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h3 class="text-xl font-bold mb-4">Editar Comentario</h3>
+            <textarea
+              v-model="editCommentText"
+              class="w-full p-2 border border-gray-300 rounded"
+            ></textarea>
+            <div class="flex justify-end gap-2 mt-4">
+              <button
+                class="bg-gray-400 text-white py-1 px-4 rounded hover:bg-gray-500"
+                @click="cancelEdit"
+              >
+                Cancelar
+              </button>
+              <button
+                class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
+                @click="saveEdit"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 </template>
 
 <script setup lang="ts">
@@ -160,158 +183,156 @@ import { useWorkshopStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import Navbar from '@/components/global/Navbar.vue'
 
+const route = useRoute()
+const id_workshop = Number(route.params.id_workshop)
 
-const route = useRoute();
-const id_workshop = Number(route.params.id_workshop);
-
-const workshopStore = useWorkshopStore();
-const authStore = useAuthStore();
+const workshopStore = useWorkshopStore()
+const authStore = useAuthStore()
 
 const workshop = computed(() => {
   return (
-  workshopStore.workshops.find((w) => w.id_workshop === id_workshop) || {
-    title: 'No encontrado',
-    description: 'No se encontro el taller.',
-    content: '',
-    image: ''
-  }
-)
+    workshopStore.workshops.find((w) => w.id_workshop === id_workshop) || {
+      title: 'No encontrado',
+      description: 'No se encontro el taller.',
+      content: '',
+      image: '',
+    }
+  )
 })
 
-const calendarData = ref([]);
-const comments = ref([]);
-const newComment = ref('');
-const isEditing = ref(false);
-const editCommentId = ref<number | null>(null);
-const editCommentText = ref('');
-const subscriptions =  ref<{ id_workshop_id: number }[]>([]);
+const calendarData = ref([])
+const comments = ref([])
+const newComment = ref('')
+const isEditing = ref(false)
+const editCommentId = ref<number | null>(null)
+const editCommentText = ref('')
+const subscriptions = ref<{ id_workshop_id: number }[]>([])
 const isSubscribed = computed(() =>
-  subscriptions.value.some((sub) => sub.id_workshop_id === id_workshop)
-);
+  subscriptions.value.some((sub) => sub.id_workshop_id === id_workshop),
+)
 
 onMounted(async () => {
-  await workshopStore.fetchCommentsByWorkshop(id_workshop);
-  comments.value = workshopStore.comments;
-   console.log('comentarios', comments.value)
-});
+  await workshopStore.fetchCommentsByWorkshop(id_workshop)
+  comments.value = workshopStore.comments
+  console.log('comentarios', comments.value)
+})
 
- const userId = authStore.user.Id_user;
+const userId = authStore.user.Id_user
 const currentUser = ref({
   id_user: userId, // Cambiar esto por el ID del usuario actual (por ejemplo, desde el login)
-});
+})
 
 // Filtra los comentarios propios
 const ownComments = computed(() => {
-  return comments.value.filter((comment) => comment.id_user_id === currentUser.value.id_user);
-});
+  return comments.value.filter((comment) => comment.id_user_id === currentUser.value.id_user)
+})
 
 // Filtra los comentarios de otros usuarios
 const otherComments = computed(() => {
-  return comments.value.filter((comment) => comment.id_user_id !== currentUser.value.id_user);
-});
+  return comments.value.filter((comment) => comment.id_user_id !== currentUser.value.id_user)
+})
 
 onMounted(async () => {
   if (workshopStore.workshops.length === 0) {
-    await workshopStore.fetchWorkshops();
+    await workshopStore.fetchWorkshops()
   }
-});
+})
 onMounted(async () => {
-  await workshopStore.fetchSubscriptions(); // Cargar las inscripciones
-});
+  await workshopStore.fetchSubscriptions() // Cargar las inscripciones
+})
 
 const submitComment = async () => {
   if (newComment.value.trim() === '') {
-    alert('El comentario no puede estar vacío');
-    return;
+    alert('El comentario no puede estar vacío')
+    return
   }
 
   const commentData = {
     comment: newComment.value,
     id_workshop_id: id_workshop,
-  };
+  }
 
-  await workshopStore.createComment(commentData);
-  newComment.value = '';
-};
-
+  await workshopStore.createComment(commentData)
+  newComment.value = ''
+}
 
 const editComment = (comment) => {
   if (!comment || typeof comment.id_comment === 'undefined') {
-    console.error('El comentario no está definido o no tiene un id_comment:', comment);
-    return;
+    console.error('El comentario no está definido o no tiene un id_comment:', comment)
+    return
   }
 
   if (comment.id_user_id !== currentUser.id_user) {
-    alert('No tienes permiso para editar este comentario');
-    return;
+    alert('No tienes permiso para editar este comentario')
+    return
   }
 
-  editCommentId.value = comment.id_comment;
-  editCommentText.value = comment.comment;
-  isEditing.value = true;
-};
+  editCommentId.value = comment.id_comment
+  editCommentText.value = comment.comment
+  isEditing.value = true
+}
 
 // Función para guardar los cambios
 const saveEdit = async () => {
   if (editCommentId.value !== null) {
-    await workshopStore.updateComment(editCommentId.value, { comment: editCommentText.value });
-    isEditing.value = false; // Cierra el modal
+    await workshopStore.updateComment(editCommentId.value, { comment: editCommentText.value })
+    isEditing.value = false // Cierra el modal
   }
-};
+}
 
 // Función para cancelar la edición
 const cancelEdit = () => {
-  isEditing.value = false;
-};
+  isEditing.value = false
+}
 
 const deleteComment = async (id_comment) => {
-  const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?');
+  const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
   if (confirmDelete) {
-    await workshopStore.deleteComment(id_comment);
+    await workshopStore.deleteComment(id_comment)
   }
-};
+}
 
 //Inscripciones
 const handleSubscribe = async () => {
   try {
-    if(isSubscribed.value) {
-      alert('Ya esta inscrito en este taller');
-      return;
+    if (isSubscribed.value) {
+      alert('Ya esta inscrito en este taller')
+      return
     }
 
-    await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop});
-    alert('Inscripto exitosa');
-    subscriptions.value.push({ id_workshop_id: id_workshop });
-  } catch(error) {
+    await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
+    alert('Inscripto exitosa')
+    subscriptions.value.push({ id_workshop_id: id_workshop })
+  } catch (error) {
     if (error.message === 'Ya estás inscrito en este taller.') {
-      alert(error.message); // Mostrar el mensaje claro
+      alert(error.message) // Mostrar el mensaje claro
     } else {
-      console.error('Error al inscribirse:', error);
-      alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.');
+      console.error('Error al inscribirse:', error)
+      alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
     }
   }
 }
 
 const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString('es-ES', options);
-};
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+  return new Date(dateString).toLocaleDateString('es-ES', options)
+}
 
 onMounted(async () => {
   try {
-    const workshopStore = useWorkshopStore();
-    const calendars = await workshopStore.fetchCalendarsByWorkshopId(id_workshop);
+    const workshopStore = useWorkshopStore()
+    const calendars = await workshopStore.fetchCalendarsByWorkshopId(id_workshop)
 
     if (calendars && calendars.length > 0) {
-      calendarData.value = calendars[0]; // Solo asigna el primer calendario
+      calendarData.value = calendars[0] // Solo asigna el primer calendario
     } else {
-      console.log('No se encontraron datos del calendario para este taller.');
-      calendarData.value = null; // Asegura que sea null si no hay datos
+      console.log('No se encontraron datos del calendario para este taller.')
+      calendarData.value = null // Asegura que sea null si no hay datos
     }
   } catch (error) {
-    console.error('Error al obtener datos del calendario:', error);
+    console.error('Error al obtener datos del calendario:', error)
   }
-});
+})
 
 //Contenidod
 const activeIndex = ref(null)

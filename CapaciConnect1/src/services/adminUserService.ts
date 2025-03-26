@@ -1,6 +1,5 @@
 import { genericRequest, genericRequestAuth } from '@/utils/genericRequest'
 
-
 const base_url = 'https://localhost:44368/api'
 
 export interface User {
@@ -17,24 +16,24 @@ export interface User {
 }
 
 const handleError = async (error: any, context: string) => {
-    const errorMessage = `Error during ${context}: ${error.message}`
-    console.error(errorMessage)
- 
-    const errorDetails = {
-      response: error.response
-        ? {
-            data: error.response.data,
-            status: error.response.status,
-            headers: error.response.headers,
-          }
-        : null,
-      request: error.request || null,
-      message: error.message,
-    }
- 
-    await console.error('error', errorMessage, errorDetails)
-    throw error
+  const errorMessage = `Error during ${context}: ${error.message}`
+  console.error(errorMessage)
+
+  const errorDetails = {
+    response: error.response
+      ? {
+          data: error.response.data,
+          status: error.response.status,
+          headers: error.response.headers,
+        }
+      : null,
+    request: error.request || null,
+    message: error.message,
   }
+
+  await console.error('error', errorMessage, errorDetails)
+  throw error
+}
 
 export const adminUserService = {
   async getUsers(): Promise<User[]> {
@@ -72,7 +71,7 @@ export const adminUserService = {
       const response = await genericRequestAuth(
         `${base_url}/User/UpdateUserAdmin/${userId}`,
         'PUT',
-        { Id_rol_id: roleId }
+        { Id_rol_id: roleId },
       )
       return response.data
     } catch (error: any) {
@@ -96,7 +95,7 @@ export const adminUserService = {
       const response = await genericRequestAuth(
         `${base_url}/User/UpdateUser/${userId}`,
         'PATCH',
-        userData
+        userData,
       )
       return response.data
     } catch (error: any) {
@@ -107,13 +106,10 @@ export const adminUserService = {
 
   async deleteUser(userId: number): Promise<void> {
     try {
-      await genericRequestAuth(
-        `${base_url}/User/DeleteUser/${userId}`,
-        'DELETE'
-      )
+      await genericRequestAuth(`${base_url}/User/DeleteUser/${userId}`, 'DELETE')
     } catch (error: any) {
       await handleError(error, 'deleteUser')
       throw error
     }
-  }
+  },
 }

@@ -1,7 +1,7 @@
 // stores/userStore.ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { adminUserService, type User} from '@/services/adminUserService'
+import { adminUserService, type User } from '@/services/adminUserService'
 
 export const useAdminUserStore = defineStore('user', () => {
   const users = ref<User[]>([])
@@ -53,7 +53,7 @@ export const useAdminUserStore = defineStore('user', () => {
     isLoading.value = true
     try {
       const updatedUser = await adminUserService.updateAdminUser(userId, roleId)
-      const index = users.value.findIndex(u => u.Id_user === userId)
+      const index = users.value.findIndex((u) => u.Id_user === userId)
       if (index !== -1) users.value[index] = updatedUser
       return updatedUser
     } catch (err: any) {
@@ -84,7 +84,7 @@ export const useAdminUserStore = defineStore('user', () => {
     isLoading.value = true
     try {
       await adminUserService.deleteUser(userId)
-      users.value = users.value.filter(user => user.Id_user !== userId)
+      users.value = users.value.filter((user) => user.Id_user !== userId)
       if (currentUser.value?.Id_user === userId) {
         currentUser.value = null
       }
@@ -121,6 +121,6 @@ export const useAdminUserStore = defineStore('user', () => {
     updateAdminUserRole,
     updateUserProfile,
     registerUser,
-    removeUser
+    removeUser,
   }
 })

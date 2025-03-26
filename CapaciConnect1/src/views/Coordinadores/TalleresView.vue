@@ -19,7 +19,9 @@
           <!-- Información del Taller -->
           <div class="p-4">
             <h2 class="text-lg font-bold text-black">Taller de JavaScript Avanzado</h2>
-            <p class="text-gray-600 text-sm">Domina JavaScript moderno  y  de con proyectos prácticos.</p>
+            <p class="text-gray-600 text-sm">
+              Domina JavaScript moderno y de con proyectos prácticos.
+            </p>
 
             <p class="text-blue-600 font-semibold mt-2">Programación</p>
             <p class="text-blue-600 font-semibold mt-2">Instructor: Marco Hau</p>

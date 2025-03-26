@@ -70,7 +70,7 @@ const router = createRouter({
     {
       path: '/Calendarios',
       name: 'Calendarios',
-      component: () => import('@/views/CalendarioView.vue')
+      component: () => import('@/views/CalendarioView.vue'),
     },
 
     //VISTA COORDINADORES
@@ -188,7 +188,6 @@ const router = createRouter({
       component: () => import('@/views/404View.vue'),
     },
 
-
     {
       path: '/test',
       name: 'test',
@@ -199,11 +198,23 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    next({ name: 'login' }) // Redirigir a la página de inicio de sesión si no está autenticado
+
+  const publicRoutes = ['/login', '/register']
+
+  if (!publicRoutes.includes(to.path) && !authStore.isLoggedIn) {
+    next('/login')
   } else {
-    next() // Continuar con la navegación
+    next()
   }
 })
+
+// router.beforeEach((to, from, next) => {
+//   const authStore = useAuthStore()
+//   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+//     next({ name: 'login' }) // Redirigir a la página de inicio de sesión si no está autenticado
+//   } else {
+//     next() // Continuar con la navegación
+//   }
+// })
 
 export default router

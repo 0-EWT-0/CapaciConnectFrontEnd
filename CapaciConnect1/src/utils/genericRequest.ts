@@ -41,4 +41,3 @@ export const genericRequestAuth = async (url: string, method: string, body?: any
     throw error
   }
 }
-

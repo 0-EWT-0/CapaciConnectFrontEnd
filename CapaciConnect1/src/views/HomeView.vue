@@ -27,10 +27,13 @@
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Talleres destacados</h1>
 
       <!-- Contenedor de tarjetas en formato grid -->
-      <div v-if="workshops && workshops.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+      <div
+        v-if="workshops && workshops.length > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
+      >
         <div
           v-for="workshop in workshops"
-            :key="workshop.id_workshop"
+          :key="workshop.id_workshop"
           class="bg-white rounded-lg m-10 shadow-lg overflow-hidden"
         >
           <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
@@ -57,9 +60,12 @@
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Temas</h1>
 
       <!-- Contenedor de tarjetas en formato grid -->
-      <div v-if="types && types.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10">
+      <div
+        v-if="types && types.length > 0"
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10"
+      >
         <div
-        v-for="type in types"
+          v-for="type in types"
           :key="type.id_type"
           class="flex justify-center items-center h-[5rem] w-[20rem] bg-[#33415C] text-white font-bold text-xl rounded-lg shadow-md"
         >
@@ -84,19 +90,19 @@ import Navbar from '@/components/global/Navbar.vue'
 import Carousel from 'primevue/carousel'
 import CarouselComponent from '@/components/common/CarouselComponent.vue'
 
-import { useWorkshopStore, useTypeStore  } from '@/stores/user'
+import { useWorkshopStore, useTypeStore } from '@/stores/user'
 import { onMounted, computed } from 'vue'
 
-const workshopStore = useWorkshopStore();
+const workshopStore = useWorkshopStore()
 const typeStore = useTypeStore()
 
 onMounted(async () => {
-  await workshopStore.fetchWorkshops();
-  await typeStore.fetchType();
+  await workshopStore.fetchWorkshops()
+  await typeStore.fetchType()
 })
 
-const workshops = computed(() => workshopStore.workshops);
-const types = computed(() => typeStore.types);
+const workshops = computed(() => workshopStore.workshops)
+const types = computed(() => typeStore.types)
 
 //DATOS PRETERMINADO
 const images = [

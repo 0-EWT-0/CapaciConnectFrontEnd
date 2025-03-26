@@ -4,7 +4,7 @@ import { LoginService, RegisterService, LogoutService } from '@/services/AuthSer
 import router from '@/router'
 import type { User } from '@/interfaces/User'
 import { setToken as saveTokenToStorage, getToken, clearToken } from '@/utils/tokenStorage'
-import { setToken } from '../utils/tokenStorage';
+import { setToken } from '../utils/tokenStorage'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({} as User)
@@ -15,11 +15,12 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
-        user.value = response.data.user;
+        user.value = response.data.user
         token.value = response.data.token
         saveTokenToStorage(response.data.token)
         router.push('/')
       }
+      console.log("no funciono")
     } catch (error: any) {
       console.error('Error in login:', error)
     }
@@ -44,7 +45,11 @@ export const useAuthStore = defineStore('auth', () => {
       )
       if (response?.status === 200) {
         user.value = response.data
-        router.push('/login')
+        var login = await LoginService(email, password)
+        if(login?.status === 200) {
+          router.push('/')
+          console.log("redireccion")
+        }
       }
     } catch (error: any) {
       console.error('Error in register:', error)

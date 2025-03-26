@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <main class="p-10">
+  <main class="p-10 min-h-screen">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
       <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
@@ -8,7 +8,7 @@
       <!-- Buscador -->
       <div class="mb-6">
         <input
-        v-model="searchQuery"
+          v-model="searchQuery"
           type="text"
           placeholder="Buscar talleres..."
           class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -26,16 +26,28 @@
       </div>
 
       <!-- Grid de talleres -->
-      <div v-if="filteredWorkshops && filteredWorkshops.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        <div v-for="workshop in filteredWorkshops" :key="workshop.id_workshop" class="bg-white rounded-lg shadow-lg overflow-hidden">
-          <img :src=" workshop.image || '../assets/logo.svg'" alt="Taller de arte" class="w-full h-40 object-cover" />
+      <div
+        v-if="filteredWorkshops && filteredWorkshops.length > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
+      >
+        <div
+          v-for="workshop in filteredWorkshops"
+          :key="workshop.id_workshop"
+          class="bg-white rounded-lg shadow-lg overflow-hidden"
+        >
+          <img
+            :src="workshop.image || '../assets/logo.svg'"
+            alt="Taller de arte"
+            class="w-full h-40 object-cover"
+          />
           <div class="p-4">
             <h2 class="text-lg text-black font-bold p-2">{{ workshop.title }}</h2>
             <p class="text-gray-600 p-3">{{ workshop.description }}</p>
-            <router-link :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
-            class="text-blue-600 font-semibold mt-2 block p-4"
-              >Ver Contenido</
-              router-link>
+            <router-link
+              :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
+              class="text-blue-600 font-semibold mt-2 block p-4"
+              >Ver Contenido</router-link
+            >
           </div>
         </div>
       </div>
@@ -54,22 +66,22 @@ import Navbar from '@/components/global/Navbar.vue'
 import { useWorkshopStore } from '@/stores/user'
 import { onMounted, computed, ref } from 'vue'
 
-const workshopStore = useWorkshopStore();
+const workshopStore = useWorkshopStore()
 const searchQuery = ref('')
 
 onMounted(async () => {
-  await workshopStore.fetchWorkshops();
+  await workshopStore.fetchWorkshops()
 })
 
 const filteredWorkshops = computed(() => {
-  if(!searchQuery.value) {
-    return workshopStore.workshops;
+  if (!searchQuery.value) {
+    return workshopStore.workshops
   }
 
   return workshopStore.workshops.filter(
-    workshop =>
-    workshop.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      workshop.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    (workshop) =>
+      workshop.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      workshop.description.toLowerCase().includes(searchQuery.value.toLowerCase()),
   )
 })
 </script>

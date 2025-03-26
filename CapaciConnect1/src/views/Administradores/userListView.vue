@@ -24,7 +24,9 @@
           <div class="flex flex-col sm:flex-row gap-4 items-start">
             <!-- Avatar -->
             <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <div class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100">
+              <div
+                class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
+              >
                 <img
                   :src="user.profile_img || '/default-avatar.png'"
                   :alt="user.name"
@@ -39,7 +41,9 @@
                 {{ user.name }} {{ user.last_names }}
               </h3>
 
-              <div class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600">
+              <div
+                class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600"
+              >
                 <span class="truncate">{{ user.Email }}</span>
                 <span class="hidden sm:block text-gray-300">•</span>
                 <span>{{ formatPhone(user.phone) }}</span>
@@ -97,15 +101,15 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('es-MX', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   })
 }
 
 const formatPhone = (phone: string = '') => {
-  const regex = /(\+52|52)?(\d{3})(\d{3})(\d{4})/;
-  const cleanPhone = phone.replace(/[^\d]/g, '');
-  const match = cleanPhone.match(regex);
-  return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone;
+  const regex = /(\+52|52)?(\d{3})(\d{3})(\d{4})/
+  const cleanPhone = phone.replace(/[^\d]/g, '')
+  const match = cleanPhone.match(regex)
+  return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone
 }
       
 // const handleImageError = (event: Event) => {

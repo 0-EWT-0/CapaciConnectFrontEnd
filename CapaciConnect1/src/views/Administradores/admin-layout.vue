@@ -19,7 +19,7 @@
       </div>
 
       <!-- Main Content Area -->
-      <main class="flex-1 bg-gray-50 p-6 md:p-8">
+      <main class="flex-1 bg-white p-6 md:p-8">
         <rouer-view />
         <div class="max-w-7xl mx-auto">
           <!-- Slot para contenido específico de la página -->
