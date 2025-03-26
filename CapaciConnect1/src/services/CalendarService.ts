@@ -1,66 +1,49 @@
-import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces';
+import type { Calendar, CalendarDTO, UpdateCalendarDTO } from "@/interfaces/CalendarInterfaces";
+import { genericRequestAuth } from "@/utils/genericRequest";
 
 export class CalendarService {
   private baseUrl = 'https://localhost:44368/api/Calendar';
 
   async getAllCalendars(): Promise<Calendar[]> {
-    const response = await fetch(`${this.baseUrl}/AllCalendars`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch calendars');
+    try {
+      const response = await genericRequestAuth(`${this.baseUrl}/AllCalendars`, 'GET');
+      return response.data || [];
+    } catch (error) {
+      console.error('Error fetching calendars:', error);
+      throw new Error('No se pudieron obtener los calendarios');
     }
-
-    return await response.json();
   }
 
   async createCalendar(calendarData: CalendarDTO): Promise<Calendar> {
-    const response = await fetch(`${this.baseUrl}/CreateCalendar`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(calendarData),
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create calendar');
+    try {
+      const response = await genericRequestAuth(`${this.baseUrl}/CreateCalendar`, 'POST', calendarData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating calendar:', error);
+      throw new Error(error.response?.data?.message || 'Error al crear el calendario');
     }
-
-    return await response.json();
   }
 
   async updateCalendar(calendarId: number, updateData: UpdateCalendarDTO): Promise<Calendar> {
-    const response = await fetch(`${this.baseUrl}/UpdateCalendar/${calendarId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateData),
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update calendar');
+    try {
+      const response = await genericRequestAuth(
+        `${this.baseUrl}/UpdateCalendar/${calendarId}`,
+        'PUT',
+        updateData
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error updating calendar:', error);
+      throw new Error(error.response?.data?.message || 'Error al actualizar el calendario');
     }
-
-    return await response.json();
   }
 
   async deleteCalendar(calendarId: number): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/DeleteCalendar/${calendarId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to delete calendar');
+    try {
+      await genericRequestAuth(`${this.baseUrl}/DeleteCalendar/${calendarId}`, 'DELETE');
+    } catch (error) {
+      console.error('Error deleting calendar:', error);
+      throw new Error(error.response?.data?.message || 'Error al eliminar el calendario');
     }
   }
 }
