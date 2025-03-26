@@ -35,6 +35,15 @@ export const getUserByIdService = async (userId: number) => {
   }
 }
 
+export const   getUserInfoService = async () => {
+  try {
+    const result = await genericRequestAuth(`${base_url}/User/UserInfo`, 'GET')
+    return result
+  } catch (error: any) {
+    await handleError(error, 'getUserByIdService')
+  }
+}
+
 export const updateUserService = async (userId: number, userData: any) => {
   try {
     const response = await genericRequestAuth(
