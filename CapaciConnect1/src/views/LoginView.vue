@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import img from '@/assets/imgs/imgLogin.jpg'
+import img from '@/assets/imgs/imgLogin.webp'
 import BaseButton from '@/components/common/BaseButton.vue'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUserLogin } from '@/schemas/validations'

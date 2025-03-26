@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <Card>
       <template #title>
         <div class="text-2xl font-bold">Editar Perfil</div>
@@ -142,10 +142,13 @@
       </div>
     </div>
   </div>
+
+<Footer/>
 </template>
 
 <script setup>
 import Header from '@/components/global/Header.vue'
+import Footer from '@/components/global/Footer.vue'
 import { reactive, onMounted, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'

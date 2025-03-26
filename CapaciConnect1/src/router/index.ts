@@ -194,14 +194,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // Definir rutas públicas
   const publicRoutes = ['/login', '/register']
 
-  // Proteger todas las demás rutas
   if (!publicRoutes.includes(to.path) && !authStore.isLoggedIn) {
     next('/login')
   } else {
-    next() // Continuar con la navegación
+    next()
   }
 })
 
