@@ -35,9 +35,7 @@
         </div>
 
         <div class="pb-4 w-auto">
-          <button class="bg-[#2563EB] w-full p-4 rounded-lg cursor-pointer hover:bg-[#1d4ed8]">
-            <h3>Iniciar sesión</h3>
-          </button>
+          <BaseButton variant="blue">Iniciar sesión</BaseButton>
         </div>
 
         <div class="pb-4 text-center">
@@ -53,6 +51,7 @@
 
 <script setup>
 import img from '@/assets/imgs/imgLogin.jpg'
+import BaseButton from '@/components/common/BaseButton.vue'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUserLogin } from '@/schemas/validations'
 import { useAuthStore } from '@/stores/auth'

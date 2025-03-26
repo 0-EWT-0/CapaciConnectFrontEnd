@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useAuthStore } from '@/stores/auth'
+import { getToken } from './tokenStorage'
 
 export const genericRequest = async (url: string, method: string, body?: any) => {
   try {
@@ -19,16 +19,19 @@ export const genericRequest = async (url: string, method: string, body?: any) =>
 }
 
 export const genericRequestAuth = async (url: string, method: string, body?: any) => {
-  const authStore = useAuthStore()
-  const token = authStore.token // obtiene el token del authStore de la repsuesta del login
-  console.log("token desde denericrequest",token)
+  const token = getToken()
+
+  if (!token) {
+    throw new Error('No token found')
+  }
+
   try {
     const response = await axios({
       url: url,
       method: method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, //pasa el token
+        Authorization: `Bearer ${token}`, // ← correcto
       },
       data: body,
     })
@@ -38,3 +41,4 @@ export const genericRequestAuth = async (url: string, method: string, body?: any
     throw error
   }
 }
+

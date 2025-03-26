@@ -100,7 +100,9 @@ const formatDate = (dateString: string) => {
               />
             </div>
             <div>
-              <label for="date_end" class="block text-sm font-medium text-black">Fecha de Fin</label>
+              <label for="date_end" class="block text-sm font-medium text-black"
+                >Fecha de Fin</label
+              >
               <input
                 type="datetime-local"
                 v-model="newCalendar.date_end"
@@ -150,7 +152,9 @@ const formatDate = (dateString: string) => {
           >
             <div class="flex justify-between items-center">
               <div>
-                <h3 class="text-lg font-semibold text-gray-800">Taller {{ activity.workshop_id }}</h3>
+                <h3 class="text-lg font-semibold text-gray-800">
+                  Taller {{ activity.workshop_id }}
+                </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
                 </p>

@@ -20,7 +20,6 @@
             d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 16.65z"
           />
         </svg>
-       
       </div>
     </div>
 
@@ -29,7 +28,11 @@
 
       <!-- Contenedor de tarjetas en formato grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        <div v-for="index in 3" :key="index" class="bg-white rounded-lg m-10 shadow-lg overflow-hidden">
+        <div
+          v-for="index in 3"
+          :key="index"
+          class="bg-white rounded-lg m-10 shadow-lg overflow-hidden"
+        >
           <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
           <div class="p-4">
             <h2 class="text-lg text-black font-bold p-2">Título del taller</h2>
@@ -41,12 +44,12 @@
         </div>
       </div>
       <div class="flex-justify-start">
-         <RouterLink to="/Talleres">
-        <button class="bg-white text-[#2563EB] px-10  py-6 rounded-md  border border-[#2563EB]">
-          Mostrar Más
-        </button>
-      </RouterLink></div>
-
+        <RouterLink to="/Talleres">
+          <button class="bg-white text-[#2563EB] px-10 py-6 rounded-md border border-[#2563EB]">
+            Mostrar Más
+          </button>
+        </RouterLink>
+      </div>
     </div>
 
     <div class="flex flex-col items-center m-10">
