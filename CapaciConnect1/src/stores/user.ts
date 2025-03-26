@@ -12,8 +12,10 @@ import {
   subscribeWorkshopService,
   fetchCalendarsByWorkshopIdService,
   fetchProgressionService,
+  getUserInfoService,
 } from '@/services/UserService'
 
+// esto esta hecho de la patada
 interface Workshop {
   id_workshop: number
   title: string
@@ -64,12 +66,28 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)
 
   async function getUserById(userId: number) {
+    console.log(userId)
     try {
       const response = await getUserByIdService(userId)
-      user.value = response?.data
+      if (response?.status === 200) {
+        user.value = response?.data
+        console.log('usuario', user.value)
+      }
     } catch (error: unknown) {
       const errorMessage = 'Error during getUsers'
       console.error(errorMessage, error)
+    }
+  }
+
+  async function getUserInfo() {
+    try {
+      const response = await getUserInfoService()
+      if (response?.status === 200) {
+        user.value = response.data[0] ?? {} as User
+        console.log("user info", user.value)
+      }
+    } catch (error: any) {
+      console.error(error)
     }
   }
 
@@ -87,7 +105,7 @@ export const useUserStore = defineStore('user', () => {
       return { success: false, message: 'Error al actualizar el usuario' }
     }
   }
-  return { user, getUserById, updateUser }
+  return { user, getUserById, updateUser, getUserInfo }
 })
 
 export const useWorkshopStore = defineStore('workshop', () => {
