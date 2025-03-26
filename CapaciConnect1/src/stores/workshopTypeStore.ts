@@ -26,7 +26,7 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
       isLoading.value = true
       error.value = null
       const newType = await workshopTypeService.createType({
-        type_name: typeName
+        type_name: typeName,
       })
       await fetchAllTypes()
       return newType
@@ -44,7 +44,7 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
       isLoading.value = true
       error.value = null
       await workshopTypeService.deleteType(id)
-      await fetchAllTypes() 
+      await fetchAllTypes()
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to delete type'
       console.error('Error deleting type:', err)
@@ -54,7 +54,6 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
     }
   }
 
-
   return {
     types,
     isLoading,
@@ -62,6 +61,5 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
     fetchAllTypes,
     createType,
     deleteType,
-
   }
 })

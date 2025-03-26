@@ -35,7 +35,14 @@
 <script lang="ts">
 import { defineComponent, type Component } from 'vue'
 import { useRoute } from 'vue-router'
-import { HomeIcon, BriefcaseIcon, UsersIcon, FileTextIcon, SettingsIcon, FilmIcon } from 'lucide-vue-next'
+import {
+  HomeIcon,
+  BriefcaseIcon,
+  UsersIcon,
+  FileTextIcon,
+  SettingsIcon,
+  FilmIcon,
+} from 'lucide-vue-next'
 
 interface MenuItem {
   name: string

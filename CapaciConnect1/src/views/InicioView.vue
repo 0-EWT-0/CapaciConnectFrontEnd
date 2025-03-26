@@ -51,7 +51,10 @@
 
       <!-- Contenedor de tarjetas en formato grid -->
       <div class="flex flex-col items-center">
-        <div v-if="workshops && workshops.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center p-5">
+        <div
+          v-if="workshops && workshops.length > 0"
+          class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-center p-5"
+        >
           <!-- Tarjeta 1 -->
           <div
             v-for="workshop in workshops"
@@ -80,7 +83,10 @@
       <h1 class="text-black text-2xl font-bold mb-6 text-center">Temas</h1>
 
       <!-- Grid de 3 columnas y 2 filas -->
-      <div v-if="types && types.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10">
+      <div
+        v-if="types && types.length > 0"
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10"
+      >
         <!-- Tarjeta 1 -->
         <div
           v-for="type in types"
@@ -135,19 +141,19 @@
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
 import Carousel from 'primevue/carousel'
-import { useWorkshopStore, useTypeStore  } from '@/stores/user'
+import { useWorkshopStore, useTypeStore } from '@/stores/user'
 import { onMounted, computed } from 'vue'
 
-const workshopStore = useWorkshopStore();
+const workshopStore = useWorkshopStore()
 const typeStore = useTypeStore()
 
 onMounted(async () => {
-  await workshopStore.fetchWorkshops();
-  await typeStore.fetchType();
+  await workshopStore.fetchWorkshops()
+  await typeStore.fetchType()
 })
 
-const workshops = computed(() => workshopStore.workshops);
-const types = computed(() => typeStore.types);
+const workshops = computed(() => workshopStore.workshops)
+const types = computed(() => typeStore.types)
 
 const images = [
   {

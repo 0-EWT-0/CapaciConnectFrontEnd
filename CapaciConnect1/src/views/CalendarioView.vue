@@ -10,13 +10,15 @@
         <input
           type="text"
           placeholder="Buscar talleres..."
-          class=" text-black w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="text-black w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <!-- Filtros -->
       <div class="flex gap-4 mb-6">
-        <div class="w-1/2 bg-gray-100 p-3 text-lg text font-semibold rounded-lg shadow-md text-black">
+        <div
+          class="w-1/2 bg-gray-100 p-3 text-lg text font-semibold rounded-lg shadow-md text-black"
+        >
           Filtrar por tipos:
           <input type="text" placeholder="Tipos de Taller" />
         </div>
@@ -72,5 +74,5 @@
 <script setup>
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
-import Navbar from '@/components/global/Navbar.vue';
+import Navbar from '@/components/global/Navbar.vue'
 </script>

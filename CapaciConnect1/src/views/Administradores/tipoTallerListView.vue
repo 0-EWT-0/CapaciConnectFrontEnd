@@ -4,7 +4,6 @@
       class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
     >
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Tipos de talleres</h2>
-
     </div>
 
     <!-- Mensajes de estado -->
@@ -86,7 +85,6 @@ const successMessage = ref('')
 onMounted(async () => {
   await store.fetchAllTypes()
 })
-
 
 const eliminarTipo = async (id: number) => {
   if (confirm('¿Estás seguro de que deseas eliminar este tipo de taller?')) {

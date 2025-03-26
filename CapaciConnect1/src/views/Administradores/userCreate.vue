@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white shadow-lg rounded-xl text-gray-900 border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
+  <div
+    class="bg-white shadow-lg rounded-xl text-gray-900 border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6"
+  >
     <div class="p-4 sm:p-6 border-b border-gray-200">
       <h2 class="text-xl sm:text-2xl font-semibold">Crear nuevo usuario</h2>
     </div>
@@ -69,7 +71,9 @@
 
         <!-- Confirmar Contraseña -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Confirmar Contraseña</label>
+          <label class="block text-sm sm:text-base font-medium text-gray-700"
+            >Confirmar Contraseña</label
+          >
           <input
             type="password"
             v-model="formData.ConfirmPassword"
@@ -96,7 +100,9 @@
         <div class="bg-gray-50 p-4 sm:p-5 rounded-xl">
           <div class="space-y-4">
             <div class="space-y-2">
-              <label class="block text-sm sm:text-base font-medium text-gray-700">Imagen de perfil</label>
+              <label class="block text-sm sm:text-base font-medium text-gray-700"
+                >Imagen de perfil</label
+              >
               <input
                 type="file"
                 @change="handleImageChange"

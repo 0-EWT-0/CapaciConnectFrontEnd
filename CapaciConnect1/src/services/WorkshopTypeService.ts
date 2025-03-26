@@ -7,8 +7,8 @@ export class WorkshopTypeService {
     const response = await fetch(`${BASE_URL}/AllTypes`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
 
     if (!response.ok) {
@@ -24,9 +24,9 @@ export class WorkshopTypeService {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Agrega el token aquí
+        Authorization: `Bearer ${token}`, // Agrega el token aquí
       },
-      body: JSON.stringify(typeData)
+      body: JSON.stringify(typeData),
     })
 
     if (!response.ok) {
@@ -37,10 +37,9 @@ export class WorkshopTypeService {
     return await response.json()
   }
 
-
   async deleteType(id: number): Promise<void> {
     const response = await fetch(`${BASE_URL}/DeleteType/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     })
 
     if (!response.ok) {

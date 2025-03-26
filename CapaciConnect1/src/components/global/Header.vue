@@ -43,7 +43,10 @@
         </button>
 
         <!-- Menú desplegable -->
-        <div v-if="isMenuOpen" class="absolute right-0 top-full mt-2 w-48 bg-[#040273] shadow-lg rounded-lg z-50">
+        <div
+          v-if="isMenuOpen"
+          class="absolute right-0 top-full mt-2 w-48 bg-[#040273] shadow-lg rounded-lg z-50"
+        >
           <a
             href="#"
             @click.prevent="editarPerfil"

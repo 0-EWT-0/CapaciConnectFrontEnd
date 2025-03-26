@@ -24,7 +24,9 @@
           <div class="flex flex-col sm:flex-row gap-4 items-start">
             <!-- Avatar -->
             <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <div class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100">
+              <div
+                class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
+              >
                 <img
                   :src="user.Profile_img || '/default-avatar.png'"
                   :alt="user.Name"
@@ -40,7 +42,9 @@
                 {{ user.Name }} {{ user.Last_names }}
               </h3>
 
-              <div class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600">
+              <div
+                class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600"
+              >
                 <span class="truncate">{{ user.Email }}</span>
                 <span class="hidden sm:block text-gray-300">•</span>
                 <span>{{ formatPhone(user.Phone) }}</span>
@@ -96,17 +100,17 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('es-MX', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   })
 }
 
 const formatPhone = (phone: string = '') => {
-  const regex = /(\+52|52)?(\d{3})(\d{3})(\d{4})/;
-  const cleanPhone = phone.replace(/[^\d]/g, '');
-  const match = cleanPhone.match(regex);
-  return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone;
+  const regex = /(\+52|52)?(\d{3})(\d{3})(\d{4})/
+  const cleanPhone = phone.replace(/[^\d]/g, '')
+  const match = cleanPhone.match(regex)
+  return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone
 }
-      
+
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement
   img.src = '/default-avatar.png'
@@ -129,7 +133,7 @@ const handleDelete = async (userId: number) => {
   if (confirm('¿Estás seguro de eliminar este usuario permanentemente?')) {
     try {
       await userStore.deleteUser(userId)
-      users.value = users.value.filter(user => user.Id_user !== userId)
+      users.value = users.value.filter((user) => user.Id_user !== userId)
     } catch (err) {
       error.value = 'Error al eliminar usuario: ' + (err as Error).message
     }

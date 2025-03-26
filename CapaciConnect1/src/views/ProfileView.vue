@@ -66,8 +66,8 @@
                 </div>
               </div>
               <p class="text-center">
-                  <span class="text-blue-600 font-semibold">{{ usuario.id_rol_id }}</span>
-                </p>
+                <span class="text-blue-600 font-semibold">{{ usuario.id_rol_id }}</span>
+              </p>
             </div>
 
             <!-- Columna de descripción -->
@@ -87,7 +87,8 @@
                   />
                 </div>
                 <p class="text-sm text-gray-500 mt-2">
-                  Se unió el <span class="text-blue-600 font-semibold">{{ usuario.created_at }}</span>
+                  Se unió el
+                  <span class="text-blue-600 font-semibold">{{ usuario.created_at }}</span>
                 </p>
               </div>
             </div>
@@ -96,10 +97,16 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <button @click="cancelarEdicion" class="bg-red-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
+          <button
+            @click="cancelarEdicion"
+            class="bg-red-500 text-white px-5 py-3 rounded-lg text-lg font-semibold"
+          >
             Cancelar
           </button>
-          <button @click="guardarCambios" class="bg-green-500 text-white px-5 py-3 rounded-lg text-lg font-semibold">
+          <button
+            @click="guardarCambios"
+            class="bg-green-500 text-white px-5 py-3 rounded-lg text-lg font-semibold"
+          >
             Guardar Cambios
           </button>
         </div>
@@ -150,14 +157,14 @@ import InputMask from 'primevue/inputmask'
 import Textarea from 'primevue/textarea'
 import Navbar from '@/components/global/Navbar.vue'
 
-const userStore = useUserStore();
-const authStore = useAuthStore();
+const userStore = useUserStore()
+const authStore = useAuthStore()
 
 onMounted(async () => {
-  const userId = authStore.user?.id_user;
+  const userId = authStore.user?.id_user
   console.log(userId)
-  await userStore.getUserById(userId);
-});
+  await userStore.getUserById(userId)
+})
 
 // Estado del usuario
 const usuario = reactive({
@@ -171,47 +178,47 @@ const usuario = reactive({
 })
 
 watchEffect(() => {
-    if (userStore.user) {
-        usuario.nombre = userStore.user.name || '';
-        usuario.apellido = userStore.user.last_names || '';
-        usuario.email = userStore.user.email || '';
-        usuario.telefono = userStore.user.phone || '';
-        usuario.descripcion = userStore.user.description || '';
-        usuario.id_rol_id = userStore.user.id_rol_id || '';
-        usuario.created_at = userStore.user.created_at || '';
+  if (userStore.user) {
+    usuario.nombre = userStore.user.name || ''
+    usuario.apellido = userStore.user.last_names || ''
+    usuario.email = userStore.user.email || ''
+    usuario.telefono = userStore.user.phone || ''
+    usuario.descripcion = userStore.user.description || ''
+    usuario.id_rol_id = userStore.user.id_rol_id || ''
+    usuario.created_at = userStore.user.created_at || ''
+  }
+})
+
+const guardarCambios = async () => {
+  try {
+    const userId = authStore.user?.id_user
+
+    const response = await userStore.updateUser(userId, {
+      name: usuario.nombre,
+      last_names: usuario.apellido,
+      email: usuario.email,
+      phone: usuario.telefono,
+      description: usuario.descripcion,
+    })
+
+    if (response && response.success) {
+      alert('¡Perfil actualizado con éxito!')
+    } else {
+      alert('Error al actualizar: ' + (response.message || 'Respuesta inesperada'))
     }
-});
+  } catch (error) {
+    console.error('Error al guardar cambios:', error)
+    alert('Hubo un error al guardar los datos.')
+  }
+}
 
-  const guardarCambios = async () => {
-      try {
-        const userId = authStore.user?.id_user;
-
-          const response = await userStore.updateUser(userId, {
-              name: usuario.nombre,
-              last_names: usuario.apellido,
-              email: usuario.email,
-              phone: usuario.telefono,
-              description: usuario.descripcion,
-          });
-
-          if (response && response.success) {
-              alert('¡Perfil actualizado con éxito!');
-          } else {
-              alert('Error al actualizar: ' + (response.message || 'Respuesta inesperada'));
-          }
-      } catch (error) {
-          console.error('Error al guardar cambios:', error);
-          alert('Hubo un error al guardar los datos.');
-      }
-  };
-
-  const cancelarEdicion = () => {
-        if (userStore.user) {
-          usuario.nombre = userStore.user.name || '';
-          usuario.apellido = userStore.user.last_names || '';
-          usuario.email = userStore.user.email || '';
-          usuario.telefono = userStore.user.phone || '';
-          usuario.descripcion = userStore.user.description || '';
-        }
-      };
+const cancelarEdicion = () => {
+  if (userStore.user) {
+    usuario.nombre = userStore.user.name || ''
+    usuario.apellido = userStore.user.last_names || ''
+    usuario.email = userStore.user.email || ''
+    usuario.telefono = userStore.user.phone || ''
+    usuario.descripcion = userStore.user.description || ''
+  }
+}
 </script>

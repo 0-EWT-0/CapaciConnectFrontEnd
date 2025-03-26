@@ -1,74 +1,74 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue';
-import { useCalendarStore } from '@/stores/calendarStore';
-import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces';
+import { ref, onMounted } from 'vue'
+import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue'
+import { useCalendarStore } from '@/stores/calendarStore'
+import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 
-const calendarStore = useCalendarStore();
+const calendarStore = useCalendarStore()
 
 const newCalendar = ref<CalendarDTO>({
   date_start: '',
   date_end: '',
-  workshop_id: 0
-});
+  workshop_id: 0,
+})
 
-const isEditing = ref(false);
+const isEditing = ref(false)
 const editingActivity = ref<UpdateCalendarDTO & { id: number }>({
   id: 0,
   date_start: '',
   date_end: '',
-  workshop_id: 0
-});
+  workshop_id: 0,
+})
 
 onMounted(() => {
-  calendarStore.fetchAllCalendars();
-});
+  calendarStore.fetchAllCalendars()
+})
 
 const createCalendar = async () => {
   try {
-    await calendarStore.createNewCalendar(newCalendar.value);
-    newCalendar.value = { date_start: '', date_end: '', workshop_id: 0 };
+    await calendarStore.createNewCalendar(newCalendar.value)
+    newCalendar.value = { date_start: '', date_end: '', workshop_id: 0 }
   } catch (error) {
     // El error ya está manejado en el store
   }
-};
+}
 
 const editActivity = (activity: Calendar) => {
   editingActivity.value = {
     id: activity.id,
     date_start: activity.date_start,
     date_end: activity.date_end,
-    workshop_id: activity.workshop_id
-  };
-  isEditing.value = true;
-};
+    workshop_id: activity.workshop_id,
+  }
+  isEditing.value = true
+}
 
 const updateActivity = async () => {
   try {
     if (editingActivity.value.id) {
-      const { id, ...updateData } = editingActivity.value;
-      await calendarStore.updateExistingCalendar(id, updateData);
-      isEditing.value = false;
+      const { id, ...updateData } = editingActivity.value
+      await calendarStore.updateExistingCalendar(id, updateData)
+      isEditing.value = false
     }
   } catch (error) {
     // El error ya está manejado en el store
   }
-};
+}
 
 const deleteActivity = async (id: number) => {
   if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
     try {
-      await calendarStore.deleteExistingCalendar(id);
+      await calendarStore.deleteExistingCalendar(id)
     } catch (error) {
       // El error ya está manejado en el store
     }
   }
-};
+}
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleString();
-};
+  const date = new Date(dateString)
+  return date.toLocaleString()
+}
 </script>
 
 <template>
@@ -138,7 +138,10 @@ const formatDate = (dateString: string) => {
       <!-- Lista de actividades programadas -->
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Actividades Programadas</h2>
-        <div v-if="calendarStore.isLoading && calendarStore.activities.length === 0" class="text-center py-4">
+        <div
+          v-if="calendarStore.isLoading && calendarStore.activities.length === 0"
+          class="text-center py-4"
+        >
           Cargando actividades...
         </div>
         <div v-else-if="calendarStore.activities.length === 0" class="text-center py-4">
