@@ -1,41 +1,10 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService, fetchProgressionService} from "@/services/UserService";
-
-interface Workshop {
-    id_workshop: number;
-    title: string;
-    description: string;
-    content: string;
-    image: string | null;
-    id_user_id: number;
-    id_type_id: number;
-    created_at: Date
-  }
-
-  interface Type {
-    id_type: number;
-    type_name: string;
-    workshops: []
-  }
-
-  interface Progressions {
-    id_progression: number
-    progression_status: number
-    id_user_id: number
-    user: string
-    id_workshop_id: number
-    workshop: string
-  }
-
-  interface Comments {
-  id_comment: number;
-  comment: string;
-  created_at: Date;
-  id_user_id: number;
-  id_workshop_id: number;
-  workshop: string;
-}
+import type { Type } from '@/interfaces/Type'
+import type { Progressions } from '@/interfaces/Progressions'
+import type { Comments } from '@/interfaces/Comments'
+import type { Workshop } from '@/interfaces/Workshop'
 
 
 export const useUserStore = defineStore('user', () => {

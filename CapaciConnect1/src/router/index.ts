@@ -132,6 +132,11 @@ const router = createRouter({
           component: () => import('../views/Administradores/pageTiposTallerView.vue'),
         },
         {
+          path: '/admin/userUpdate/:id',
+          name: 'admin-user-update',
+          component: () => import('../views/Administradores/userUpdate.vue'),
+        },
+        {
           path: '/adminMultimedias',
           name: 'admin-multimedias',
           component: () => import('../views/Administradores/pageMultimediasView.vue'),

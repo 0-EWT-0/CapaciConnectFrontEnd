@@ -12,10 +12,25 @@
       </button>
     </div>
 
-    <div class="p-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+    <!-- Estado de carga -->
+    <div v-if="rolStore.isLoading" class="p-6 text-center text-gray-500">
+      Cargando roles...
+    </div>
+
+    <!-- Mensaje de error -->
+    <div v-if="rolStore.error" class="p-6 text-center text-red-500">
+      {{ rolStore.error }}
+    </div>
+
+    <!-- Contenido principal -->
+    <div v-else class="p-6">
+      <div v-if="rolStore.roles.length === 0" class="text-center text-gray-500">
+        No hay roles registrados
+      </div>
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <div
-          v-for="rol in roles"
+          v-for="rol in rolStore.roles"
           :key="rol.id"
           class="bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow"
         >
@@ -72,46 +87,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useRolStore } from '@/stores/adminRol'
 
-interface Rol {
-  id: number
-  nombre: string
-  descripcion: string
-}
+const rolStore = useRolStore();
 
-const roles = ref<Rol[]>([
-  {
-    id: 1,
-    nombre: 'Administrador',
-    descripcion: 'Acceso completo al sistema con todos los privilegios',
-  },
-  {
-    id: 2,
-    nombre: 'Editor',
-    descripcion: 'Puede crear y modificar contenido pero no eliminar',
-  },
-  {
-    id: 3,
-    nombre: 'Invitado',
-    descripcion: 'Acceso limitado de solo lectura',
-  },
-  {
-    id: 4,
-    nombre: 'Moderador',
-    descripcion: 'Puede gestionar contenido y usuarios básicos',
-  },
-])
+onMounted(() =>{
+  rolStore.loadRoles();
+})
 
-const eliminarTodos = () => {
-  console.log('Eliminar todos los roles')
-}
+const eliminarTodos = async () => {
+  if (confirm('¿Estás seguro de eliminar todos los roles?')) {
+    await rolStore.deleteAllRoles();
+  }
+};
 
-const eliminarRol = (id: number) => {
-  console.log('Eliminar rol:', id)
-}
+const eliminarRol = async (id: number) => {
+  if (confirm('¿Estás seguro de eliminar este rol?')) {
+    await rolStore.deleteRole(id);
+  }
+};
 
 const editarRol = (id: number) => {
-  console.log('Editar rol:', id)
-}
+  // Lógica de edición (implementar según necesidades)
+  console.log('Editar rol:', id);
+};
 </script>

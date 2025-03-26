@@ -4,13 +4,13 @@
       <h2 class="text-xl sm:text-2xl font-semibold">Crear nuevo usuario</h2>
     </div>
 
-    <form @submit.prevent="" class="p-4 sm:p-6">
+    <form @submit.prevent="handleSubmit" class="p-4 sm:p-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
         <!-- Nombre -->
         <div class="space-y-2">
           <label class="block text-sm sm:text-base font-medium text-gray-700">Nombre</label>
           <input
-            v-model="formData.Name"
+            v-model="formData.name"
             required
             placeholder="Ej: Juan"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -21,7 +21,7 @@
         <div class="space-y-2">
           <label class="block text-sm sm:text-base font-medium text-gray-700">Apellidos</label>
           <input
-            v-model="formData.Last_names"
+            v-model="formData.last_names"
             required
             placeholder="Ej: Pérez García"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -33,7 +33,7 @@
           <label class="block text-sm sm:text-base font-medium text-gray-700">Email</label>
           <input
             type="email"
-            v-model="formData.Email"
+            v-model="formData.email"
             required
             placeholder="Ej: usuario@example.com"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -44,7 +44,7 @@
         <div class="space-y-2">
           <label class="block text-sm sm:text-base font-medium text-gray-700">Teléfono</label>
           <input
-            v-model="formData.Phone"
+            v-model="formData.phone"
             type="tel"
             required
             placeholder="Ej: 525512345678"
@@ -60,7 +60,7 @@
           <label class="block text-sm sm:text-base font-medium text-gray-700">Contraseña</label>
           <input
             type="password"
-            v-model="formData.Password"
+            v-model="formData.password"
             required
             minlength="8"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -72,7 +72,7 @@
           <label class="block text-sm sm:text-base font-medium text-gray-700">Confirmar Contraseña</label>
           <input
             type="password"
-            v-model="formData.ConfirmPassword"
+            v-model="formData.confirmPassword"
             required
             minlength="8"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -84,7 +84,7 @@
       <div class="mb-6 space-y-2">
         <label class="block text-sm sm:text-base font-medium text-gray-700">Descripción</label>
         <textarea
-          v-model="formData.Description"
+          v-model="formData.description"
           placeholder="Escribe una descripción..."
           rows="3"
           class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
@@ -129,18 +129,18 @@
 import { ref } from 'vue'
 import { useAdminUserStore } from '@/stores/adminUser'
 
-const userStore = useAdminUserStore()
+const userAdminStore = useAdminUserStore()
 
 // Datos del formulario
 const formData = ref({
-  Name: '',
-  Last_names: '',
-  Email: '',
-  Phone: '',
-  Password: '',
-  ConfirmPassword: '',
-  Description: '',
-  Profile_img: null as File | null,
+  name: '',
+  last_names: '',
+  email: '',
+  phone: '',
+  password: '',
+  confirmPassword: '',
+  description: '',
+  profile_img: null as File | null,
 })
 
 // Estados
@@ -149,62 +149,62 @@ const isSubmitting = ref(false)
 const handlePhoneInput = (event: Event) => {
   const input = event.target as HTMLInputElement
   const cleanedValue = input.value.replace(/\D/g, '') // Elimina todos los no numéricos
-  formData.value.Phone = cleanedValue
+  formData.value.phone = cleanedValue
 }
 
 // Manejadores
 const handleImageChange = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files && input.files[0]) {
-    formData.value.Profile_img = input.files[0]
+    formData.value.profile_img = input.files[0]
   }
 }
 
 const validateForm = () => {
-  if (formData.value.Password !== formData.value.ConfirmPassword) {
+  if (formData.value.password !== formData.value.confirmPassword) {
     alert('Las contraseñas no coinciden')
     return false
   }
   return true
 }
 
-// const handleSubmit = async () => {
-//   if (!validateForm()) return
+const handleSubmit = async () => {
+  if (!validateForm()) return
 
-//   isSubmitting.value = true
+  isSubmitting.value = true
 
-//   try {
-//     const formPayload = new FormData()
-//     formPayload.append('Name', formData.value.Name)
-//     formPayload.append('Last_names', formData.value.Last_names)
-//     formPayload.append('Email', formData.value.Email)
-//     formPayload.append('Phone', formData.value.Phone)
-//     formPayload.append('Password', formData.value.Password)
-//     formPayload.append('Description', formData.value.Description)
+  try {
+    const formPayload = new FormData()
+    formPayload.append('name', formData.value.name)
+    formPayload.append('last_names', formData.value.last_names)
+    formPayload.append('email', formData.value.email)
+    formPayload.append('phone', formData.value.phone)
+    formPayload.append('password', formData.value.password)
+    formPayload.append('description', formData.value.description)
 
-//     if (formData.value.Profile_img) {
-//       formPayload.append('Profile_img', formData.value.Profile_img)
-//     }
+    if (formData.value.profile_img) {
+      formPayload.append('Profile_img', formData.value.profile_img)
+    }
+    console.log(formPayload)
+    await userAdminStore.registerUser(formPayload)
 
-//     await userStore.addUser(formPayload)
+    // Resetear formulario
+    formData.value = {
+      name: '',
+      last_names: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      description: '',
+      profile_img: null,
+    }
 
-//     // Resetear formulario
-//     formData.value = {
-//       Name: '',
-//       Last_names: '',
-//       Email: '',
-//       Phone: '',
-//       Password: '',
-//       ConfirmPassword: '',
-//       Description: '',
-//       Profile_img: null,
-//     }
-
-//     alert('Usuario creado exitosamente!')
-//   } catch (error) {
-//     console.error('Error al crear usuario:', error)
-//   } finally {
-//     isSubmitting.value = false
-//   }
-// }
+    alert('Usuario creado exitosamente!')
+  } catch (error) {
+    console.error('Error al crear usuario:', error)
+  } finally {
+    isSubmitting.value = false
+  }
+}
 </script>
