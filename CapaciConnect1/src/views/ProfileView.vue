@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Navbar />
   <div class="container mx-auto px-4 py-8">
     <Card>
       <template #title>
@@ -141,17 +141,22 @@
 import Header from '@/components/global/Header.vue'
 import { reactive, onMounted, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
 
 // Componentes PrimeVue
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Textarea from 'primevue/textarea'
+import Navbar from '@/components/global/Navbar.vue'
 
 const userStore = useUserStore();
+const authStore = useAuthStore();
 
 onMounted(async () => {
-  await userStore.getUserById(1);
+  const userId = authStore.user?.id_user;
+  console.log(userId)
+  await userStore.getUserById(userId);
 });
 
 // Estado del usuario
@@ -160,6 +165,7 @@ const usuario = reactive({
   apellido: '',
   email: '',
   telefono: '',
+  descripcion: '',
   id_rol_id: '',
   created_at: '',
 })
@@ -169,6 +175,8 @@ watchEffect(() => {
         usuario.nombre = userStore.user.name || '';
         usuario.apellido = userStore.user.last_names || '';
         usuario.email = userStore.user.email || '';
+        usuario.telefono = userStore.user.phone || '';
+        usuario.descripcion = userStore.user.description || '';
         usuario.id_rol_id = userStore.user.id_rol_id || '';
         usuario.created_at = userStore.user.created_at || '';
     }
@@ -176,7 +184,9 @@ watchEffect(() => {
 
   const guardarCambios = async () => {
       try {
-          const response = await userStore.updateUser(1, {
+        const userId = authStore.user?.id_user;
+
+          const response = await userStore.updateUser(userId, {
               name: usuario.nombre,
               last_names: usuario.apellido,
               email: usuario.email,

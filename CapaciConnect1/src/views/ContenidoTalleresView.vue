@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Navbar />
   <div class="bg-white p-8">
     <!-- Barra superior -->
     <div class="text-white flex justify-between p-2">
@@ -157,12 +157,15 @@ import Header from '@/components/global/Header.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useWorkshopStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
+import Navbar from '@/components/global/Navbar.vue'
 
 
 const route = useRoute();
 const id_workshop = Number(route.params.id_workshop);
 
 const workshopStore = useWorkshopStore();
+const authStore = useAuthStore();
 
 const workshop = computed(() => {
   return (
@@ -192,8 +195,9 @@ onMounted(async () => {
    console.log('comentarios', comments.value)
 });
 
+ const userId = authStore.user.Id_user;
 const currentUser = ref({
-  id_user: 1, // Cambiar esto por el ID del usuario actual (por ejemplo, desde el login)
+  id_user: userId, // Cambiar esto por el ID del usuario actual (por ejemplo, desde el login)
 });
 
 // Filtra los comentarios propios
@@ -297,8 +301,6 @@ onMounted(async () => {
   try {
     const workshopStore = useWorkshopStore();
     const calendars = await workshopStore.fetchCalendarsByWorkshopId(id_workshop);
-
-    console.log('Calendarios obtenidos:', calendars); // Para depuración
 
     if (calendars && calendars.length > 0) {
       calendarData.value = calendars[0]; // Solo asigna el primer calendario

@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService } from "@/services/UserService";
+import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService,} from "@/services/UserService";
 
 interface Workshop {
     id_workshop: number;
@@ -18,6 +18,15 @@ interface Workshop {
     type_name: string;
     workshops: []
   }
+
+//   interface progressions {
+//     id_progression: number
+//     progression_status: number
+//     id_user_id: number
+//     user: string
+//     id_workshop_id: number
+//     workshop: string
+//   }
 
   interface Comments {
   id_comment: number;
@@ -73,6 +82,7 @@ export const useUserStore = defineStore('user', () => {
 export const useWorkshopStore = defineStore('workshop', () => {
     const workshops = ref<Workshop[]>([])
     const comments = ref<Comments[]>([])
+    const progressions = ref({})
     const calendars = ref([]);
   
     // Acción para cargar workshops desde el servicio
@@ -147,6 +157,17 @@ export const useWorkshopStore = defineStore('workshop', () => {
             console.error("Error en fetchSubscriptions:", error);
         }
     }
+
+    //Funcion para obtener progreso de un taller especifico
+    // async function fetchProgression(id_workshop_id: number) {
+    //     try {
+    //         const response = await fetchProgressionService(id_workshop_id);
+    //         progressions.value[id_workshop_id] = response.progression || 0;
+    //         return response;
+    //     } catch (error) {
+    //         console.error("Error en fetchProgression:", error);
+    //     }
+    // }
 
     return {
       workshops,

@@ -19,6 +19,9 @@
         <RouterLink to="/calendario">
           <h3 class="hover:text-[#2563EB] cursor-pointer">Calendario</h3>
         </RouterLink>
+        <RouterLink to="/perfil">
+          <h3 class="hover:text-[#2563EB] cursor-pointer">Perfil</h3>
+        </RouterLink>
       </div>
       <div>
         <RouterLink to="/login">

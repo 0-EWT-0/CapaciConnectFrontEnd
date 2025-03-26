@@ -1,26 +1,26 @@
 <template>
-  <Header />
+  <Navbar />
   <main class="p-10">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
-      <h1 class="text-3xl font-bold mb-6">Próximas fechas</h1>
+      <h1 class="text-3xl font-bold mb-6 text-black">Próximas fechas</h1>
 
       <!-- Buscador -->
       <div class="mb-6">
         <input
           type="text"
           placeholder="Buscar talleres..."
-          class="w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class=" text-black w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <!-- Filtros -->
       <div class="flex gap-4 mb-6">
-        <div class="w-1/2 bg-gray-100 p-3 text-lg font-semibold rounded-lg shadow-md">
+        <div class="w-1/2 bg-gray-100 p-3 text-lg text font-semibold rounded-lg shadow-md text-black">
           Filtrar por tipos:
           <input type="text" placeholder="Tipos de Taller" />
         </div>
-        <div class="w-1/2 bg-gray-100 p-3 text-lg font-semibold rounded-lg shadow-md">
+        <div class="w-1/2 bg-gray-100 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por fecha:
           <input type="text" placeholder="Buscador de Fecha" />
         </div>
@@ -72,4 +72,5 @@
 <script setup>
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
+import Navbar from '@/components/global/Navbar.vue';
 </script>

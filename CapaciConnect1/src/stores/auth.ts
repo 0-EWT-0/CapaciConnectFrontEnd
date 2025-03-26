@@ -7,14 +7,16 @@ import type { User } from '@/interfaces/User'
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({} as User)
   const token = ref('')
+  const userId = computed(() => user.value.Id_user || null)
   const isLoggedIn = computed(() => token.value !== '' && token.value !== undefined)
 
   async function login(email: string, password: string) {
     try {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
-        user.value = response.data
+        user.value = response.data.user;
         token.value = response.data.token // almacena el tocken de la respuesta
+        console.log(user.value)
         router.push('/')
       }
     } catch (error: any) {
