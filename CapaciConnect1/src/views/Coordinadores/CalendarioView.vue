@@ -1,3 +1,76 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue';
+import { useCalendarStore } from '@/stores/calendarStore';
+import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces';
+
+const calendarStore = useCalendarStore();
+
+const newCalendar = ref<CalendarDTO>({
+  date_start: '',
+  date_end: '',
+  workshop_id: 0
+});
+
+const isEditing = ref(false);
+const editingActivity = ref<UpdateCalendarDTO & { id: number }>({
+  id: 0,
+  date_start: '',
+  date_end: '',
+  workshop_id: 0
+});
+
+onMounted(() => {
+  calendarStore.fetchAllCalendars();
+});
+
+const createCalendar = async () => {
+  try {
+    await calendarStore.createNewCalendar(newCalendar.value);
+    newCalendar.value = { date_start: '', date_end: '', workshop_id: 0 };
+  } catch (error) {
+    // El error ya está manejado en el store
+  }
+};
+
+const editActivity = (activity: Calendar) => {
+  editingActivity.value = {
+    id: activity.id,
+    date_start: activity.date_start,
+    date_end: activity.date_end,
+    workshop_id: activity.workshop_id
+  };
+  isEditing.value = true;
+};
+
+const updateActivity = async () => {
+  try {
+    if (editingActivity.value.id) {
+      const { id, ...updateData } = editingActivity.value;
+      await calendarStore.updateExistingCalendar(id, updateData);
+      isEditing.value = false;
+    }
+  } catch (error) {
+    // El error ya está manejado en el store
+  }
+};
+
+const deleteActivity = async (id: number) => {
+  if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
+    try {
+      await calendarStore.deleteExistingCalendar(id);
+    } catch (error) {
+      // El error ya está manejado en el store
+    }
+  }
+};
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleString();
+};
+</script>
+
 <template>
   <div>
     <!-- Sidebar -->
@@ -53,18 +126,27 @@
           <button
             type="submit"
             class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all"
+            :disabled="calendarStore.isLoading"
           >
-            Crear Calendario
+            <span v-if="calendarStore.isLoading">Creando...</span>
+            <span v-else>Crear Calendario</span>
           </button>
+          <p v-if="calendarStore.error" class="text-red-500 text-sm">{{ calendarStore.error }}</p>
         </form>
       </div>
 
       <!-- Lista de actividades programadas -->
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Actividades Programadas</h2>
-        <div class="space-y-4">
+        <div v-if="calendarStore.isLoading && calendarStore.activities.length === 0" class="text-center py-4">
+          Cargando actividades...
+        </div>
+        <div v-else-if="calendarStore.activities.length === 0" class="text-center py-4">
+          No hay actividades programadas
+        </div>
+        <div v-else class="space-y-4">
           <div
-            v-for="activity in activities"
+            v-for="activity in calendarStore.activities"
             :key="activity.id"
             class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
           >
@@ -81,12 +163,14 @@
                 <button
                   @click="editActivity(activity)"
                   class="text-indigo-600 hover:text-indigo-900"
+                  :disabled="calendarStore.isLoading"
                 >
                   Editar
                 </button>
                 <button
                   @click="deleteActivity(activity.id)"
                   class="text-red-600 hover:text-red-900"
+                  :disabled="calendarStore.isLoading"
                 >
                   Eliminar
                 </button>
@@ -146,105 +230,23 @@
                 type="button"
                 @click="isEditing = false"
                 class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-all"
+                :disabled="calendarStore.isLoading"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all"
+                :disabled="calendarStore.isLoading"
               >
-                Guardar Cambios
+                <span v-if="calendarStore.isLoading">Guardando...</span>
+                <span v-else>Guardar Cambios</span>
               </button>
             </div>
+            <p v-if="calendarStore.error" class="text-red-500 text-sm">{{ calendarStore.error }}</p>
           </form>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import { ref } from 'vue'
-import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue'
-
-export default {
-  components: {
-    NavbarCoord,
-  },
-  setup() {
-    const activities = ref([
-      {
-        id: 1,
-        date_start: '2023-10-01T09:00',
-        date_end: '2023-10-01T12:00',
-        workshop_id: 101,
-      },
-      {
-        id: 2,
-        date_start: '2023-10-02T10:00',
-        date_end: '2023-10-02T13:00',
-        workshop_id: 102,
-      },
-    ])
-
-    const newCalendar = ref({
-      date_start: '',
-      date_end: '',
-      workshop_id: null,
-    })
-
-    const isEditing = ref(false)
-    const editingActivity = ref({
-      id: null,
-      date_start: '',
-      date_end: '',
-      workshop_id: null,
-    })
-
-    const createCalendar = () => {
-      const newActivity = {
-        id: activities.value.length + 1,
-        ...newCalendar.value,
-      }
-      activities.value.push(newActivity)
-      newCalendar.value = { date_start: '', date_end: '', workshop_id: null }
-    }
-
-    const editActivity = (activity) => {
-      editingActivity.value = { ...activity }
-      isEditing.value = true
-    }
-
-    const updateActivity = () => {
-      const index = activities.value.findIndex((a) => a.id === editingActivity.value.id)
-      if (index !== -1) {
-        activities.value.splice(index, 1, { ...editingActivity.value })
-      }
-      isEditing.value = false
-    }
-
-    const deleteActivity = (id) => {
-      activities.value = activities.value.filter((activity) => activity.id !== id)
-    }
-
-    const formatDate = (dateString) => {
-      const date = new Date(dateString)
-      return date.toLocaleString()
-    }
-
-    return {
-      activities,
-      newCalendar,
-      isEditing,
-      editingActivity,
-      createCalendar,
-      editActivity,
-      updateActivity,
-      deleteActivity,
-      formatDate,
-    }
-  },
-}
-</script>
-
-<style></style>
