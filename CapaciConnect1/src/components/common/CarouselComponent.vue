@@ -28,9 +28,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-import img1 from '@/assets/imgs/banner1.jpg'
-import img2 from '@/assets/imgs/banner2.jpg'
-import img3 from '@/assets/imgs/banner3.jpg'
+import img1 from '@/assets/imgs/banner1.webp'
+import img2 from '@/assets/imgs/banner2.webp'
+import img3 from '@/assets/imgs/banner3.webp'
 
 const slides = ref([
   { image: img1, text: 'Capacítate' },

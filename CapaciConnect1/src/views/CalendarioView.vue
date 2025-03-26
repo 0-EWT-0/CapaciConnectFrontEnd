@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <main class="p-10">
+  <main class="p-10 min-h-screen">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
       <h1 class="text-3xl font-bold mb-6 text-black">Próximas fechas</h1>
@@ -67,8 +67,9 @@
       </div>
     </div>
 
-    <Footer />
+    
   </main>
+  <Footer />
 </template>
 
 <script setup>

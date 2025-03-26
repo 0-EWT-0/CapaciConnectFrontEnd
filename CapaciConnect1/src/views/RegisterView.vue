@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import img from '@/assets/imgs/imgRegister.jpg'
+import img from '@/assets/imgs/imgRegister.webp'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUser } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'

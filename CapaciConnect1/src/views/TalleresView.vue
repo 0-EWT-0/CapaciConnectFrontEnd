@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <main class="p-10">
+  <main class="p-10 min-h-screen">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
       <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
