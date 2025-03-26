@@ -1,26 +1,112 @@
-import { ref } from "vue";
-import { defineStore } from "pinia";
-import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService, fetchProgressionService} from "@/services/UserService";
-import type { Type } from '@/interfaces/Type'
-import type { Progressions } from '@/interfaces/Progressions'
-import type { Comments } from '@/interfaces/Comments'
-import type { Workshop } from '@/interfaces/Workshop'
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import {
+  getUserByIdService,
+  updateUserService,
+  getWorkshopsService,
+  getTypeService,
+  getCommentsByWorkshopIdService,
+  createCommentService,
+  updateCommentService,
+  deleteCommentService,
+  subscribeWorkshopService,
+  fetchCalendarsByWorkshopIdService,
+  fetchProgressionService,
+  getUserInfoService,
+} from '@/services/UserService'
 
+// esto esta hecho de la patada
+interface Workshop {
+  id_workshop: number
+  title: string
+  description: string
+  content: string
+  image: string | null
+  id_user_id: number
+  id_type_id: number
+  created_at: Date
+}
+
+interface Type {
+  id_type: number
+  type_name: string
+  workshops: []
+}
+
+interface Progressions {
+  id_progression: number
+  progression_status: number
+  id_user_id: number
+  user: string
+  id_workshop_id: number
+  workshop: string
+}
+
+interface Comments {
+  id_comment: number
+  comment: string
+  created_at: Date
+  id_user_id: number
+  id_workshop_id: number
+  workshop: string
+}
 
 export const useUserStore = defineStore('user', () => {
-//     interface User {
-//             Id_user: number
-//             Name: string
-//             Last_names: string
-//             Phone: string
-//             Email: string
-//             Description: string
-//             Id_rol_id: string
-//             created_at: Date
-//     }
-//   }
-//   return { user, getUserById, updateUser, getUserInfo }
-// })
+  interface User {
+    Id_user: number
+    Name: string
+    Last_names: string
+    Phone: string
+    Email: string
+    Description: string
+    Id_rol_id: string
+    created_at: Date
+  }
+
+  const user = ref<User | null>(null)
+
+  async function getUserById(userId: number) {
+    console.log(userId)
+    try {
+      const response = await getUserByIdService(userId)
+      if (response?.status === 200) {
+        user.value = response?.data
+        console.log('usuario', user.value)
+      }
+    } catch (error: unknown) {
+      const errorMessage = 'Error during getUsers'
+      console.error(errorMessage, error)
+    }
+  }
+
+  async function getUserInfo() {
+    try {
+      const response = await getUserInfoService()
+      if (response?.status === 200) {
+        user.value = response.data[0] ?? {} as User
+        console.log("user info", user.value)
+      }
+    } catch (error: any) {
+      console.error(error)
+    }
+  }
+
+  async function updateUser(userId: number, userData: Partial<User>) {
+    try {
+      const response = await updateUserService(userId, userData)
+      if (response?.status === 200 && response.data) {
+        await getUserById(userId)
+        return { success: true, data: response.data }
+      } else {
+        return { success: false, message: 'Error inesperado en la respuesta de la API' }
+      }
+    } catch (error: unknown) {
+      console.error('Error al actualizar usuario:', error)
+      return { success: false, message: 'Error al actualizar el usuario' }
+    }
+  }
+  return { user, getUserById, updateUser, getUserInfo }
+})
 
 export const useWorkshopStore = defineStore('workshop', () => {
   const workshops = ref<Workshop[]>([])
@@ -155,20 +241,3 @@ export const useTypeStore = defineStore('type', () => {
 
   return { types, fetchType }
 })
-// ice();
-//             types.value = data;
-//         } catch (error) {
-//             console.error("Error en fetchType:", error);
-//         }
-//     }
-
-//     return { types, fetchType}
-//   })ice();
-//             types.value = data;
-//         } catch (error) {
-//             console.error("Error en fetchType:", error);
-//         }
-//     }
-
-//     return { types, fetchType}
-//   })
