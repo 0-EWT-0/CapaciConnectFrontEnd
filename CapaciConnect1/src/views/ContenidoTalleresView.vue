@@ -271,7 +271,7 @@ const deleteComment = async (id_comment) => {
   }
 };
 
-//Inscripciones 
+//Inscripciones
 const handleSubscribe = async () => {
   try {
     if(isSubscribed.value) {

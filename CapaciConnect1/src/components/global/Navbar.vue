@@ -16,7 +16,7 @@
         <RouterLink to="/MisTalleres">
           <h3 class="hover:text-[#2563EB] cursor-pointer">Mi aprendizaje</h3>
         </RouterLink>
-        <RouterLink to="/calendario">
+        <RouterLink to="/calendarios">
           <h3 class="hover:text-[#2563EB] cursor-pointer">Calendario</h3>
         </RouterLink>
         <RouterLink to="/perfil">
