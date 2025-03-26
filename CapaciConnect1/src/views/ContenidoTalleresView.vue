@@ -65,7 +65,7 @@
       <div class="mt-4 flex ">
         <img
         src="../assets/logo.svg"
-        class="h-15 w-15 rounded-full m-2 flex items-center justify-center text-xl mt-2"
+        class="h-15 w-15 rounded-full m-20 flex items-center justify-center text-xl mt-2"
       />
         <textarea
           class="w-full p-2  text-gray-500 shadow-md bg-white rounded"

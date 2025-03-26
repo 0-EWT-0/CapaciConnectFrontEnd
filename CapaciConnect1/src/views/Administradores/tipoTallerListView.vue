@@ -4,18 +4,27 @@
       class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
     >
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Tipos de talleres</h2>
-      <button
-        @click="eliminarTodos"
-        class="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-colors font-medium"
-      >
-        <span class="text-sm sm:text-base">Eliminar todos</span>
-      </button>
+
+    </div>
+
+    <!-- Mensajes de estado -->
+    <div v-if="store.error" class="mx-6 p-4 bg-red-100 text-red-700 rounded-lg">
+      {{ store.error }}
+    </div>
+    <div v-if="successMessage" class="mx-6 p-4 bg-green-100 text-green-700 rounded-lg">
+      {{ successMessage }}
     </div>
 
     <div class="p-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+      <div v-if="store.isLoading && store.types.length === 0" class="text-center py-8">
+        Cargando tipos de taller...
+      </div>
+      <div v-else-if="store.types.length === 0" class="text-center py-8 text-gray-500">
+        No hay tipos de taller registrados
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         <div
-          v-for="tipo in tipos"
+          v-for="tipo in store.types"
           :key="tipo.id"
           class="bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow"
         >
@@ -45,22 +54,9 @@
             <!-- Acciones -->
             <div class="flex justify-center gap-3 mt-6 pt-4 border-t border-gray-100">
               <button
-                @click="editarTipo(tipo.id)"
-                class="px-4 py-2 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg flex items-center gap-2"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
-                </svg>
-                Editar
-              </button>
-              <button
                 @click="eliminarTipo(tipo.id)"
-                class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-2"
+                :disabled="store.isLoading"
+                class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-2 disabled:bg-gray-100 disabled:text-gray-400"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -81,29 +77,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 
-interface Tipo {
-  id: number
-  nombre: string
-}
+const store = useWorkshopTypeStore()
+const successMessage = ref('')
 
-const tipos = ref<Tipo[]>([
-  { id: 1, nombre: 'Pintura Abstracta' },
-  { id: 2, nombre: 'Escultura Moderna' },
-  { id: 3, nombre: 'Fotografía Digital' },
-  { id: 4, nombre: 'Arte Textil' },
-])
+onMounted(async () => {
+  await store.fetchAllTypes()
+})
 
-const eliminarTodos = () => {
-  console.log('Eliminar todos los tipos')
-}
 
-const eliminarTipo = (id: number) => {
-  console.log('Eliminar tipo:', id)
-}
-
-const editarTipo = (id: number) => {
-  console.log('Editar tipo:', id)
+const eliminarTipo = async (id: number) => {
+  if (confirm('¿Estás seguro de que deseas eliminar este tipo de taller?')) {
+    try {
+      await store.deleteType(id)
+      successMessage.value = 'Tipo de taller eliminado correctamente'
+    } catch {
+      // El error ya está manejado en el store
+    }
+  }
 }
 </script>
