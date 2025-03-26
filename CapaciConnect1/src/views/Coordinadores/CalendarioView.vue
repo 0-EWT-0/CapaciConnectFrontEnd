@@ -247,7 +247,7 @@ const minDate = computed(() => {
                 type="datetime-local"
                 v-model="editingActivity.date_start"
                 id="edit_date_start"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                class="mt-1 block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
                 required
               />
             </div>
@@ -259,12 +259,12 @@ const minDate = computed(() => {
                 type="datetime-local"
                 v-model="editingActivity.date_end"
                 id="edit_date_end"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                class="mt-1 block w-full text-black  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
                 required
               />
             </div>
             <div>
-              <label for="edit_workshop_id" class="block text-sm font-medium text-gray-700">
+              <label for="edit_workshop_id" class="block  text-sm font-medium text-gray-700">
                 ID del Taller
               </label>
               <input
@@ -272,7 +272,7 @@ const minDate = computed(() => {
                 v-model.number="editingActivity.id_workshop_id"
                 min="1"
                 id="edit_workshop_id"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                class="mt-1 block w-full rounded-md text-black  border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
                 placeholder="Ingresa el ID del taller"
                 required
               />
