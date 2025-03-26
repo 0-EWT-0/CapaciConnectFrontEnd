@@ -2,7 +2,7 @@
   <NavbarCoord />
   <div class="ml-[25rem]">
     <div class="flex justify-center text-black font-bold">
-      <h1 class="text-2xl font-bold mb-4 text-black">Lista de Talleres</h1>
+      <h1 class="text-2xl font-bold mb-4 text-black">Lista de Talleresww</h1>
     </div>
 
     <div class="container mx-auto p-6">
@@ -19,7 +19,7 @@
           <!-- Información del Taller -->
           <div class="p-4">
             <h2 class="text-lg font-bold text-black">Taller de JavaScript Avanzado</h2>
-            <p class="text-gray-600 text-sm">Domina JavaScript moderno con proyectos prácticos.</p>
+            <p class="text-gray-600 text-sm">Domina JavaScript moderno  y  de con proyectos prácticos.</p>
 
             <p class="text-blue-600 font-semibold mt-2">Programación</p>
             <p class="text-blue-600 font-semibold mt-2">Instructor: Marco Hau</p>
