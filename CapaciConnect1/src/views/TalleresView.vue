@@ -49,6 +49,7 @@
 <script setup>
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
+import Navbar from '@/components/global/Navbar.vue'
 
 import { useWorkshopStore } from '@/stores/user'
 import { onMounted, computed, ref } from 'vue'

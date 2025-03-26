@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await LoginService(email, password)
       if (response?.status === 200) {
-        user.value = response.data
+        user.value = response.data.user;
         token.value = response.data.token
         saveTokenToStorage(response.data.token)
         router.push('/')

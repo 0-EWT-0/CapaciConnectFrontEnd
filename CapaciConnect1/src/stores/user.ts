@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService } from "@/services/UserService";
+import { getUserByIdService, updateUserService, getWorkshopsService, getTypeService, getCommentsByWorkshopIdService, createCommentService, updateCommentService, deleteCommentService, subscribeWorkshopService, fetchCalendarsByWorkshopIdService, fetchProgressionService} from "@/services/UserService";
 
 interface Workshop {
     id_workshop: number;
@@ -17,6 +17,15 @@ interface Workshop {
     id_type: number;
     type_name: string;
     workshops: []
+  }
+
+  interface Progressions {
+    id_progression: number
+    progression_status: number
+    id_user_id: number
+    user: string
+    id_workshop_id: number
+    workshop: string
   }
 
   interface Comments {
@@ -73,6 +82,7 @@ export const useUserStore = defineStore('user', () => {
 export const useWorkshopStore = defineStore('workshop', () => {
     const workshops = ref<Workshop[]>([])
     const comments = ref<Comments[]>([])
+    const progressions = ref<Progressions[]>([])
     const calendars = ref([]);
   
     // Acción para cargar workshops desde el servicio
@@ -148,6 +158,32 @@ export const useWorkshopStore = defineStore('workshop', () => {
         }
     }
 
+    //Funcion para obtener progreso de un taller especifico
+    async function fetchProgression(id_workshop_id: number) {
+        try {
+          const response = await fetchProgressionService(id_workshop_id);
+          console.log(`Progreso obtenido para el taller ${id_workshop_id}:`, response);
+      
+          // Inicializa progressions si es necesario
+          if (!progressions.value) {
+            progressions.value = {};
+          }
+      
+          // Verifica si la respuesta contiene datos válidos
+          if (response && response.length > 0) {
+            progressions.value[id_workshop_id] = response[0].progression_status || 0;
+          } else {
+            console.warn(`No se encontraron progresos para el taller ${id_workshop_id}`);
+            progressions.value[id_workshop_id] = 0; // Asigna un valor predeterminado
+          }
+      
+          return response;
+        } catch (error) {
+          console.error(`Error en fetchProgression para taller ${id_workshop_id}:`, error);
+          progressions.value[id_workshop_id] = 0; // Valor predeterminado en caso de error
+        }
+      }
+
     return {
       workshops,
       fetchWorkshops,
@@ -157,7 +193,8 @@ export const useWorkshopStore = defineStore('workshop', () => {
       updatedComment,
       deleteComment,
       subscribeToWorkshop,
-      fetchCalendarsByWorkshopId
+      fetchCalendarsByWorkshopId,
+      fetchProgression
     };
   });
 

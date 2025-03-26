@@ -7,34 +7,34 @@ const base_url = import.meta.env.VITE_ENDPOINT_API
 //   Authorization: 'Bearer ' + localStorage.getItem('token'),
 // }
 
-const handleError = async (error: any, context: string) => {
-  const errorMessage = `Error during ${context}: ${error.message}`
-  console.error(errorMessage)
+ const handleError = async (error: any, context: string) => {
+   const errorMessage = `Error during ${context}: ${error.message}`
+   console.error(errorMessage)
 
-  const errorDetails = {
-    response: error.response
-      ? {
-          data: error.response.data,
-          status: error.response.status,
-          headers: error.response.headers,
-        }
-      : null,
-    request: error.request || null,
-    message: error.message,
-  }
+   const errorDetails = {
+     response: error.response
+       ? {
+           data: error.response.data,
+           status: error.response.status,
+           headers: error.response.headers,
+         }
+       : null,
+     request: error.request || null,
+     message: error.message,
+   }
 
-  await console.error('error', errorMessage, errorDetails)
-  throw error
-}
+   await console.error('error', errorMessage, errorDetails)
+   throw error
+ }
 
-export const LoginService = async (email: string, password: string) => {
-  try {
-    var result = await genericRequest(`${base_url}/Auth/login`, 'POST', { email, password })
-    return result
-  } catch (error: any) {
-    await handleError(error, 'LoginService')
-  }
-}
+ export const LoginService = async (email: string, password: string) => {
+   try {
+     var result = await genericRequest(`${base_url}/Auth/login`, 'POST', { email, password })
+     return result
+   } catch (error: any) {
+     await handleError(error, 'LoginService')
+   }
+ }
 
 export const RegisterService = async (
   name: string,

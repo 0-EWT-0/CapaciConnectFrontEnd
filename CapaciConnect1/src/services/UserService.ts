@@ -44,7 +44,7 @@ const handleError = async (error: any, context: string) => {
      }
   }
 
-  //Servicion para obtener workshop
+  //Servicion para obtener Workshop
   export const getWorkshopsService = async () => {
     try {
       const response = await genericRequestAuth(`${base_url}/Workshop/AllWorkshops`, 'GET')
@@ -113,10 +113,21 @@ const handleError = async (error: any, context: string) => {
      }
   }
 
+  //Services de mis Talleres
+  export const fetchProgressionService = async (id_workshop_id: number) => {
+    try {
+      const response = await genericRequestAuth(`${base_url}/Progression/ProgressionsByWorkshopId/${id_workshop_id}`, 'GET')
+      return response.data;
+    } catch (error) {
+      await handleError(error, 'fetchProgressionService')
+      return []
+    }
+  }
+
   //Servicios para Los tipos de Talleres
   export const getTypeService = async () => {
     try {
-      const response = await genericRequestAuth(`${base_url}/Type/AllTypes`, 'GET')
+      const response = await genericRequestAuth(`${base_url}/Type/AllTypes`, 'GET');
       return response.data
     } catch (error: any) {
       await handleError(error, 'getTypeService');

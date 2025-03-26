@@ -1,81 +1,74 @@
 <template>
   <div class="bg-white shadow-lg rounded-xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
-    <div class="p-4 sm:p-6 border-b border-gray-200">
-      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Usuarios registrados</h2>
+    <div class="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Administración de Usuarios</h2>
     </div>
 
-    <div class="p-4 sm:p-6">
+    <!-- Estados de carga y error -->
+    <div v-if="isLoading" class="p-6 text-center text-gray-500">
+      <i class="fas fa-spinner fa-spin mr-2"></i> Cargando usuarios...
+    </div>
+
+    <div v-else-if="error" class="p-6 bg-red-50 text-red-700 border-l-4 border-red-400">
+      <i class="fas fa-exclamation-triangle mr-2"></i> {{ error }}
+    </div>
+
+    <!-- Lista de usuarios -->
+    <div v-else class="p-4 sm:p-6">
       <div class="space-y-4">
         <div
-          v-for="usuario in usuarios"
-          :key="usuario.id"
+          v-for="user in users"
+          :key="user.Id_user"
           class="bg-white shadow-sm rounded-xl p-4 sm:p-5 border border-gray-200"
         >
-          <!-- Contenido Responsive -->
           <div class="flex flex-col sm:flex-row gap-4 items-start">
             <!-- Avatar -->
             <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <div
-                class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
-              >
-                <img src="" :alt="usuario.nombre" class="w-full h-full object-cover" />
+              <div class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100">
+                <img
+                  :src="user.Profile_img || '/default-avatar.png'"
+                  :alt="user.Name"
+                  class="w-full h-full object-cover rounded-full"
+                  @error="handleImageError"
+                />
               </div>
-              <span
-                v-if="usuario.rol"
-                class="hidden sm:block absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-emerald-500 text-white text-xs rounded-full"
-              >
-                {{ usuario.rol }}
-              </span>
             </div>
 
-            <!-- Contenido Principal -->
+            <!-- Información del usuario -->
             <div class="flex-1 w-full min-w-0">
               <h3 class="text-lg font-semibold text-gray-900 truncate">
-                {{ usuario.nombre }} {{ usuario.apellidos }}
+                {{ user.Name }} {{ user.Last_names }}
               </h3>
 
-              <!-- Info Contacto -->
-              <div
-                class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600"
-              >
-                <span class="truncate">{{ usuario.email }}</span>
+              <div class="mt-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-gray-600">
+                <span class="truncate">{{ user.Email }}</span>
                 <span class="hidden sm:block text-gray-300">•</span>
-                <span>{{ usuario.telefono }}</span>
+                <span>{{ formatPhone(user.Phone) }}</span>
               </div>
 
-              <!-- Descripción -->
               <p class="mt-2 text-sm text-gray-600 line-clamp-2">
-                {{ usuario.descripcion }}
+                {{ user.Description }}
               </p>
 
-              <!-- Fecha y Rol (mobile) -->
-              <div class="mt-3 sm:hidden flex items-center justify-between">
-                <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
-                  {{ usuario.rol }}
-                </span>
+              <div class="mt-3 flex items-center justify-between">
                 <span class="text-xs text-gray-500">
-                  {{ usuario.fechaCreacion }}
+                  Registro: {{ formatDate(user.Created_at) }}
                 </span>
               </div>
-            </div>
-
-            <!-- Fecha (desktop) -->
-            <div class="hidden sm:flex items-center text-sm text-gray-500 w-40 flex-shrink-0">
-              <span>{{ usuario.fechaCreacion }}</span>
             </div>
           </div>
 
-          <!-- Acciones Responsive -->
+          <!-- Acciones -->
           <div class="mt-4 pt-4 border-t border-gray-100">
             <div class="flex flex-col sm:flex-row sm:justify-end gap-2">
-              <button
-                @click="handleEdit(usuario)"
-                class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg"
+              <router-link
+                :to="`/admin/users/edit/${user.Id_user}`"
+                class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-center"
               >
                 Editar
-              </button>
+              </router-link>
               <button
-                @click="handleDelete(usuario.id)"
+                @click="handleDelete(user.Id_user)"
                 class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg"
               >
                 Eliminar
@@ -89,45 +82,57 @@
 </template>
 
 <script setup lang="ts">
-interface Usuario {
-  id: number
-  nombre: string
-  apellidos: string
-  email: string
-  telefono: string
-  rol: string
-  descripcion: string
-  fechaCreacion: string
+import { onMounted, ref } from 'vue'
+import { useAdminUserStore } from '@/stores/adminUser'
+import type { User } from '@/interfaces/User'
+
+const userStore = useAdminUserStore()
+const isLoading = ref(true)
+const error = ref<string | null>(null)
+const users = ref<User[]>([])
+
+// Utilidades
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('es-MX', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }
 
-const usuarios: Usuario[] = [
-  {
-    id: 1,
-    nombre: 'Ana María',
-    apellidos: 'Gómez Sánchez',
-    email: 'ana.gomez@example.com',
-    telefono: '+52 55 9876 5432',
-    rol: 'Administrador',
-    descripcion: 'Ingeniera en sistemas con 5 años de experiencia en desarrollo web.',
-    fechaCreacion: '15 Marzo 2024',
-  },
-  {
-    id: 2,
-    nombre: 'Carlos Eduardo',
-    apellidos: 'Hernández Torres',
-    email: 'carlos.hernandez@example.com',
-    telefono: '+52 55 1122 3344',
-    rol: 'Editor',
-    descripcion: 'Diseñador gráfico especializado en interfaces de usuario.',
-    fechaCreacion: '10 Abril 2024',
-  },
-]
-
-const handleDelete = (id: number) => {
-  console.log('Eliminar usuario:', id)
+const formatPhone = (phone: string = '') => {
+  const regex = /(\+52|52)?(\d{3})(\d{3})(\d{4})/;
+  const cleanPhone = phone.replace(/[^\d]/g, '');
+  const match = cleanPhone.match(regex);
+  return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone;
+}
+      
+const handleImageError = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  img.src = '/default-avatar.png'
 }
 
-const handleEdit = (usuario: Usuario) => {
-  console.log('Editar usuario:', usuario)
+// Cargar usuarios
+onMounted(async () => {
+  try {
+    await userStore.fetchUsers()
+    users.value = userStore.users
+  } catch (err) {
+    error.value = 'Error al cargar usuarios: ' + (err as Error).message
+  } finally {
+    isLoading.value = false
+  }
+})
+
+// Eliminar usuario
+const handleDelete = async (userId: number) => {
+  if (confirm('¿Estás seguro de eliminar este usuario permanentemente?')) {
+    try {
+      await userStore.deleteUser(userId)
+      users.value = users.value.filter(user => user.Id_user !== userId)
+    } catch (err) {
+      error.value = 'Error al eliminar usuario: ' + (err as Error).message
+    }
+  }
 }
 </script>
