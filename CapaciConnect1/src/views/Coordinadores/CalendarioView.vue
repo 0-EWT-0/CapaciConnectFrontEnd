@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import NavbarCoord from '@/components/global/Coordinador/NavbarCoord.vue'
+import adminSidebar from '../Administradores/admin-sidebar.vue'
 import { useCalendarStore } from '@/stores/calendarStore'
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 
@@ -9,7 +9,7 @@ const calendarStore = useCalendarStore()
 const newCalendar = ref<CalendarDTO>({
   date_start: '',
   date_end: '',
-  id_workshop_id: 0, // ← Nombre que espera la API
+  id_workshop_id: 0,
 })
 
 const isEditing = ref(false)
@@ -20,22 +20,22 @@ const editingActivity = ref<UpdateCalendarDTO & { id: number }>({
   id_workshop_id: 0,
 })
 
-// Cargar calendarios al montar el componente
+
 onMounted(() => {
   calendarStore.fetchAllCalendars()
 })
 
-// Crear nuevo evento de calendario
+
 const createCalendar = async () => {
   try {
     await calendarStore.createNewCalendar(newCalendar.value)
     newCalendar.value = { date_start: '', date_end: '', id_workshop_id: 0 }
   } catch (error) {
-    // El error ya está manejado en el store
+
   }
 }
 
-// Editar evento existente
+
 const editActivity = (activity: Calendar) => {
   editingActivity.value = {
     id: activity.id,
@@ -55,7 +55,7 @@ const updateActivity = async () => {
       isEditing.value = false
     }
   } catch (error) {
-    // El error ya está manejado en el store
+
   }
 }
 
@@ -65,7 +65,7 @@ const deleteActivity = async (id: number) => {
     try {
       await calendarStore.deleteExistingCalendar(id)
     } catch (error) {
-      // El error ya está manejado en el store
+
     }
   }
 }
@@ -89,10 +89,11 @@ const minDate = computed(() => {
 </script>
 
 <template>
-  <div>
-    <NavbarCoord />
 
-    <div class="ml-[20rem] min-h-screen bg-gradient-to-r from-purple-50 to-blue-50 p-6">
+  <div>
+
+
+    <div class=" min-h-screen bg-gradient-to-r from-purple-50 to-blue-50 p-6">
       <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">
         Gestión del Calendario de Actividades
       </h1>

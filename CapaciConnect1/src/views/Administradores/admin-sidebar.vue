@@ -70,6 +70,7 @@ export default defineComponent({
       { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
       { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
+      { name: 'Calendario', icon: FilmIcon, href: '/Calendario' },
     ]
 
     const isActive = (path: string): boolean => {
