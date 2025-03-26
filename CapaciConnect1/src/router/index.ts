@@ -131,6 +131,11 @@ const router = createRouter({
           name: 'admin-tipos-taller',
           component: () => import('../views/Administradores/pageTiposTallerView.vue'),
         },
+        {
+          path: '/adminMultimedias',
+          name: 'admin-multimedias',
+          component: () => import('../views/Administradores/pageMultimediasView.vue'),
+        },
       ],
     },
 
@@ -176,6 +181,13 @@ const router = createRouter({
       path: '/:pathMatch(.*)',
       name: 'Not found',
       component: () => import('@/views/404View.vue'),
+    },
+
+
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/TestLoginView.vue'),
     },
   ],
 })

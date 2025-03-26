@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, type Component } from 'vue'
 import { useRoute } from 'vue-router'
-import { HomeIcon, BriefcaseIcon, UsersIcon, FileTextIcon, SettingsIcon } from 'lucide-vue-next'
+import { HomeIcon, BriefcaseIcon, UsersIcon, FileTextIcon, SettingsIcon, FilmIcon } from 'lucide-vue-next'
 
 interface MenuItem {
   name: string
@@ -51,6 +51,7 @@ export default defineComponent({
     UsersIcon,
     FileTextIcon,
     SettingsIcon,
+    FilmIcon,
   },
   setup() {
     const route = useRoute()
@@ -61,6 +62,7 @@ export default defineComponent({
       { name: 'Roles', icon: UsersIcon, href: '/adminRol' },
       { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
+      { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
     ]
 
     const isActive = (path: string): boolean => {
