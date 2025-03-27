@@ -63,6 +63,7 @@ const menuItems: MenuItem[] = [
   { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' , rolesAllowed: [1,2]},
   { name: 'Roles', icon: UsersIcon, href: '/adminRol' , rolesAllowed: [1]},
   { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' , rolesAllowed: [1]},
+  { name: 'Comentarios', icon: FileTextIcon, href: '/adminComentarios' , rolesAllowed: [1]},
   { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' , rolesAllowed: [1]},
   { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' , rolesAllowed: [1]},
   { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' , rolesAllowed: [1,2]},

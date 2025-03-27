@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore'
+import { useWorkshopStore } from '@/stores/adminWorkshop'
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
+import type { Workshop } from '@/interfaces/Workshop'
 
 const calendarStore = useCalendarStore()
+const workshopStore = useWorkshopStore()
 
 const newCalendar = ref<CalendarDTO>({
   date_start: '',
@@ -21,11 +24,13 @@ const editingActivity = ref<UpdateCalendarDTO & { id_calendar: number }>({
 
 onMounted(async () => {
   try {
-    await calendarStore.fetchAllCalendars()
-    console.log('Actividades cargadas:', JSON.parse(JSON.stringify(calendarStore.activities)))
+    await Promise.all([
+      calendarStore.fetchAllCalendars(),
+      workshopStore.fetchWorkshops()
+    ])
   } catch (error: any) {
-    console.error('Error al cargar calendarios:', error)
-    alert('Error al cargar el calendario: ' + (error.message || 'Error desconocido'))
+    console.error('Error al cargar datos:', error)
+    alert('Error al cargar datos: ' + (error.message || 'Error desconocido'))
   }
 })
 
@@ -66,8 +71,6 @@ const deleteActivity = async (activity: Calendar) => {
     return
   }
 
-  console.log('Intentando eliminar actividad con ID:', activity.id_calendar)
-
   if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
     try {
       await calendarStore.deleteExistingCalendar(activity.id_calendar)
@@ -87,7 +90,6 @@ const deleteActivity = async (activity: Calendar) => {
 const updateActivity = async () => {
   try {
     if (editingActivity.value.id_calendar) {
-      console.log('Datos a actualizar:', editingActivity.value)
       const updateData = { ...editingActivity.value }
       await calendarStore.updateExistingCalendar(updateData.id_calendar, updateData)
       isEditing.value = false
@@ -111,6 +113,11 @@ const formatDate = (dateString: string): string => {
     hour: '2-digit',
     minute: '2-digit'
   })
+}
+
+const getWorkshopTitle = (id: number): string => {
+  const workshop = workshopStore.workshops.find(w => w.id_workshop === id)
+  return workshop ? workshop.title : `Taller #${id}`
 }
 
 const minDate = computed(() => {
@@ -158,17 +165,23 @@ const minDate = computed(() => {
             </div>
             <div>
               <label for="workshop_id" class="block text-sm font-medium text-gray-700">
-                ID del Taller
+                Taller
               </label>
-              <input
-                type="number"
+              <select
                 v-model.number="newCalendar.id_workshop_id"
-                min="1"
                 id="workshop_id"
                 class="mt-1 block w-full rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-                placeholder="Ingresa el ID del taller"
                 required
-              />
+              >
+                <option value="0" disabled>Seleccione un taller</option>
+                <option
+                  v-for="workshop in workshopStore.workshops"
+                  :key="workshop.id_workshop"
+                  :value="workshop.id_workshop"
+                >
+                  {{ workshop.title }}
+                </option>
+              </select>
             </div>
           </div>
 
@@ -220,7 +233,7 @@ const minDate = computed(() => {
             <div class="flex justify-between items-center">
               <div>
                 <h3 class="text-lg font-semibold text-gray-800">
-                  Taller #{{ activity.id_workshop_id }}
+                  {{ getWorkshopTitle(activity.id_workshop_id) }}
                 </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
@@ -232,7 +245,7 @@ const minDate = computed(() => {
                   class="text-indigo-600 hover:text-indigo-900"
                   :disabled="calendarStore.isLoading"
                 >
-                   Editar
+                  Editar
                 </button>
                 <button
                   @click="deleteActivity(activity)"
@@ -281,17 +294,23 @@ const minDate = computed(() => {
             </div>
             <div>
               <label for="edit_workshop_id" class="block text-sm font-medium text-gray-700">
-                ID del Taller
+                Taller
               </label>
-              <input
-                type="number"
+              <select
                 v-model.number="editingActivity.id_workshop_id"
-                min="1"
                 id="edit_workshop_id"
                 class="mt-1 block w-full rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
-                placeholder="Ingresa el ID del taller"
                 required
-              />
+              >
+                <option value="0" disabled>Seleccione un taller</option>
+                <option
+                  v-for="workshop in workshopStore.workshops"
+                  :key="workshop.id_workshop"
+                  :value="workshop.id_workshop"
+                >
+                  {{ workshop.title }}
+                </option>
+              </select>
             </div>
 
             <div class="flex justify-end space-x-2">
@@ -322,5 +341,3 @@ const minDate = computed(() => {
     </div>
   </div>
 </template>
-
-

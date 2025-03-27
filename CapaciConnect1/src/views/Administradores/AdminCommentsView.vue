@@ -110,7 +110,7 @@ const deleteAllWorkshopComments = async (workshopId: number) => {
       </div>
     </div>
 
-    <!-- Empty State -->
+
     <div
       v-if="!commentStore.loading && commentStore.workshopIds.length === 0"
       class="text-center py-12"
