@@ -65,7 +65,7 @@
             v-model="formData.password"
             required
             minlength="8"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="w-full px-3 sm:px-4  py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           />
         </div>
 

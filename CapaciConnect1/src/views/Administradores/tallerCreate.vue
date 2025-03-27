@@ -16,7 +16,7 @@
               id="titulo"
               v-model="formData.titulo"
               placeholder="Ej: Taller de Pintura Moderna"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+              class="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -28,7 +28,7 @@
               id="fechaInicio"
               v-model="formData.fechaInicio"
               type="date"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+              class="w-full px-4 py-3 border text-gray-600 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -41,19 +41,19 @@
               v-model="formData.descripcion"
               placeholder="Describe el objetivo del taller"
               rows="3"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+              class="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
             ></textarea>
           </div>
 
           <div class="space-y-3">
-            <label for="fechaFin" class="block text-sm font-medium text-gray-700"
+            <label for="fechaFin" class="block text-sm  font-medium text-gray-700"
               >Fecha de Fin</label
             >
             <input
               id="fechaFin"
               v-model="formData.fechaFin"
               type="date"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+              class="w-full px-4 py-3 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -66,7 +66,7 @@
               v-model="formData.contenido"
               placeholder="Lista de temas a cubrir"
               rows="4"
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+              class="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
             ></textarea>
           </div>
         </div>
@@ -82,7 +82,7 @@
                 id="tipoTaller"
                 v-model="formData.tipoTaller"
                 placeholder="Ej: Presencial/Virtual"
-                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+                class="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
               />
               <div class="flex items-center gap-3 mt-2">
                 <input
@@ -110,7 +110,7 @@
                 <input
                   type="checkbox"
                   id="sinImagen"
-                  class="w-4 h-4 border-2 border-gray-300 rounded checked:bg-emerald-500"
+                  class="w-4 h-4 border-2  border-gray-300 rounded checked:bg-emerald-500"
                 />
                 <label for="sinImagen" class="text-sm text-gray-600"
                   >Usar imagen predeterminada</label
@@ -128,7 +128,7 @@
                 id="instructor"
                 v-model="formData.instructor"
                 placeholder="Ej: Juan Pérez"
-                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
+                class="w-full px-4 py-3 text-black border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500"
               />
               <div class="flex items-center gap-3 mt-2">
                 <input

@@ -232,7 +232,7 @@ const minDate = computed(() => {
                   class="text-indigo-600 hover:text-indigo-900"
                   :disabled="calendarStore.isLoading"
                 >
-                  Editar
+                   Editar
                 </button>
                 <button
                   @click="deleteActivity(activity)"
