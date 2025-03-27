@@ -75,8 +75,8 @@ export default defineComponent({
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
       { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
       {name: 'Calendario', icon: Calendar1Icon, href: '/calendario'},
-      { name: 'Inicio', icon: HomeIcon, href: '/' },
       { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' },
+      { name: 'Inicio', icon: HomeIcon, href: '/' },
     ]
 
     const isActive = (path: string): boolean => {
