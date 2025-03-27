@@ -16,11 +16,26 @@
   <!-- Título y progreso -->
   <div class="mx-auto max-w-7xl p-8 font-bold bg-white shadow-2xl rounded-2xl text-center">
     <h1 class="text-2xl md:text-3xl text-gray-800 mb-4">Título del Taller</h1>
+    <div class="p-6">
+    <!-- Checkbox para completar -->
+    <div class="flex items-center gap-4 mb-6">
+      <input
+        type="checkbox"
+        id="completion"
+        v-model="isCompleted"
+        @change="updateCompletion"
+        class="h-6 w-6 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+      />
+      <label for="completion" class="text-lg text-gray-800 font-semibold">¿Completar progreso?</label>
+    </div>
+
+    <!-- Indicador de progreso -->
     <div
       class="bg-green-500 text-white text-xl md:text-2xl font-semibold text-center px-8 py-4 rounded-full shadow-lg w-4/4 mx-auto"
     >
-      ✅ 100% Completado
+      ✅ {{ progressPercentage }}% Completado
     </div>
+  </div>
   </div>
 
   <!-- Contenido del Taller -->
@@ -81,6 +96,13 @@ import Header from '@/components/global/Header.vue'
 
 import { Card } from 'primevue'
 import { ref } from 'vue'
+
+const isCompleted = ref(false);
+const progressPercentage = ref(0);
+
+const updateCompletion = () => {
+  progressPercentage.value = isCompleted.value ? 100 : 0
+}
 
 const activeIndex = ref(null)
 

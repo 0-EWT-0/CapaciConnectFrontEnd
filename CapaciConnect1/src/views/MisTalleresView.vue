@@ -39,28 +39,31 @@
       <!-- Grid de talleres -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div
-          v-for="workshop in workshops"
-          :key="workshop.id_workshop"
+          v-for="progress in progressions"
+          :key="progress.id_progression"
           class="bg-white rounded-lg shadow-lg"
         >
           <div class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-t-lg">
             Cierra el 01 de Febrero
           </div>
 
-          <img src="../assets/logo.svg" alt="Imagen del taller" class="w-full h-40 object-cover" />
+          <img src="../assets/imgs/capacityLogo.png" alt="Imagen del taller" class="w-full h-40 object-cover" />
 
           <div class="p-4">
-            <h2 class="text-lg text-black font-bold">{{ workshop.title }}</h2>
-            <p class="text-gray-600 text-sm">{{ workshop.description }}</p>
+            <!-- <h2 class="text-lg text-black font-bold">Title</h2>
+            <p class="text-gray-600 text-sm">Descripcion</p> -->
 
-            <p class="text-blue-600 font-semibold mt-2">Tipo de Taller</p>
-
+            <p class="text-blue-600 font-semibold mt-2">{{ progress.id_workshop_id }}</p>
+            <RouterLink to="/panel-Taller">
+                <button class="bg-blue-700 rounded-lg shadow-lg font-bold m-2 h-12 w-40 text-sm">
+                  Ver Contenido
+                </button>
+              </RouterLink>
             <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
               <div
                 class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
-                :style="{ width: (progressions[workshop.id_workshop] || 0) + '%' }"
               >
-                {{ progressions[workshop.id_workshop] || 0 }}% Completado
+                Progreso: {{ progress.progression_status }}%
               </div>
             </div>
           </div>
@@ -73,61 +76,34 @@
 
 <script setup>
 import Footer from '@/components/global/Footer.vue'
-import Select from 'primevue/select'
+// import Select from 'primevue/select'
 import { ref, onMounted } from 'vue'
 import { useWorkshopStore } from '@/stores/user'
 import Navbar from '@/components/global/Navbar.vue'
 
-const selectedOrder = ref()
-const order = ref([
-  { name: 'Título A-Z' },
-  { name: 'Título Z-A' },
-  { name: 'Inscrito recientemente' },
-])
+// const selectedOrder = ref()
+// const order = ref([
+//   { name: 'Título A-Z' },
+//   { name: 'Título Z-A' },
+//   { name: 'Inscrito recientemente' },
+// ])
 
-const selectedCursos = ref()
-const cursos = ref([
-  { name: 'Categoría 1', teacher: 'Instructor 1' },
-  { name: 'Categoría 2', teacher: 'Instructor 2' },
-  { name: 'Categoría 3', teacher: 'Instructor 3' },
-])
+// const selectedCursos = ref()
+// const cursos = ref([
+//   { name: 'Categoría 1', teacher: 'Instructor 1' },
+//   { name: 'Categoría 2', teacher: 'Instructor 2' },
+//   { name: 'Categoría 3', teacher: 'Instructor 3' },
+// ])
 
 const workshopStore = useWorkshopStore()
-const workshops = ref([])
-const progressions = ref({})
+const progressions = ref([])
 
 onMounted(async () => {
   try {
-    console.log('Cargando talleres...')
-    await workshopStore.fetchWorkshops()
-    workshops.value = workshopStore.workshops
-
-    console.log('Talleres cargados:', workshops.value)
-
-    // Nueva lista para talleres con progreso
-    const filteredWorkshops = []
-
-    for (const workshop of workshops.value) {
-      console.log(`Cargando progreso para taller ${workshop.id_workshop}...`)
-      await workshopStore.fetchProgression(workshop.id_workshop)
-
-      // Verifica si tiene progreso mayor a 0
-      if (progressions.value[workshop.id_workshop] > 0) {
-        console.log(
-          `Taller con progreso: ${workshop.id_workshop}, progreso: ${progressions.value[workshop.id_workshop]}%`,
-        )
-        filteredWorkshops.push(workshop)
-      } else {
-        console.warn(`Taller sin progreso (filtrado): ${workshop.id_workshop}`)
-      }
-    }
-
-    // Actualiza la lista de talleres con los filtrados
-    workshops.value = filteredWorkshops
-
-    console.log('Talleres filtrados con progreso:', workshops.value)
+    const response = await workshopStore.fetchProgression();
+    progressions.value = response;
   } catch (error) {
-    console.error('Error al cargar talleres y progresos:', error)
+    console.log('Error al cargar progreso:', error)
   }
 })
 </script>
