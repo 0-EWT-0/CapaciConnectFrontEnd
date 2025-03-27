@@ -148,6 +148,11 @@ const router = createRouter({
           name: 'admin-workshops',
           component: () => import('@/views/Administradores/pageWorkshopsView.vue'),
         },
+        {
+          path: '/admincomentarios',
+          name: 'admin-admincomentarios',
+          component: () => import('@/views/Administradores/AdminCommentsView.vue'),
+        },
       ],
     },
 
