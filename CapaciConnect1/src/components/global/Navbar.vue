@@ -10,6 +10,9 @@
     <!-- Normal -->
     <div class="hidden md:flex items-center gap-x-11">
       <div class="flex gap-x-11">
+        <RouterLink to="/admin" v-if="rolId === 1 || rolId === 2">
+          <h3 class="hover:text-[#2563EB] cursor-pointer">Dashboard</h3>
+        </RouterLink>
         <RouterLink to="/Talleres">
           <h3 class="hover:text-[#2563EB] cursor-pointer">Talleres</h3>
         </RouterLink>
@@ -67,15 +70,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import BaseButton from '../common/BaseButton.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/stores/user'
 
 const menuOpen = ref(false)
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
+
+const rolId = ref()
+
+onMounted(async () => {
+  const userStore = useUserStore();
+  await userStore.getUserInfo()
+  rolId.value = userStore.user.id_rol_id
+  // console.log('user', userInfo)
+  // console.log('userId', userId)
+})
+
+
 
 // Importar el store de autenticación
 const authStore = useAuthStore()

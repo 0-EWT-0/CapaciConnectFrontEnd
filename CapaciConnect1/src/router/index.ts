@@ -142,6 +142,12 @@ const router = createRouter({
           name: 'calendario',
           component: () => import('@/views/Coordinadores/CalendarioView.vue'),
         },
+
+        {
+          path: '/adminWorkshops',
+          name: 'admin-workshops',
+          component: () => import('@/views/Administradores/pageWorkshopsView.vue'),
+        },
       ],
     },
 

@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
         saveTokenToStorage(response.data.token)
         router.push('/')
       }
-      console.log("no funciono")
+      console.log('no funciono')
     } catch (error: any) {
       console.error('Error in login:', error)
     }
@@ -46,9 +46,9 @@ export const useAuthStore = defineStore('auth', () => {
       if (response?.status === 200) {
         user.value = response.data
         var login = await LoginService(email, password)
-        if(login?.status === 200) {
+        if (login?.status === 200) {
           router.push('/')
-          console.log("redireccion")
+          console.log('redireccion')
         }
       }
     } catch (error: any) {
