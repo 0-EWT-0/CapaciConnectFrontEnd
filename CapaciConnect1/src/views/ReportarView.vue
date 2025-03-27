@@ -28,7 +28,7 @@
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
           required :disabled="workshopTypeStore.isLoading || reportStore.isLoading">
           <option disabled :value="null">Selecciona un taller</option>
-          <option v-for="type in workshopTypeStore.types" :key="type.id_Type" :value="type.id_Type">
+          <option v-for="type in workshopTypeStore.types" :key="type.id_type" :value="type.id_type">
             {{ type.type_name }}
           </option>
         </select>
@@ -40,7 +40,7 @@
         <div v-if="workshopTypeStore.error" class="text-red-500 mt-2 text-lg">
           ❌ Error cargando talleres: {{ workshopTypeStore.error }}
         </div>
-        
+
       </div>
 
       <!-- Estados de carga y error -->
@@ -87,14 +87,22 @@ const form = ref({
   id_workshop_id: null as number | null,
 })
 
+
+
 // Cargar talleres al montar el componente
 onMounted(async () => {
   try {
     if (workshopTypeStore.types.length === 0) {
       await workshopTypeStore.fetchAllTypes()
     }
+
+    if (workshopTypeStore.types.length === 0) {
+      console.warn('[ReportForm] No hay talleres disponibles')
+      reportStore.error = 'No hay talleres disponibles para reportar'
+    }
   } catch (error) {
-    console.error('Error inicializando:', error)
+    console.error('[ReportForm] Error en onMounted:', error)
+    reportStore.error = 'Error cargando talleres. Intenta recargar la página'
   }
 })
 
@@ -102,56 +110,66 @@ onMounted(async () => {
 const clearError = () => {
   reportStore.error = null
 }
+
 // Manejar envío del formulario
 const handleSubmit = async () => {
+
   showSuccess.value = false
   reportStore.error = null
 
-  // Validación mejorada
   if (!authStore.user) {
+    console.error('[ReportForm] Error: Usuario no autenticado')
     reportStore.error = 'Debes iniciar sesión para enviar reportes'
     return
   }
 
   // Validación manual del taller
   if (!form.value.id_workshop_id || form.value.id_workshop_id === null) {
+    console.warn('[ReportForm] Validación fallida: Taller no seleccionado')
+    reportStore.error = 'Debes seleccionar un taller'
     return
   }
 
   // Validación de contenido mínimo
   if (form.value.tittle.trim().length < 5 || form.value.content.trim().length < 10) {
+    console.warn('[ReportForm] Validación fallida: Contenido muy corto', {
+      titleLength: form.value.tittle.trim().length,
+      contentLength: form.value.content.trim().length
+    })
     reportStore.error = 'El título debe tener al menos 5 caracteres y la descripción 10'
     return
   }
 
   try {
-    // ... (código existente de envío) ...
-  } catch (error) {
-    console.error('Error en el componente:', error)
-  }
-}
+    console.log('[ReportForm] Intentando enviar reporte...', {
+      tittle: form.value.tittle,
+      content: form.value.content,
+      id_workshop_id: form.value.id_workshop_id,
+      id_user_id: authStore.user.Id_user
+    })
 
-// Carga inicial mejorada
-onMounted(async () => {
-  try {
-    if (workshopTypeStore.types.length === 0) {
-      await workshopTypeStore.fetchAllTypes()
+    await reportStore.createReport({
+      tittle: form.value.tittle,
+      content: form.value.content,
+      id_workshop_id: form.value.id_workshop_id,
+      id_user_id: authStore.user.Id_user
+    })
 
-      // Si no hay talleres disponibles
-      if (workshopTypeStore.types.length === 0) {
-        reportStore.error = 'No hay talleres disponibles para reportar'
-      }
+    console.log('[ReportForm] Reporte enviado exitosamente')
+    showSuccess.value = true
+    form.value = {
+      tittle: '',
+      content: '',
+      id_workshop_id: null
     }
   } catch (error) {
-    console.error('Error inicializando:', error)
-    reportStore.error = 'Error cargando talleres. Intenta recargar la página'
+    console.error('[ReportForm] Error en el componente:', error)
+    reportStore.error = 'Error al enviar el reporte. Intenta de nuevo'
   }
-})
-
+}
 </script>
 
 <style scoped>
-
 /* Estilos adicionales si son necesarios */
 input:disabled,
 textarea:disabled,

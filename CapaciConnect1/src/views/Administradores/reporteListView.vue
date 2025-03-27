@@ -24,7 +24,7 @@
               <div class="flex items-center gap-2 text-sm text-gray-600">
                 <!-- Icono mantenido -->
                 <span class="font-medium">Taller:</span>
-                <span class="truncate">{{ reporte.workshop_name }}</span>
+                <span class="truncate">{{ getWorkshopTypeName(reporte.id_workshop_id) }}</span>
               </div>
 
 
@@ -53,13 +53,23 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useReportStore } from '@/stores/adminReport'
+import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 
 const reportStore = useReportStore()
+const workshopTypeStore = useWorkshopTypeStore()
 
 onMounted(async () => {
   await reportStore.fetchAllReports()
+  if (workshopTypeStore.types.length === 0) {
+    await workshopTypeStore.fetchAllTypes()
+  }
 })
 
+// Función para obtener el nombre del tipo de taller
+const getWorkshopTypeName = (id_type: number) => {
+  const type = workshopTypeStore.types.find(t => t.id_type === id_type)
+  return type ? type.type_name : 'Tipo no especificado'
+}
 const handleFinalizar = async (id: number) => {
   if (confirm('¿Estás seguro de eliminar este reporte?')) {
     await reportStore.deleteReport(id)
