@@ -6,15 +6,8 @@ import {
     createReport as createReportService,
     deleteReport as deleteReportService
 } from '@/services/adminReportService'
-//import type { Reporte } from '@/interfaces/Report'
-interface Report {
-    Id_Report: number
-    Tittle: string
-    Content: string
-    Created_at: string
-    Id_user_id: number
-    Id_workshop_id: number
-}
+import type { Reporte } from '@/interfaces/Report'
+import {  workshopTypeService, WorkshopTypeService} from '@/services/WorkshopTypeService'
 
 export const useReportStore = defineStore('report', () => {
     const reports = ref<Reporte[]>([])
@@ -23,18 +16,25 @@ export const useReportStore = defineStore('report', () => {
     const error = ref<string | null>(null)
 
     const fetchAllReports = async () => {
-        isLoading.value = true
-        try {
-            const response = await getAllReports()
-            if (response?.status === 200) {
-                reports.value = response.data
-            }
-        } catch (error: any) {
-            error.value = error.message
-        } finally {
-            isLoading.value = false
-        }
-    }
+      isLoading.value = true
+      try {
+          const response = await getAllReports()
+          if (response?.status === 200) {
+              reports.value = response.data.map((dbReport: any) => ({
+                  id_Report: dbReport.id_Report,
+                  tittle: dbReport.tittle,
+                  content: dbReport.content,
+                  created_at: new Date(dbReport.created_at).toLocaleDateString(),
+                  id_workshop_id: dbReport.id_workshop_id , // Asegurar que el backend incluya estos datos
+                  workshop_name: dbReport.Workshop?.type_name || 'Taller no disponible'
+              }))
+          }
+      } catch (error: any) {
+          error.value = error.message
+      } finally {
+          isLoading.value = false
+      }
+  }
 
     const fetchReportsByWorkshopId = async (workshopId: number) => {
         isLoading.value = true
@@ -50,22 +50,31 @@ export const useReportStore = defineStore('report', () => {
         }
     }
 
-    const createReport = async (reportData: Omit<Report, 'Id_Report' | 'Created_at'>) => {
-        isLoading.value = true
-        try {
-            const response = await createReportService({
-                ...reportData,
-                Created_at: new Date().toISOString()
-            })
-            if (response?.status === 200) {
-                reports.value.push(response.data)
-            }
-        } catch (err: any) {
-            error.value = err.message
-        } finally {
-            isLoading.value = false
-        }
+    const createReport = async (reportData: Omit<Reporte, 'id_Report' | 'created_at'>) => {
+      isLoading.value = true
+      error.value = null
+      try {
+          // Transformar a formato del API
+          const transformedData = {
+              tittle: reportData.tittle,
+              content: reportData.content,
+              id_workshop_id: reportData.id_workshop_id,
+              id_user_id: reportData.id_user_id
+          }
+
+          const response = await createReportService(transformedData)
+
+          if (response?.status === 200) {
+              await fetchAllReports()
+              await workshopTypeService.getAllTypes()
+          }
+      } catch (err: any) {
+          error.value = err.response?.data?.message || 'Error al crear el reporte'
+      } finally {
+          isLoading.value = false
+      }
     }
+
 
     const deleteReport = async (reportId: number) => {
         isLoading.value = true
