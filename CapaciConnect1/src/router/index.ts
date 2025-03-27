@@ -149,7 +149,7 @@ const router = createRouter({
           component: () => import('@/views/Administradores/pageWorkshopsView.vue'),
         },
         {
-          path: '/admincomentarios',
+          path: '/adminComentarios',
           name: 'admin-admincomentarios',
           component: () => import('@/views/Administradores/AdminCommentsView.vue'),
         },

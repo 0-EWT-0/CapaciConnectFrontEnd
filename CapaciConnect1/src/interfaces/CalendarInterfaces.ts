@@ -1,4 +1,4 @@
-// En tus interfaces (CalendarInterfaces.ts)
+
 export interface Calendar {
   id_calendar: number;
   date_start: string;
