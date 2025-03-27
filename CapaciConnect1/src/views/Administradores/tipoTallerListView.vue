@@ -91,7 +91,7 @@ const eliminarTipo = async (id: number) => {
     try {
       await store.deleteType(id)
       successMessage.value = 'Tipo de taller eliminado correctamente'
-      setTimeout(() => successMessage.value = '', 3000)
+      setTimeout(() => (successMessage.value = ''), 3000)
     } catch {
       // El error ya está manejado en el store
     }

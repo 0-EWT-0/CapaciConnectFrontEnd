@@ -84,14 +84,12 @@ const toggleMenu = () => {
 const rolId = ref()
 
 onMounted(async () => {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
   await userStore.getUserInfo()
   rolId.value = userStore.user.id_rol_id
   // console.log('user', userInfo)
   // console.log('userId', userId)
 })
-
-
 
 // Importar el store de autenticación
 const authStore = useAuthStore()

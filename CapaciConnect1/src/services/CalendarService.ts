@@ -26,19 +26,15 @@ export class CalendarService {
       const payload = {
         date_start: this.formatDateForAPI(calendarData.date_start),
         date_end: this.formatDateForAPI(calendarData.date_end),
-        id_workshop_id: Number(calendarData.id_workshop_id)
+        id_workshop_id: Number(calendarData.id_workshop_id),
       }
 
-      const response = await genericRequestAuth(
-        `${this.baseUrl}/CreateCalendar`,
-        'POST',
-        payload
-      )
+      const response = await genericRequestAuth(`${this.baseUrl}/CreateCalendar`, 'POST', payload)
       return response.data
     } catch (error: unknown) {
       console.error('Error creating calendar:', {
         error,
-        payload: calendarData
+        payload: calendarData,
       })
       throw error
     }
@@ -54,7 +50,7 @@ export class CalendarService {
       const response = await genericRequestAuth(
         `${this.baseUrl}/DeleteCalendar/${Id_calendar}`,
         'DELETE',
-        {}
+        {},
       )
 
       if (response.status !== 200 && response.status !== 204) {
@@ -64,7 +60,7 @@ export class CalendarService {
       console.error('Error en servicio al eliminar:', {
         Id_calendar,
         status: error.response?.status,
-        errorData: error.response?.data
+        errorData: error.response?.data,
       })
       throw error
     }
@@ -95,7 +91,7 @@ export class CalendarService {
       const response = await genericRequestAuth(
         `${this.baseUrl}/UpdateCalendar/${calendarId}`,
         'PUT',
-        payload
+        payload,
       )
 
       return response.data
@@ -104,7 +100,7 @@ export class CalendarService {
         calendarId,
         payload: updateData,
         status: error.response?.status,
-        errorData: error.response?.data
+        errorData: error.response?.data,
       })
       throw error
     }
