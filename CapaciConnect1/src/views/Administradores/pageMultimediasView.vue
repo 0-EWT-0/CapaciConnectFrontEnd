@@ -22,54 +22,53 @@
       <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
       <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
     </div>
-  
 
-  <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
-    <h2 class="text-[#212122] py-11">Multimedias en línea</h2>
+    <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
+      <h2 class="text-[#212122] py-11">Multimedias en línea</h2>
 
-    <!-- Mostrar Mensaje de Error -->
-    <h3 v-if="errorMessage" class="text-[#DC2626]">{{ errorMessage }}</h3>
+      <!-- Mostrar Mensaje de Error -->
+      <h3 v-if="errorMessage" class="text-[#DC2626]">{{ errorMessage }}</h3>
 
-    <!-- Mostrar Archivos -->
-    <div
-      v-if="multimediaList.length > 0"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-    >
+      <!-- Mostrar Archivos -->
       <div
-        v-for="media in multimediaList"
-        :key="media.media_url"
-        class="shadow-lg rounded-lg flex flex-col overflow-hidden"
+        v-if="multimediaList.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
       >
-        <!-- Contenedor de multimedia -->
-        <div class="flex-1 h-40 md:h-auto">
-          <!-- Mostrar Imagen -->
-          <img
-            v-if="media.media_type === 0"
-            :src="'data:image/jpeg;base64,' + media.media_url"
-            alt="Imagen"
-            class="w-full h-full object-cover"
-          />
+        <div
+          v-for="media in multimediaList"
+          :key="media.media_url"
+          class="shadow-lg rounded-lg flex flex-col overflow-hidden"
+        >
+          <!-- Contenedor de multimedia -->
+          <div class="flex-1 h-40 md:h-auto">
+            <!-- Mostrar Imagen -->
+            <img
+              v-if="media.media_type === 0"
+              :src="'data:image/jpeg;base64,' + media.media_url"
+              alt="Imagen"
+              class="w-full h-full object-cover"
+            />
 
-          <!-- Mostrar Video -->
-          <video v-else controls class="w-full h-full object-cover">
-            <source :src="'data:video/mp4;base64,' + media.media_url" type="video/mp4" />
-            Tu navegador no soporta videos.
-          </video>
-        </div>
+            <!-- Mostrar Video -->
+            <video v-else controls class="w-full h-full object-cover">
+              <source :src="'data:video/mp4;base64,' + media.media_url" type="video/mp4" />
+              Tu navegador no soporta videos.
+            </video>
+          </div>
 
-        <!-- Contenedor de acciones -->
-        <div class="flex-1 flex items-center justify-center p-4 bg-gray-100">
-          <BaseButton variant="red" @click="deleteFile(media.id_multimedia)" class="w-full">
-            Eliminar
-          </BaseButton>
+          <!-- Contenedor de acciones -->
+          <div class="p-4">
+            <BaseButton variant="red" @click="deleteFile(media.id_multimedia)" class="w-full">
+              Eliminar
+            </BaseButton>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Sin Archivos -->
-    <h3 v-else class="text-gray-500">No hay archivos disponibles</h3>
+      <!-- Sin Archivos -->
+      <h3 v-else class="text-gray-500">No hay archivos disponibles</h3>
+    </div>
   </div>
-</div>
 </template>
 
 <script setup lang="ts">
@@ -217,6 +216,7 @@ const deleteFile = async (id_multimedia: string): Promise<void> => {
         text: 'El contenido ha sido eliminado correctamente',
         icon: 'success',
         confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
       })
     } catch (error) {
       console.error('Error al eliminar el contenido', error)
@@ -225,6 +225,7 @@ const deleteFile = async (id_multimedia: string): Promise<void> => {
         text: 'No se pudo eliminar el contenido',
         icon: 'error',
         confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
       })
     }
   }

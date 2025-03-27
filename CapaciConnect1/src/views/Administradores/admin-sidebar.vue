@@ -42,6 +42,7 @@ import {
   FileTextIcon,
   SettingsIcon,
   FilmIcon,
+  BookTextIcon,
 } from 'lucide-vue-next'
 
 interface MenuItem {
@@ -59,6 +60,7 @@ export default defineComponent({
     FileTextIcon,
     SettingsIcon,
     FilmIcon,
+    BookTextIcon,
   },
   setup() {
     const route = useRoute()
@@ -70,6 +72,7 @@ export default defineComponent({
       { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
       { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
+      { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' },
     ]
 
     const isActive = (path: string): boolean => {

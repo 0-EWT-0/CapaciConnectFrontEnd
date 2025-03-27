@@ -136,6 +136,11 @@ const router = createRouter({
           name: 'admin-multimedias',
           component: () => import('../views/Administradores/pageMultimediasView.vue'),
         },
+        {
+          path: '/adminWorkshops',
+          name: 'admin-workshops',
+          component: () => import('../views/Administradores/pageWorkshopsView.vue'),
+        },
       ],
     },
 

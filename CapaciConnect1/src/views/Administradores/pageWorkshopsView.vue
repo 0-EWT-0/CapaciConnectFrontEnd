@@ -1,6 +1,6 @@
 <template>
   <div class="p-16">
-    <h2 class="text-[#212122] pb-4">Subir multimedia</h2>
+    <h2 class="text-[#212122] pb-4">Crear taller</h2>
     <form class="bg-[#F2F5FA] rounded-lg p-4" @submit.prevent="handleSubmit">
       <!-- Inputs para campos del Workshop -->
       <div class="pb-4">
@@ -13,7 +13,7 @@
       </div>
 
       <div class="pb-4">
-        <label class="text-[#212122]"><h3 class="pb-2">Título</h3></label>
+        <label class="text-[#212122]"><h3 class="pb-2">Descripción</h3></label>
         <textarea
           v-model="formData.description"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
