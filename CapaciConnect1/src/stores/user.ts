@@ -83,8 +83,8 @@ export const useUserStore = defineStore('user', () => {
     try {
       const response = await getUserInfoService()
       if (response?.status === 200) {
-        user.value = response.data[0] ?? {} as User
-        console.log("user info", user.value)
+        user.value = response.data[0] ?? ({} as User)
+        console.log('user info', user.value)
       }
     } catch (error: any) {
       console.error(error)

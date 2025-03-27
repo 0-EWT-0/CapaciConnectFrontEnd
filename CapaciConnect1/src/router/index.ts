@@ -89,11 +89,7 @@ const router = createRouter({
       name: 'panelMateriales',
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },
-    {
-      path: '/calendario',
-      name: 'calendario',
-      component: () => import('@/views/Coordinadores/CalendarioView.vue'),
-    },
+
 
     //ADMINISTRADOR
     {
@@ -140,6 +136,17 @@ const router = createRouter({
           path: '/adminMultimedias',
           name: 'admin-multimedias',
           component: () => import('../views/Administradores/pageMultimediasView.vue'),
+        },
+        {
+          path: '/calendario',
+          name: 'calendario',
+          component: () => import('@/views/Coordinadores/CalendarioView.vue'),
+        },
+
+        {
+          path: '/adminWorkshops',
+          name: 'admin-workshops',
+          component: () => import('@/views/Administradores/pageWorkshopsView.vue'),
         },
       ],
     },

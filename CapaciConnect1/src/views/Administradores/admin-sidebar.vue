@@ -13,7 +13,7 @@
       <!-- Menú de navegación -->
       <nav>
         <ul class="space-y-1">
-          <li v-for="item in menuItems" :key="item.name">
+          <li v-for="item in filteredMenuItems" :key="item.name">
             <router-link
               :to="item.href"
               class="flex items-center px-4 py-3 space-x-3 transition-colors hover:bg-[#0000bb] hover:text-white"
@@ -32,9 +32,10 @@
   </aside>
 </template>
 
-<script lang="ts">
-import { defineComponent, type Component } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 import {
   HomeIcon,
   BriefcaseIcon,
@@ -42,44 +43,52 @@ import {
   FileTextIcon,
   SettingsIcon,
   FilmIcon,
+  BookTextIcon,
+  Calendar1Icon,
 } from 'lucide-vue-next'
 
 interface MenuItem {
   name: string
-  icon: Component
+  icon: any
   href: string
+  rolesAllowed?: number[]
 }
 
-export default defineComponent({
-  name: 'AppSidebar',
-  components: {
-    HomeIcon,
-    BriefcaseIcon,
-    UsersIcon,
-    FileTextIcon,
-    SettingsIcon,
-    FilmIcon,
-  },
-  setup() {
-    const route = useRoute()
+const rolId = ref<string | undefined>()
+const route = useRoute()
 
-    const menuItems: MenuItem[] = [
-      { name: 'Usuarios', icon: HomeIcon, href: '/adminuser' }, // Nota: '/adminuser' para mantener consistencia.
-      { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' },
-      { name: 'Roles', icon: UsersIcon, href: '/adminRol' },
-      { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
-      { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
-      { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
-    ]
+const menuItems: MenuItem[] = [
+  { name: 'Usuarios', icon: HomeIcon, href: '/adminuser', rolesAllowed: [1]},
+  { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' , rolesAllowed: [1,4]},
+  { name: 'Roles', icon: UsersIcon, href: '/adminRol' , rolesAllowed: [1]},
+  { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' , rolesAllowed: [1]},
+  { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' , rolesAllowed: [1]},
+  { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' , rolesAllowed: [1,2]},
+  { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' , rolesAllowed: [1,2]},
+  { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' , rolesAllowed: [1]},
+  { name: 'Inicio', icon: HomeIcon, href: '/' },
+]
 
-    const isActive = (path: string): boolean => {
-      return route.path === path
-    }
 
-    return {
-      menuItems,
-      isActive,
-    }
-  },
+const filteredMenuItems = ref<MenuItem[]>([])
+
+const isActive = (path: string): boolean => {
+  return route.path === path
+}
+
+onMounted(async () => {
+  const userStore = useUserStore()
+  await userStore.getUserInfo()
+  rolId.value = userStore?.user?.id_rol_id ?? "canche"
+  console.log("role id", rolId.value)
+
+  // Filtrar las rutas según el rol del usuario.
+  filteredMenuItems.value = menuItems.filter((item) => {
+    // Si rolesAllowed no está definido, se asume que la ruta es accesible para todos.
+    return !item.rolesAllowed || item.rolesAllowed.includes(Number(rolId.value))
+  })
+
+  console.log("role id", rolId.value)
+  console.log("filtered menu items", filteredMenuItems.value)
 })
 </script>
