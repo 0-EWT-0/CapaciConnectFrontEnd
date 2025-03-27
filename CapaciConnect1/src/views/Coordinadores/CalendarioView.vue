@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-
 import { useCalendarStore } from '@/stores/calendarStore'
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 
@@ -13,64 +12,96 @@ const newCalendar = ref<CalendarDTO>({
 })
 
 const isEditing = ref(false)
-const editingActivity = ref<UpdateCalendarDTO & { id: number }>({
-  id: 0,
+const editingActivity = ref<UpdateCalendarDTO & { Id_calendar: number }>({
+  Id_calendar: 0,
   date_start: '',
   date_end: '',
   id_workshop_id: 0,
 })
 
-
-onMounted(() => {
-  calendarStore.fetchAllCalendars()
+onMounted(async () => {
+  try {
+    await calendarStore.fetchAllCalendars()
+    console.log('Actividades cargadas:', JSON.parse(JSON.stringify(calendarStore.activities)))
+  } catch (error: any) {
+    console.error('Error al cargar calendarios:', error)
+    alert('Error al cargar el calendario: ' + (error.message || 'Error desconocido'))
+  }
 })
-
 
 const createCalendar = async () => {
   try {
     await calendarStore.createNewCalendar(newCalendar.value)
     newCalendar.value = { date_start: '', date_end: '', id_workshop_id: 0 }
-  } catch (error) {
-
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message || 'Error al crear actividad'
+    alert(errorMessage)
+    console.error('Error al crear actividad:', {
+      payload: newCalendar.value,
+      error: error.response?.data || error.message
+    })
   }
 }
 
-
 const editActivity = (activity: Calendar) => {
+  if (!activity?.Id_calendar) {
+    console.error('Actividad sin ID válido:', activity)
+    alert('No se puede editar: actividad sin ID válido')
+    return
+  }
+
   editingActivity.value = {
-    id: activity.id,
-    date_start: activity.date_start,
-    date_end: activity.date_end,
+    Id_calendar: activity.Id_calendar,
+    date_start: activity.date_start.slice(0, 16),
+    date_end: activity.date_end.slice(0, 16),
     id_workshop_id: activity.id_workshop_id,
   }
   isEditing.value = true
 }
 
-// Actualizar evento
-const updateActivity = async () => {
-  try {
-    if (editingActivity.value.id) {
-      const { id, ...updateData } = editingActivity.value
-      await calendarStore.updateExistingCalendar(id, updateData)
-      isEditing.value = false
-    }
-  } catch (error) {
-
+const deleteActivity = async (activity: Calendar) => {
+  if (!activity?.Id_calendar) {
+    console.error('Actividad sin ID válido:', activity)
+    alert('No se puede eliminar: actividad sin ID válido')
+    return
   }
-}
 
-// Eliminar evento
-const deleteActivity = async (id: number) => {
+  console.log('Intentando eliminar actividad con ID:', activity.Id_calendar)
+
   if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
     try {
-      await calendarStore.deleteExistingCalendar(id)
-    } catch (error) {
-
+      await calendarStore.deleteExistingCalendar(activity.Id_calendar)
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message ||
+                       error.message ||
+                       'Error al eliminar la actividad'
+      alert(errorMessage)
+      console.error('Error al eliminar actividad:', {
+        Id_calendar: activity.Id_calendar,
+        error: error.response?.data || error.message
+      })
     }
   }
 }
 
-// Formatear fecha para mostrar
+const updateActivity = async () => {
+  try {
+    if (editingActivity.value.Id_calendar) {
+      console.log('Datos a actualizar:', editingActivity.value)
+      const { Id_calendar, ...updateData } = editingActivity.value
+      await calendarStore.updateExistingCalendar(Id_calendar, updateData)
+      isEditing.value = false
+    }
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message || 'Error al actualizar'
+    alert(errorMessage)
+    console.error('Error al actualizar actividad:', {
+      Id_calendar: editingActivity.value.Id_calendar,
+      error: error.response?.data || error.message
+    })
+  }
+}
+
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString)
   return date.toLocaleString('es-ES', {
@@ -82,18 +113,14 @@ const formatDate = (dateString: string): string => {
   })
 }
 
-// Fecha mínima para los inputs (hoy)
 const minDate = computed(() => {
   return new Date().toISOString().slice(0, 16)
 })
 </script>
 
 <template>
-
   <div>
-
-
-    <div class=" min-h-screen bg-gradient-to-r from-purple-50 to-blue-50 p-6">
+    <div class="min-h-screen bg-gradient-to-r from-purple-50 to-blue-50 p-6">
       <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">
         Gestión del Calendario de Actividades
       </h1>
@@ -145,7 +172,6 @@ const minDate = computed(() => {
             </div>
           </div>
 
-          <!-- Mensajes de estado -->
           <div v-if="calendarStore.error" class="p-3 bg-red-50 text-red-700 rounded-lg">
             <p class="font-medium">Error:</p>
             <p>{{ calendarStore.error }}</p>
@@ -163,19 +189,8 @@ const minDate = computed(() => {
                 fill="none"
                 viewBox="0 0 24 24"
               >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               Creando...
             </span>
@@ -199,13 +214,13 @@ const minDate = computed(() => {
         <div v-else class="space-y-4">
           <div
             v-for="activity in calendarStore.activities"
-            :key="activity.id"
+            :key="activity.Id_calendar"
             class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
           >
             <div class="flex justify-between items-center">
               <div>
                 <h3 class="text-lg font-semibold text-gray-800">
-                  Taller #{{ activity.id_workshop_id }}
+                  Taller #{{ activity.id_workshop_id }} (ID: {{ activity.Id_calendar }})
                 </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
@@ -220,7 +235,7 @@ const minDate = computed(() => {
                   Editar
                 </button>
                 <button
-                  @click="deleteActivity(activity.id)"
+                  @click="deleteActivity(activity)"
                   class="text-red-600 hover:text-red-900"
                   :disabled="calendarStore.isLoading"
                 >
@@ -260,12 +275,12 @@ const minDate = computed(() => {
                 type="datetime-local"
                 v-model="editingActivity.date_end"
                 id="edit_date_end"
-                class="mt-1 block w-full text-black  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                class="mt-1 block w-full text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
                 required
               />
             </div>
             <div>
-              <label for="edit_workshop_id" class="block  text-sm font-medium text-gray-700">
+              <label for="edit_workshop_id" class="block text-sm font-medium text-gray-700">
                 ID del Taller
               </label>
               <input
@@ -273,7 +288,7 @@ const minDate = computed(() => {
                 v-model.number="editingActivity.id_workshop_id"
                 min="1"
                 id="edit_workshop_id"
-                class="mt-1 block w-full rounded-md text-black  border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                class="mt-1 block w-full rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
                 placeholder="Ingresa el ID del taller"
                 required
               />

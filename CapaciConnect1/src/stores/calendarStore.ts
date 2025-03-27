@@ -55,7 +55,7 @@ export const useCalendarStore = defineStore('calendar', () => {
       error.value = null
 
       const updatedCalendar = await calendarService.updateCalendar(calendarId, updateData)
-      const index = activities.value.findIndex(a => a.id === calendarId)
+      const index = activities.value.findIndex(a => a.Id_calendar === calendarId)
 
       if (index !== -1) {
         activities.value[index] = updatedCalendar
@@ -75,20 +75,21 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
   }
 
-  const deleteExistingCalendar = async (calendarId: number): Promise<void> => {
+  const deleteExistingCalendar = async (Id_calendar: number): Promise<void> => {
     try {
       isLoading.value = true
       error.value = null
 
-      await calendarService.deleteCalendar(calendarId)
-      activities.value = activities.value.filter(activity => activity.id !== calendarId)
+      console.log('Store - ID recibido para eliminar:', Id_calendar)
+
+      await calendarService.deleteCalendar(Id_calendar)
+      activities.value = activities.value.filter(activity => activity.Id_calendar !== Id_calendar)
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Error al eliminar evento'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
-
+      console.error('Error en store al eliminar:', {
+        Id_calendar,
+        error: err
+      })
       throw err
     } finally {
       isLoading.value = false

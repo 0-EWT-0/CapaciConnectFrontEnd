@@ -1,6 +1,6 @@
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 import { genericRequestAuth } from '@/utils/genericRequest'
-import router from '@/router'
+import { getToken } from '@/utils/tokenStorage' // Asegúrate de importar getToken
 
 export class CalendarService {
   private baseUrl = 'https://localhost:44368/api/Calendar'
@@ -11,28 +11,11 @@ export class CalendarService {
     return date.toISOString()
   }
 
-  private validateCalendarData(data: CalendarDTO | UpdateCalendarDTO): void {
-    if (!data.date_start || !data.date_end) {
-      throw new Error('Las fechas son requeridas')
-    }
-
-    const startDate = new Date(data.date_start)
-    const endDate = new Date(data.date_end)
-
-    if (startDate >= endDate) {
-      throw new Error('La fecha de inicio debe ser anterior a la fecha de fin')
-    }
-
-    if (!data.id_workshop_id || data.id_workshop_id <= 0) {
-      throw new Error('Debe seleccionar un taller válido')
-    }
-  }
-
   async getAllCalendars(): Promise<Calendar[]> {
     try {
       const response = await genericRequestAuth(`${this.baseUrl}/AllCalendars`, 'GET')
       return response.data || []
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching calendars:', error)
       throw new Error('No se pudieron obtener los calendarios')
     }
@@ -40,22 +23,19 @@ export class CalendarService {
 
   async createCalendar(calendarData: CalendarDTO): Promise<Calendar> {
     try {
-      this.validateCalendarData(calendarData)
-
-      const formattedData = {
-        ...calendarData,
+      const payload = {
         date_start: this.formatDateForAPI(calendarData.date_start),
         date_end: this.formatDateForAPI(calendarData.date_end),
-        workshop_id: Number(calendarData.id_workshop_id)
+        id_workshop_id: Number(calendarData.id_workshop_id)
       }
 
       const response = await genericRequestAuth(
         `${this.baseUrl}/CreateCalendar`,
         'POST',
-        formattedData
+        payload
       )
       return response.data
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error creating calendar:', {
         error,
         payload: calendarData
@@ -63,66 +43,70 @@ export class CalendarService {
       throw error
     }
   }
+  async deleteCalendar(Id_calendar: number): Promise<void> {
+    console.log('Servicio - ID recibido para eliminar:', Id_calendar)
 
-  async updateCalendar(calendarId: number, updateData: UpdateCalendarDTO): Promise<Calendar> {
+    if (Id_calendar === undefined || Id_calendar === null || isNaN(Id_calendar)) {
+      throw new Error('ID de calendario no válido')
+    }
+
     try {
-      // Validación para actualización
-      if (updateData.date_start || updateData.date_end) {
-        const validationData = {
-          date_start: updateData.date_start ?? '',
-          date_end: updateData.date_end ?? '',
-          id_workshop_id: updateData.id_workshop_id ?? 0
-        }
-        this.validateCalendarData(validationData)
+      const response = await genericRequestAuth(
+        `${this.baseUrl}/DeleteCalendar/${Id_calendar}`,
+        'DELETE',
+        {}
+      )
+
+      if (response.status !== 200 && response.status !== 204) {
+        throw new Error(`Error al eliminar: ${response.statusText}`)
       }
+    } catch (error: any) {
+      console.error('Error en servicio al eliminar:', {
+        Id_calendar,
+        status: error.response?.status,
+        errorData: error.response?.data
+      })
+      throw error
+    }
+  }
+  async updateCalendar(calendarId: number, updateData: UpdateCalendarDTO): Promise<Calendar> {
+    if (!calendarId || isNaN(calendarId)) {
+      throw new Error('ID de calendario no válido')
+    }
 
-      const payload: any = {}
+    try {
+      const payload: Record<string, any> = {}
 
+      // Validación y formato de fechas
       if (updateData.date_start) {
-        payload.date_start = this.formatDateForAPI(updateData.date_start)
+        payload.date_start = new Date(updateData.date_start).toISOString()
       }
 
       if (updateData.date_end) {
-        payload.date_end = this.formatDateForAPI(updateData.date_end)
+        payload.date_end = new Date(updateData.date_end).toISOString()
       }
 
       if (updateData.id_workshop_id) {
-        payload.workshop_id = Number(updateData.id_workshop_id)
+        payload.id_workshop_id = Number(updateData.id_workshop_id)
       }
+
+      console.log('Payload para actualizar:', payload) // Para depuración
 
       const response = await genericRequestAuth(
         `${this.baseUrl}/UpdateCalendar/${calendarId}`,
         'PUT',
         payload
       )
+
       return response.data
-    } catch (error) {
-      console.error('Error updating calendar:', {
-        error,
-        payload: updateData
+    } catch (error: any) {
+      console.error('Error detallado al actualizar:', {
+        calendarId,
+        payload: updateData,
+        status: error.response?.status,
+        errorData: error.response?.data
       })
       throw error
-    }
-  }
-
-  async deleteCalendar(calendarId: number): Promise<void> {
-    try {
-      const response = await genericRequestAuth(
-        `${this.baseUrl}/DeleteCalendar/${calendarId}`,
-        'DELETE',
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (response.status !== 200) {
-        throw new Error('Error al eliminar el calendario')
-      }
-    } catch (error) {
-      console.error('Error deleting calendar:', error)
-      throw new Error('No se pudo eliminar el calendario. Verifica que exista y vuelve a intentar.')
     }
   }
 }
