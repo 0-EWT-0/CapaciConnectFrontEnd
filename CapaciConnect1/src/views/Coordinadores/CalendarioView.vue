@@ -220,7 +220,7 @@ const minDate = computed(() => {
             <div class="flex justify-between items-center">
               <div>
                 <h3 class="text-lg font-semibold text-gray-800">
-                  Taller #{{ activity.id_workshop_id }} (ID: {{ activity.id_calendar }})
+                  Taller #{{ activity.id_workshop_id }}
                 </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
@@ -323,6 +323,4 @@ const minDate = computed(() => {
   </div>
 </template>
 
-<style scoped>
-/* Estilos adicionales si son necesarios */
-</style>
+
