@@ -16,7 +16,7 @@
             v-model="formData.type_name"
             type="text"
             placeholder="Ej: Pintura Abstracta"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            class="w-full px-4 py-3 border text-black  border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
             required
             :disabled="isLoading"
           />

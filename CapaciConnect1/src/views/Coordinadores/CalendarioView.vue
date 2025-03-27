@@ -12,8 +12,8 @@ const newCalendar = ref<CalendarDTO>({
 })
 
 const isEditing = ref(false)
-const editingActivity = ref<UpdateCalendarDTO & { Id_calendar: number }>({
-  Id_calendar: 0,
+const editingActivity = ref<UpdateCalendarDTO & { id_calendar: number }>({
+  id_calendar: 0,
   date_start: '',
   date_end: '',
   id_workshop_id: 0,
@@ -44,14 +44,14 @@ const createCalendar = async () => {
 }
 
 const editActivity = (activity: Calendar) => {
-  if (!activity?.Id_calendar) {
+  if (!activity?.id_calendar) {
     console.error('Actividad sin ID válido:', activity)
     alert('No se puede editar: actividad sin ID válido')
     return
   }
 
   editingActivity.value = {
-    Id_calendar: activity.Id_calendar,
+    id_calendar: activity.id_calendar,
     date_start: activity.date_start.slice(0, 16),
     date_end: activity.date_end.slice(0, 16),
     id_workshop_id: activity.id_workshop_id,
@@ -60,24 +60,24 @@ const editActivity = (activity: Calendar) => {
 }
 
 const deleteActivity = async (activity: Calendar) => {
-  if (!activity?.Id_calendar) {
+  if (!activity?.id_calendar) {
     console.error('Actividad sin ID válido:', activity)
     alert('No se puede eliminar: actividad sin ID válido')
     return
   }
 
-  console.log('Intentando eliminar actividad con ID:', activity.Id_calendar)
+  console.log('Intentando eliminar actividad con ID:', activity.id_calendar)
 
   if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
     try {
-      await calendarStore.deleteExistingCalendar(activity.Id_calendar)
+      await calendarStore.deleteExistingCalendar(activity.id_calendar)
     } catch (error: any) {
       const errorMessage = error.response?.data?.message ||
                        error.message ||
                        'Error al eliminar la actividad'
       alert(errorMessage)
       console.error('Error al eliminar actividad:', {
-        Id_calendar: activity.Id_calendar,
+        Id_calendar: activity.id_calendar,
         error: error.response?.data || error.message
       })
     }
@@ -86,17 +86,17 @@ const deleteActivity = async (activity: Calendar) => {
 
 const updateActivity = async () => {
   try {
-    if (editingActivity.value.Id_calendar) {
+    if (editingActivity.value.id_calendar) {
       console.log('Datos a actualizar:', editingActivity.value)
-      const { Id_calendar, ...updateData } = editingActivity.value
-      await calendarStore.updateExistingCalendar(Id_calendar, updateData)
+      const updateData = { ...editingActivity.value }
+      await calendarStore.updateExistingCalendar(updateData.id_calendar, updateData)
       isEditing.value = false
     }
   } catch (error: any) {
     const errorMessage = error.response?.data?.message || error.message || 'Error al actualizar'
     alert(errorMessage)
     console.error('Error al actualizar actividad:', {
-      Id_calendar: editingActivity.value.Id_calendar,
+      Id_calendar: editingActivity.value.id_calendar,
       error: error.response?.data || error.message
     })
   }
@@ -214,13 +214,13 @@ const minDate = computed(() => {
         <div v-else class="space-y-4">
           <div
             v-for="activity in calendarStore.activities"
-            :key="activity.Id_calendar"
+            :key="activity.id_calendar"
             class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
           >
             <div class="flex justify-between items-center">
               <div>
                 <h3 class="text-lg font-semibold text-gray-800">
-                  Taller #{{ activity.id_workshop_id }} (ID: {{ activity.Id_calendar }})
+                  Taller #{{ activity.id_workshop_id }} (ID: {{ activity.id_calendar }})
                 </h3>
                 <p class="text-sm text-gray-600">
                   {{ formatDate(activity.date_start) }} - {{ formatDate(activity.date_end) }}
