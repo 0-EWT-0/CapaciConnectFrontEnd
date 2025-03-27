@@ -3,11 +3,17 @@
   <div class="bg-white p-8">
     <!-- Barra superior -->
     <div class="text-white flex justify-between p-2">
-      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Inicio el {{ formatDate(calendarData.date_start) }}</span
+      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center">
+        Fecha de Inicio:
+        <b class="font-semibold">{{
+          formatDate(calendarData.date_start ? calendarData.date_start : 'sin fecha de incio')
+        }}</b></span
       >
       <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Cierre el {{ formatDate(calendarData.date_end) }}</span
+        >Fecha de Cierre:
+        <b class="font-semibold">{{
+          formatDate(calendarData.date_end ? calendarData.date_end : 'sin fecha de cierre')
+        }}</b></span
       >
     </div>
 
@@ -15,7 +21,9 @@
     <div class="text-center mt-4">
       <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
       <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
-      <p class="text-gray-700 mt-2">{{ workshop.description }}.</p>
+      <p class="text-2xl text-gray-700 mt-2">
+        {{ workshop.description ? workshop.description : 'sin descripcion' }}.
+      </p>
     </div>
 
     <!-- Información del instructor -->
@@ -39,7 +47,7 @@
       </button>
     </div>
 
-    <!-- Contenido del taller -->
+    <!-- Contenido del taller
     <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
       <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
       <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
@@ -61,6 +69,15 @@
           </li>
         </ul>
       </div>
+    </div> -->
+
+    <div class="flex rounded p-5 mt-5 border border-black justify-center text-justify">
+      <div v-if="workshop.content" class="text-black font-light">
+        <p v-for="(paragraph, index) in splitContent(workshop.content)" :key="index">
+          {{ paragraph }}
+        </p>
+      </div>
+      <b v-else class="text-black font-light">Sin contenido disponible</b>
     </div>
 
     <!-- Sección de comentarios -->
@@ -221,11 +238,11 @@ onMounted(async () => {
 })
 
 onMounted(async () => {
-    await userStore.getUserInfo()
-    const userInfo = userStore.user // Información completa del usuario
-    currentUser.value = userInfo.id_user // Asignar el ID del usuario actual
-    console.log('Usuario:', userInfo)
-    console.log('ID del usuario:', currentUser.value)
+  await userStore.getUserInfo()
+  const userInfo = userStore.user // Información completa del usuario
+  currentUser.value = userInfo.id_user // Asignar el ID del usuario actual
+  console.log('Usuario:', userInfo)
+  console.log('ID del usuario:', currentUser.value)
 })
 
 // Filtrar los comentarios propios (pertenecen al usuario actual)
@@ -353,4 +370,7 @@ const clases = ref([
   { titulo: 'Clase 2', recursos: [] },
   { titulo: 'Clase 3', recursos: [] },
 ])
+const splitContent = (content: string) => {
+  return content ? content.split('\n').filter((paragraph) => paragraph.trim() !== '') : [];
+}
 </script>
