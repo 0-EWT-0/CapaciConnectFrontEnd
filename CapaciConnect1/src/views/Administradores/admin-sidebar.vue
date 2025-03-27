@@ -38,7 +38,6 @@ import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import {
   HomeIcon,
-  BriefcaseIcon,
   UsersIcon,
   FileTextIcon,
   SettingsIcon,
@@ -58,15 +57,15 @@ const rolId = ref<string | undefined>()
 const route = useRoute()
 
 const menuItems: MenuItem[] = [
+  { name: 'Inicio', icon: HomeIcon, href: '/' },
   { name: 'Usuarios', icon: HomeIcon, href: '/adminuser', rolesAllowed: [1]},
-  { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' , rolesAllowed: [1,4]},
+  //{ name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' , rolesAllowed: [1,4]},
+  { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' , rolesAllowed: [1,2]},
   { name: 'Roles', icon: UsersIcon, href: '/adminRol' , rolesAllowed: [1]},
   { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' , rolesAllowed: [1]},
+  { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' , rolesAllowed: [1]},
   { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' , rolesAllowed: [1]},
   { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' , rolesAllowed: [1,2]},
-  { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' , rolesAllowed: [1,2]},
-  { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' , rolesAllowed: [1]},
-  { name: 'Inicio', icon: HomeIcon, href: '/' },
 ]
 
 

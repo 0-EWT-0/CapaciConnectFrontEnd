@@ -154,16 +154,12 @@ export const fetchCalendarsByWorkshopIdService = async (id_workshop_id: number) 
 }
 
 //Services de mis Talleres
-export const fetchProgressionService = async (id_workshop_id: number) => {
+export const fetchProgressionService = async () => {
   try {
-    const response = await genericRequestAuth(
-      `${base_url}/Progression/ProgressionsByWorkshopId/${id_workshop_id}`,
-      'GET',
-    )
+    const response = await genericRequestAuth(`${base_url}/Progression/ProgressionsByUserId`, 'GET',)
     return response.data
   } catch (error) {
     await handleError(error, 'fetchProgressionService')
-    return []
   }
 }
 

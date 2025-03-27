@@ -188,28 +188,13 @@ export const useWorkshopStore = defineStore('workshop', () => {
   }
 
   //Funcion para obtener progreso de un taller especifico
-  async function fetchProgression(id_workshop_id: number) {
+  async function fetchProgression() {
     try {
-      const response = await fetchProgressionService(id_workshop_id)
-      console.log(`Progreso obtenido para el taller ${id_workshop_id}:`, response)
-
-      // Inicializa progressions si es necesario
-      if (!progressions.value) {
-        progressions.value = {}
-      }
-
-      // Verifica si la respuesta contiene datos válidos
-      if (response && response.length > 0) {
-        progressions.value[id_workshop_id] = response[0].progression_status || 0
-      } else {
-        console.warn(`No se encontraron progresos para el taller ${id_workshop_id}`)
-        progressions.value[id_workshop_id] = 0 // Asigna un valor predeterminado
-      }
-
+      const response = await fetchProgressionService()
+      console.log(response)
       return response
     } catch (error) {
-      console.error(`Error en fetchProgression para taller ${id_workshop_id}:`, error)
-      progressions.value[id_workshop_id] = 0 // Valor predeterminado en caso de error
+      console.error(`Error en fetchProgression para taller:`, error)
     }
   }
 
