@@ -170,6 +170,7 @@ const uploadFile = async (): Promise<void> => {
       timer: 1500,
       backdrop: 'rgba(4, 2, 115, 0.7)',
     })
+    await fetchMultimedia()
   } catch (error) {
     errorMessage.value = 'Error al subir el archivo.'
     console.error(error)
