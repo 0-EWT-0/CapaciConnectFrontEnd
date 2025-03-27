@@ -1,5 +1,4 @@
-import { genericRequestAuth } from '@/utils/genericRequest'
-import { handleError } from '@/services/AuthService'
+import { genericRequest, genericRequestAuth } from '@/utils/genericRequest'
 
 const base_url = 'https://localhost:44368/api'
 
@@ -25,10 +24,10 @@ export const getReportsByWorkshopId = async (workshopId: number) => {
 }
 
 export const createReport = async (reportData: {
-  Tittle: string
-  Content: string
-  Id_user_id: number
-  Id_workshop_id: number
+  tittle: string
+  content: string
+  id_user_id: number
+  id_workshop_id: number
 }) => {
   try {
     const result = await genericRequestAuth(

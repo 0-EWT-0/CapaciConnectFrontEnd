@@ -4,12 +4,6 @@
       class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
     >
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Listado de roles</h2>
-      <button
-        @click="eliminarTodos"
-        class="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-colors font-medium"
-      >
-        <span class="text-sm sm:text-base">Eliminar todos</span>
-      </button>
     </div>
 
     <!-- Estado de carga -->
