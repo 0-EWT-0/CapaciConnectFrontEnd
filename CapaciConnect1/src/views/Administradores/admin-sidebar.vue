@@ -71,7 +71,7 @@ export default defineComponent({
       { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
       { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
-      {name: 'Calendario', icon: Calendar1Icon, href: '/calendario'},
+      { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' },
       { name: 'Inicio', icon: HomeIcon, href: '/' },
     ]
 
