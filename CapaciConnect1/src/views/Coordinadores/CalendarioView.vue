@@ -80,13 +80,8 @@ const deleteActivity = async (activity: Calendar) => {
         error.response?.data?.message || error.message || 'Error al eliminar la actividad'
       alert(errorMessage)
       console.error('Error al eliminar actividad:', {
-<<<<<<< HEAD
-        Id_calendar: activity.id_calendar,
-        error: error.response?.data || error.message
-=======
         Id_calendar: activity.Id_calendar,
         error: error.response?.data || error.message,
->>>>>>> gaelCommits
       })
     }
   }
@@ -103,13 +98,8 @@ const updateActivity = async () => {
     const errorMessage = error.response?.data?.message || error.message || 'Error al actualizar'
     alert(errorMessage)
     console.error('Error al actualizar actividad:', {
-<<<<<<< HEAD
-      Id_calendar: editingActivity.value.id_calendar,
-      error: error.response?.data || error.message
-=======
       Id_calendar: editingActivity.value.Id_calendar,
       error: error.response?.data || error.message,
->>>>>>> gaelCommits
     })
   }
 }
