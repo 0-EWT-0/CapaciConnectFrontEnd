@@ -149,10 +149,10 @@
           class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
         >
           <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 class="text-xl font-bold mb-4">Editar Comentario</h3>
+            <h3 class="text-xl font-bold mb-4 text-black">Editar Comentario</h3>
             <textarea
               v-model="editCommentText"
-              class="w-full p-2 border border-gray-300 rounded"
+              class="w-full p-2 border border-gray-300 rounded text-black"
             ></textarea>
             <div class="flex justify-end gap-2 mt-4">
               <button
@@ -181,6 +181,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useWorkshopStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/stores/user'
 import Navbar from '@/components/global/Navbar.vue'
 
 const route = useRoute()
@@ -188,6 +189,7 @@ const id_workshop = Number(route.params.id_workshop)
 
 const workshopStore = useWorkshopStore()
 const authStore = useAuthStore()
+const userStore = useUserStore()
 
 const workshop = computed(() => {
   return (
@@ -210,6 +212,7 @@ const subscriptions = ref<{ id_workshop_id: number }[]>([])
 const isSubscribed = computed(() =>
   subscriptions.value.some((sub) => sub.id_workshop_id === id_workshop),
 )
+const currentUser = ref('')
 
 onMounted(async () => {
   await workshopStore.fetchCommentsByWorkshop(id_workshop)
@@ -217,19 +220,22 @@ onMounted(async () => {
   console.log('comentarios', comments.value)
 })
 
-const userId = authStore.user.Id_user
-const currentUser = ref({
-  id_user: userId, // Cambiar esto por el ID del usuario actual (por ejemplo, desde el login)
+onMounted(async () => {
+    await userStore.getUserInfo()
+    const userInfo = userStore.user // Información completa del usuario
+    currentUser.value = userInfo.id_user // Asignar el ID del usuario actual
+    console.log('Usuario:', userInfo)
+    console.log('ID del usuario:', currentUser.value)
 })
 
-// Filtra los comentarios propios
+// Filtrar los comentarios propios (pertenecen al usuario actual)
 const ownComments = computed(() => {
-  return comments.value.filter((comment) => comment.id_user_id === currentUser.value.id_user)
+  return comments.value.filter((comment) => comment.id_user_id === currentUser.value)
 })
 
-// Filtra los comentarios de otros usuarios
+// Filtrar los comentarios de otros usuarios
 const otherComments = computed(() => {
-  return comments.value.filter((comment) => comment.id_user_id !== currentUser.value.id_user)
+  return comments.value.filter((comment) => comment.id_user_id !== currentUser.value)
 })
 
 onMounted(async () => {
@@ -262,7 +268,7 @@ const editComment = (comment) => {
     return
   }
 
-  if (comment.id_user_id !== currentUser.id_user) {
+  if (comment.id_user !== currentUser.id_user) {
     alert('No tienes permiso para editar este comentario')
     return
   }
@@ -275,7 +281,7 @@ const editComment = (comment) => {
 // Función para guardar los cambios
 const saveEdit = async () => {
   if (editCommentId.value !== null) {
-    await workshopStore.updateComment(editCommentId.value, { comment: editCommentText.value })
+    await workshopStore.updatedComment(editCommentId.value, { comment: editCommentText.value })
     isEditing.value = false // Cierra el modal
   }
 }
