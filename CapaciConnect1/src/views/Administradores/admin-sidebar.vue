@@ -42,11 +42,8 @@ import {
   FileTextIcon,
   SettingsIcon,
   FilmIcon,
-<<<<<<< HEAD
   BookTextIcon,
-=======
   Calendar1Icon,
->>>>>>> f90aa1a131dc96bafb5e0cde3db1160fac4ecf02
 } from 'lucide-vue-next'
 
 interface MenuItem {
@@ -65,6 +62,7 @@ export default defineComponent({
     SettingsIcon,
     FilmIcon,
     BookTextIcon,
+    Calendar1Icon,
   },
   setup() {
     const route = useRoute()
@@ -76,12 +74,9 @@ export default defineComponent({
       { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' },
       { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' },
       { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' },
-<<<<<<< HEAD
-      { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' },
-=======
       {name: 'Calendario', icon: Calendar1Icon, href: '/calendario'},
       { name: 'Inicio', icon: HomeIcon, href: '/' },
->>>>>>> f90aa1a131dc96bafb5e0cde3db1160fac4ecf02
+      { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' },
     ]
 
     const isActive = (path: string): boolean => {
