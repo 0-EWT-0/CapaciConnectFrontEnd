@@ -96,14 +96,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const registerUser = async (userData: {
-    name: string
-    last_names: string
-    phone: string
-    email: string
-    password: string
-    confirmpassword: string
-  }) => {
+  const registerUser = async (userData: FormData) => {
     isLoading.value = true
     try {
       const newUser = await adminUserService.createUser(userData)

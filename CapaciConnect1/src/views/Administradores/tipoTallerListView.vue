@@ -24,7 +24,7 @@
       <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         <div
           v-for="tipo in store.types"
-          :key="tipo.id"
+          :key="tipo.id_type"
           class="bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow"
         >
           <div class="p-5 sm:p-6">
@@ -47,13 +47,13 @@
                   />
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900">{{ tipo.nombre }}</h3>
+              <h3 class="text-lg font-semibold text-gray-900">{{ tipo.type_name }}</h3>
             </div>
 
             <!-- Acciones -->
             <div class="flex justify-center gap-3 mt-6 pt-4 border-t border-gray-100">
               <button
-                @click="eliminarTipo(tipo.id)"
+                @click="eliminarTipo(tipo.id_type)"
                 :disabled="store.isLoading"
                 class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-2 disabled:bg-gray-100 disabled:text-gray-400"
               >
@@ -91,6 +91,7 @@ const eliminarTipo = async (id: number) => {
     try {
       await store.deleteType(id)
       successMessage.value = 'Tipo de taller eliminado correctamente'
+      setTimeout(() => successMessage.value = '', 3000)
     } catch {
       // El error ya está manejado en el store
     }

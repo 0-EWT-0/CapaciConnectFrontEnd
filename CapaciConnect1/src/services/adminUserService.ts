@@ -80,14 +80,7 @@ export const adminUserService = {
     }
   },
 
-  async createUser(userData: {
-    name: string
-    last_names: string
-    phone: string
-    email: string
-    password: string
-    confirmpassword: string
-  }): Promise<User> {
+  async createUser(userData: FormData): Promise<User> {
     try {
       const response = await genericRequest(`${base_url}/Auth/register`, 'POST', userData)
       return response.data
