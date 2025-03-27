@@ -16,7 +16,7 @@ export const getReportsByWorkshopId = async (workshopId: number) => {
   try {
     const result = await genericRequestAuth(
       `${base_url}/Report/ReportsByWorkshopId/${workshopId}`,
-      'GET'
+      'GET',
     )
     return result
   } catch (error: any) {
@@ -31,11 +31,7 @@ export const createReport = async (reportData: {
   Id_workshop_id: number
 }) => {
   try {
-    const result = await genericRequestAuth(
-      `${base_url}/Report/CreateReport`,
-      'POST',
-      reportData
-    )
+    const result = await genericRequestAuth(`${base_url}/Report/CreateReport`, 'POST', reportData)
     return result
   } catch (error: any) {
     await handleError(error, 'createReport')
@@ -44,10 +40,7 @@ export const createReport = async (reportData: {
 
 export const deleteReport = async (reportId: number) => {
   try {
-    const result = await genericRequestAuth(
-      `${base_url}/Report/DeleteReport/${reportId}`,
-      'DELETE'
-    )
+    const result = await genericRequestAuth(`${base_url}/Report/DeleteReport/${reportId}`, 'DELETE')
     return result
   } catch (error: any) {
     await handleError(error, 'deleteReport')

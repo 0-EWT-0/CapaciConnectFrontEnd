@@ -58,17 +58,16 @@ const rolId = ref<string | undefined>()
 const route = useRoute()
 
 const menuItems: MenuItem[] = [
-  { name: 'Usuarios', icon: HomeIcon, href: '/adminuser', rolesAllowed: [1]},
-  { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller' , rolesAllowed: [1,4]},
-  { name: 'Roles', icon: UsersIcon, href: '/adminRol' , rolesAllowed: [1]},
-  { name: 'Reportes', icon: FileTextIcon, href: '/adminReport' , rolesAllowed: [1]},
-  { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos' , rolesAllowed: [1]},
-  { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias' , rolesAllowed: [1,2]},
-  { name: 'Calendario', icon: Calendar1Icon, href: '/calendario' , rolesAllowed: [1,2]},
-  { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops' , rolesAllowed: [1]},
+  { name: 'Usuarios', icon: HomeIcon, href: '/adminuser', rolesAllowed: [1] },
+  { name: 'Talleres', icon: BriefcaseIcon, href: '/adminTaller', rolesAllowed: [1, 4] },
+  { name: 'Roles', icon: UsersIcon, href: '/adminRol', rolesAllowed: [1] },
+  { name: 'Reportes', icon: FileTextIcon, href: '/adminReport', rolesAllowed: [1] },
+  { name: 'Tipos de taller', icon: SettingsIcon, href: '/adminTipos', rolesAllowed: [1] },
+  { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias', rolesAllowed: [1, 2] },
+  { name: 'Calendario', icon: Calendar1Icon, href: '/calendario', rolesAllowed: [1, 2] },
+  { name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops', rolesAllowed: [1] },
   { name: 'Inicio', icon: HomeIcon, href: '/' },
 ]
-
 
 const filteredMenuItems = ref<MenuItem[]>([])
 
@@ -79,8 +78,8 @@ const isActive = (path: string): boolean => {
 onMounted(async () => {
   const userStore = useUserStore()
   await userStore.getUserInfo()
-  rolId.value = userStore?.user?.id_rol_id ?? "canche"
-  console.log("role id", rolId.value)
+  rolId.value = userStore?.user?.id_rol_id ?? 'canche'
+  console.log('role id', rolId.value)
 
   // Filtrar las rutas según el rol del usuario.
   filteredMenuItems.value = menuItems.filter((item) => {
@@ -88,7 +87,7 @@ onMounted(async () => {
     return !item.rolesAllowed || item.rolesAllowed.includes(Number(rolId.value))
   })
 
-  console.log("role id", rolId.value)
-  console.log("filtered menu items", filteredMenuItems.value)
+  console.log('role id', rolId.value)
+  console.log('filtered menu items', filteredMenuItems.value)
 })
 </script>

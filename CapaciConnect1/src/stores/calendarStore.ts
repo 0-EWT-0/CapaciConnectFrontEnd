@@ -48,14 +48,14 @@ export const useCalendarStore = defineStore('calendar', () => {
 
   const updateExistingCalendar = async (
     calendarId: number,
-    updateData: UpdateCalendarDTO
+    updateData: UpdateCalendarDTO,
   ): Promise<Calendar> => {
     try {
       isLoading.value = true
       error.value = null
 
       const updatedCalendar = await calendarService.updateCalendar(calendarId, updateData)
-      const index = activities.value.findIndex(a => a.Id_calendar === calendarId)
+      const index = activities.value.findIndex((a) => a.Id_calendar === calendarId)
 
       if (index !== -1) {
         activities.value[index] = updatedCalendar
@@ -83,12 +83,12 @@ export const useCalendarStore = defineStore('calendar', () => {
       console.log('Store - ID recibido para eliminar:', Id_calendar)
 
       await calendarService.deleteCalendar(Id_calendar)
-      activities.value = activities.value.filter(activity => activity.Id_calendar !== Id_calendar)
+      activities.value = activities.value.filter((activity) => activity.Id_calendar !== Id_calendar)
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Error al eliminar evento'
       console.error('Error en store al eliminar:', {
         Id_calendar,
-        error: err
+        error: err,
       })
       throw err
     } finally {
@@ -103,6 +103,6 @@ export const useCalendarStore = defineStore('calendar', () => {
     fetchAllCalendars,
     createNewCalendar,
     updateExistingCalendar,
-    deleteExistingCalendar
+    deleteExistingCalendar,
   }
 })

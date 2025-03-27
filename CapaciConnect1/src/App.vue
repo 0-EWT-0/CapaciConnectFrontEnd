@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import Loading from './components/common/Loading.vue'
 </script>
 
 <template>
@@ -13,7 +14,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </div>
   </header> -->
-
+  <!-- <Loading class="absolute"/> -->
   <RouterView />
 </template>
 

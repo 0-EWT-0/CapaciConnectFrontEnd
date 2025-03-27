@@ -34,11 +34,12 @@ const createCalendar = async () => {
     await calendarStore.createNewCalendar(newCalendar.value)
     newCalendar.value = { date_start: '', date_end: '', id_workshop_id: 0 }
   } catch (error: any) {
-    const errorMessage = error.response?.data?.message || error.message || 'Error al crear actividad'
+    const errorMessage =
+      error.response?.data?.message || error.message || 'Error al crear actividad'
     alert(errorMessage)
     console.error('Error al crear actividad:', {
       payload: newCalendar.value,
-      error: error.response?.data || error.message
+      error: error.response?.data || error.message,
     })
   }
 }
@@ -72,13 +73,12 @@ const deleteActivity = async (activity: Calendar) => {
     try {
       await calendarStore.deleteExistingCalendar(activity.Id_calendar)
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message ||
-                       error.message ||
-                       'Error al eliminar la actividad'
+      const errorMessage =
+        error.response?.data?.message || error.message || 'Error al eliminar la actividad'
       alert(errorMessage)
       console.error('Error al eliminar actividad:', {
         Id_calendar: activity.Id_calendar,
-        error: error.response?.data || error.message
+        error: error.response?.data || error.message,
       })
     }
   }
@@ -97,7 +97,7 @@ const updateActivity = async () => {
     alert(errorMessage)
     console.error('Error al actualizar actividad:', {
       Id_calendar: editingActivity.value.Id_calendar,
-      error: error.response?.data || error.message
+      error: error.response?.data || error.message,
     })
   }
 }
@@ -109,7 +109,7 @@ const formatDate = (dateString: string): string => {
     month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 
@@ -189,8 +189,19 @@ const minDate = computed(() => {
                 fill="none"
                 viewBox="0 0 24 24"
               >
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
               Creando...
             </span>
@@ -203,7 +214,10 @@ const minDate = computed(() => {
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Actividades Programadas</h2>
 
-        <div v-if="calendarStore.isLoading && calendarStore.activities.length === 0" class="text-center py-4">
+        <div
+          v-if="calendarStore.isLoading && calendarStore.activities.length === 0"
+          class="text-center py-4"
+        >
           Cargando actividades...
         </div>
 

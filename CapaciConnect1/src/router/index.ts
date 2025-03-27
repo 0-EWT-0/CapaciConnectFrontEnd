@@ -90,7 +90,6 @@ const router = createRouter({
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },
 
-
     //ADMINISTRADOR
     {
       path: '/admin',
