@@ -4,7 +4,6 @@
       class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
     >
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Talleres Programados</h2>
-
     </div>
 
     <div class="p-6">
@@ -90,9 +89,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useWorkshopStore } from '@/stores/adminWorkshop'
-import router from '@/router';
+import router from '@/router'
 
-const workshopStore= useWorkshopStore();
+const workshopStore = useWorkshopStore()
 // Función para formatear fechas
 const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -104,20 +103,20 @@ const formatDate = (dateString: string) => {
 }
 
 onMounted(async () => {
-  await workshopStore.fetchWorkshops();
-});
+  await workshopStore.fetchWorkshops()
+})
 
-const talleres = ref(workshopStore.workshops);
+const talleres = ref(workshopStore.workshops)
 
 const eliminarTodos = async () => {
   // Implementación según tu API
-};
+}
 
 const eliminarTaller = async (id: number) => {
-  await workshopStore.deleteWorkshop(id);
-};
+  await workshopStore.deleteWorkshop(id)
+}
 
 const editarTaller = (id: number) => {
-  router.push('/admin/taller/editar/${id}');
-};
+  router.push('/admin/taller/editar/${id}')
+}
 </script>

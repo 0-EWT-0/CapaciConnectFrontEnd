@@ -166,25 +166,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useWorkshopStore } from '@/stores/WorkshopStore';
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useWorkshopStore } from '@/stores/WorkshopStore'
 
 interface FormData {
-  titulo: string;
-  descripcion: string;
-  contenido: string;
-  tipoTaller: string;
-  instructor: string;
-  imagen: File | null;
-  fechaInicio: string;
-  fechaFin: string;
+  titulo: string
+  descripcion: string
+  contenido: string
+  tipoTaller: string
+  instructor: string
+  imagen: File | null
+  fechaInicio: string
+  fechaFin: string
 }
 
-const route = useRoute();
-const router = useRouter();
-const workshopStore = useWorkshopStore();
-const workshopId = Number(route.params.id);
+const route = useRoute()
+const router = useRouter()
+const workshopStore = useWorkshopStore()
+const workshopId = Number(route.params.id)
 
 const formData = ref<FormData>({
   titulo: '',
@@ -194,16 +194,16 @@ const formData = ref<FormData>({
   instructor: '',
   imagen: null,
   fechaInicio: '',
-  fechaFin: ''
-});
+  fechaFin: '',
+})
 
-const currentImage = ref<string>('');
-const successMessage = ref<string>('');
-const loadingInitialData = ref<boolean>(true);
+const currentImage = ref<string>('')
+const successMessage = ref<string>('')
+const loadingInitialData = ref<boolean>(true)
 
 onMounted(async () => {
   try {
-    const workshop = await workshopStore.getWorkshopById(workshopId);
+    const workshop = await workshopStore.getWorkshopById(workshopId)
 
     formData.value = {
       titulo: workshop.titulo,
@@ -213,57 +213,56 @@ onMounted(async () => {
       instructor: workshop.instructor,
       imagen: null,
       fechaInicio: workshop.fechaInicio?.split('T')[0] || '',
-      fechaFin: workshop.fechaFin?.split('T')[0] || ''
-    };
-
-    if (workshop.imagen) {
-      currentImage.value = typeof workshop.imagen === 'string'
-        ? workshop.imagen
-        : URL.createObjectURL(workshop.imagen);
+      fechaFin: workshop.fechaFin?.split('T')[0] || '',
     }
 
-    loadingInitialData.value = false;
+    if (workshop.imagen) {
+      currentImage.value =
+        typeof workshop.imagen === 'string' ? workshop.imagen : URL.createObjectURL(workshop.imagen)
+    }
+
+    loadingInitialData.value = false
   } catch (error) {
-    console.error('Error cargando taller:', error);
-    router.push('/talleres');
+    console.error('Error cargando taller:', error)
+    router.push('/talleres')
   }
-});
+})
 
 const handleImageChange = (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  const file = target.files?.[0];
+  const target = e.target as HTMLInputElement
+  const file = target.files?.[0]
 
   if (file) {
-    formData.value.imagen = file;
-    currentImage.value = URL.createObjectURL(file);
+    formData.value.imagen = file
+    currentImage.value = URL.createObjectURL(file)
   }
-};
+}
 
 const handleSubmit = async () => {
-  successMessage.value = '';
+  successMessage.value = ''
 
-  const form = new FormData();
-  form.append('titulo', formData.value.titulo);
-  form.append('descripcion', formData.value.descripcion);
-  form.append('contenido', formData.value.contenido);
-  form.append('tipoTaller', formData.value.tipoTaller);
-  form.append('instructor', formData.value.instructor);
-  form.append('fechaInicio', formData.value.fechaInicio);
-  form.append('fechaFin', formData.value.fechaFin);
+  const form = new FormData()
+  form.append('titulo', formData.value.titulo)
+  form.append('descripcion', formData.value.descripcion)
+  form.append('contenido', formData.value.contenido)
+  form.append('tipoTaller', formData.value.tipoTaller)
+  form.append('instructor', formData.value.instructor)
+  form.append('fechaInicio', formData.value.fechaInicio)
+  form.append('fechaFin', formData.value.fechaFin)
 
   if (formData.value.imagen) {
-    form.append('imagen', formData.value.imagen);
+    form.append('imagen', formData.value.imagen)
   }
 
   try {
-    await workshopStore.updateWorkshop(workshopId, form);
-    successMessage.value = 'Taller actualizado correctamente';
+    await workshopStore.updateWorkshop(workshopId, form)
+    successMessage.value = 'Taller actualizado correctamente'
 
     setTimeout(() => {
-      router.push('/talleres');
-    }, 1500);
+      router.push('/talleres')
+    }, 1500)
   } catch (error) {
-    console.error('Error actualizando taller:', error);
+    console.error('Error actualizando taller:', error)
   }
-};
+}
 </script>
