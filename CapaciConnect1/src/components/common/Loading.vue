@@ -1,5 +1,5 @@
 <template>
-  <div class="card flex flex-col justify-center items-center w-full h-full z-50">
+  <div class="card flex flex-col justify-center items-center w-full h-full">
     <div
       class="bg-[#F2F5FA] p-13 flex flex-col justify-center items-center rounded-lg animate-pulse"
     >

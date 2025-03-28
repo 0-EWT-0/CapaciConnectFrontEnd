@@ -1,6 +1,16 @@
 import { configure } from 'vee-validate'
 import * as yup from 'yup'
 
+export const validationWorkshop = yup.object({
+  title: yup.string().required('El título es requerido'),
+  description: yup.string().required('La descripción es requerida'),
+  content: yup.string().required('El contenido es requerido'),
+  id_type_id: yup.number()
+    .required('Seleccionar una opción es requerido')
+    .min(1, 'Seleccionar una opción es requerido'),
+  img: yup.string().required('La imagen es requerida'),
+})
+
 export const validationUser = yup.object({
   name: yup.string().required('El nombre es requerido'),
   last_names: yup.string().required('Los apellidos son requeridos'),

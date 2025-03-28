@@ -1,64 +1,77 @@
 <template>
   <div class="p-16">
-    <h2 class="text-[#212122] pb-4">Crear taller</h2>
+    <h2 class="text-[#212122] pb-4">{{ isEditing ? 'Editar taller' : 'Crear taller' }}</h2>
 
-    <form class="bg-[#F2F5FA] rounded-lg p-4" @submit.prevent="handleSubmit">
-      <!-- Inputs para campos del Workshop -->
+    <Form :validation-schema="validationWorkshop" class="bg-[#F2F5FA] rounded-lg p-4" @submit="handleSubmit">
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Título</h3></label>
-        <input
+        <Field
+        name="title"
           v-model="formData.title"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Título del taller"
         />
+        <ValidationMessage prop="title" />
       </div>
 
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Descripción</h3></label>
-        <textarea
+        <Field
+        as="textarea"
+        name="description"
           v-model="formData.description"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Descripción del taller"
         />
+        <ValidationMessage prop="description" />
       </div>
 
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Contenido</h3></label>
-        <textarea
+        <Field
+        as="textarea"
+        name="content"
           v-model="formData.content"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Contenido del taller"
         />
+        <ValidationMessage prop="content" />
       </div>
 
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Seleccionar tipo de taller</h3></label>
-        <select
-          id="tipo"
+        <Field
+        as="select"
+        name="id_type_id"
           v-model="formData.id_type_id"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
         >
           <option v-for="tipo in store.types" :key="tipo.id_type" :value="tipo.id_type">
             {{ tipo.type_name }}
           </option>
-        </select>
+        </Field>
+        <ValidationMessage prop="id_type_id" />
       </div>
 
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Imagen</h3></label>
-        <input
+        <Field
+        name="img"
           type="file"
           @change="handleFileUpload"
           accept="image/*"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
         />
-
+        <ValidationMessage prop="img" />
         <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
         <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
+        
       </div>
 
-      <div class="pb-4 w-auto">
-        <BaseButton variant="green">Crear taller</BaseButton>
+      <div class="pb-4 flex gap-4">
+        <BaseButton v-if="isEditing" variant="orange" type="submit"> Actualizar</BaseButton>
+        <BaseButton v-else variant="green" type="submit"> Crear </BaseButton>
+        <BaseButton v-if="isEditing" variant="gray" @click="cancelEdit">Cancelar</BaseButton>
       </div>
     </form>
 
@@ -67,10 +80,6 @@
       <Loading v-if="loadingStore.isLoading" />
 
       <div v-else>
-        <!-- Mostrar Mensaje de Error -->
-        <h3 v-if="errorMessage" class="text-[#DC2626]">{{ errorMessage }}</h3>
-
-        <!-- Mostrar Archivos -->
         <div
           v-if="workshopList.length > 0"
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -80,9 +89,7 @@
             :key="workshop.id_workshop"
             class="shadow-lg rounded-lg flex flex-col overflow-hidden"
           >
-            <!-- Contenedor de multimedia -->
             <div class="flex-1 h-40 md:h-auto">
-              <!-- Mostrar Imagen -->
               <img
                 :src="'data:image/jpeg;base64,' + workshop.image"
                 alt="Imagen"
@@ -93,14 +100,9 @@
             <div class="p-4">
               <h3 class="text-[#212122]">{{ workshop.title }}</h3>
               <p class="text-[#212122]">{{ workshop.description }}</p>
-              <!-- <h3 class="text-[#2563EB]">{{ workshop.id_type_id }}</h3> -->
-              <!-- Obtener el nombre del tipo desde store.types -->
-              <h3 class="text-[#2563EB]">
-                {{ getTypeName(workshop.id_type_id) }}
-              </h3>
+              <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
             </div>
 
-            <!-- Contenedor de acciones -->
             <div class="flex gap-x-2 p-4">
               <BaseButton
                 variant="red"
@@ -109,12 +111,13 @@
               >
                 Eliminar
               </BaseButton>
-              <BaseButton variant="orange" class="w-full"> Editar </BaseButton>
+              <BaseButton variant="orange" @click="startEdit(workshop)" class="w-full">
+                Editar
+              </BaseButton>
             </div>
           </div>
         </div>
 
-        <!-- Sin Archivos -->
         <h3 v-else class="text-gray-500">No hay talleres creados</h3>
       </div>
     </div>
@@ -125,7 +128,6 @@
 import { onMounted, ref } from 'vue'
 import Swal from 'sweetalert2'
 import BaseButton from '@/components/common/BaseButton.vue'
-
 import {
   createWorkshop,
   deleteWorkshop,
@@ -134,31 +136,34 @@ import {
 } from '@/services/WorkshopService'
 import type { IWorkshop } from '@/interfaces/IWorkshop'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
-
 import { useLoadingStore } from '@/stores/loadingStore'
 import Loading from '@/components/common/Loading.vue'
-const loadingStore = useLoadingStore()
+import { Field, Form } from 'vee-validate'
+import { validationWorkshop } from '@/schemas/validations'
+import ValidationMessage from '@/components/common/ValidationMessage.vue'
 
+const loadingStore = useLoadingStore()
 const workshopList = ref<Array<IWorkshop>>([])
 const successMessage = ref<string>('')
 const errorMessage = ref<string>('')
+const isEditing = ref(false)
+const currentWorkshopId = ref<string | null>(null)
 
 const formData = ref<IWorkshop>({
   title: '',
   description: '',
   content: '',
-  image: 'Imagen url',
+  image: '',
   id_type_id: 0,
 })
 
-// Función para obtener el nombre del tipo según el ID
 const store = useWorkshopTypeStore()
+
 const getTypeName = (id_type_id: number): string => {
   const type = store.types.find((tipo) => tipo.id_type === id_type_id)
   return type ? type.type_name : 'Tipo desconocido'
 }
 
-// ✅ Convertir Archivo a Base64
 const convertToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -168,7 +173,6 @@ const convertToBase64 = (file: File): Promise<string> => {
   })
 }
 
-// ✅ Manejar el upload del archivo
 const handleFileUpload = async (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
@@ -184,27 +188,37 @@ const handleFileUpload = async (event: Event) => {
   }
 }
 
-// ✅ Manejar el envío del formulario
 const handleSubmit = async () => {
   try {
-    await createWorkshop(formData.value)
-    // successMessage.value = 'Taller creado exitosamente.'
-    errorMessage.value = ''
-    Swal.fire({
-      icon: 'success',
-      title: 'Taller creado',
-      showConfirmButton: false,
-      timer: 1500,
-      backdrop: 'rgba(4, 2, 115, 0.7)',
-    })
-    formData.value = ''
+    if (isEditing.value && currentWorkshopId.value) {
+      await updateWorkshop(currentWorkshopId.value, formData.value)
+      Swal.fire({
+        icon: 'success',
+        title: 'Taller actualizado',
+        showConfirmButton: false,
+        timer: 1500,
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
+    } else {
+      await createWorkshop(formData.value)
+      Swal.fire({
+        icon: 'success',
+        title: 'Taller creado',
+        showConfirmButton: false,
+        timer: 1500,
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
+    }
+    resetForm()
     await fetchMultimedia()
   } catch (error) {
-    errorMessage.value = 'Error al crear el Workshop'
+    errorMessage.value = isEditing.value
+      ? 'Error al actualizar el taller'
+      : 'Error al crear el taller'
     console.error(error)
     Swal.fire({
-      title: 'Error al crear el taller',
-      text: 'Ocurrió un error al crear el taller',
+      title: 'Error',
+      text: `Ocurrió un error al ${isEditing.value ? 'actualizar' : 'crear'} el taller`,
       icon: 'error',
       confirmButtonColor: '#059669',
       backdrop: 'rgba(4, 2, 115, 0.7)',
@@ -212,7 +226,30 @@ const handleSubmit = async () => {
   }
 }
 
-// ✅ Obtener archivos multimedia
+const startEdit = (workshop: IWorkshop) => {
+  isEditing.value = true
+  currentWorkshopId.value = workshop.id_workshop
+  formData.value = { ...workshop }
+}
+
+const cancelEdit = () => {
+  resetForm()
+}
+
+const resetForm = () => {
+  isEditing.value = false
+  currentWorkshopId.value = null
+  formData.value = {
+    title: '',
+    description: '',
+    content: '',
+    image: '',
+    id_type_id: 0,
+  }
+  successMessage.value = ''
+  errorMessage.value = ''
+}
+
 const fetchMultimedia = async (): Promise<void> => {
   loadingStore.startLoading()
   try {
@@ -226,7 +263,6 @@ const fetchMultimedia = async (): Promise<void> => {
   }
 }
 
-// ✅ Eliminar contenido multimedia
 const handleDeleteWorkshop = async (id_workshop: string): Promise<void> => {
   const confirm = await Swal.fire({
     title: '¿Quieres eliminar este taller?',
@@ -260,32 +296,6 @@ const handleDeleteWorkshop = async (id_workshop: string): Promise<void> => {
         backdrop: 'rgba(4, 2, 115, 0.7)',
       })
     }
-  }
-}
-
-const handleUpdate = async (id_workshop: number) => {
-  try {
-    await updateWorkshop(id_workshop, formData.value)
-    errorMessage.value = ''
-    Swal.fire({
-      icon: 'success',
-      title: 'Taller actualizado',
-      showConfirmButton: false,
-      timer: 1500,
-      backdrop: 'rgba(4, 2, 115, 0.7)',
-    })
-    formData.value = ''
-    await fetchMultimedia()
-  } catch (error) {
-    errorMessage.value = 'Error al actualizar el Workshop'
-    console.error(error)
-    Swal.fire({
-      title: 'Error al actualizar el taller',
-      text: 'Ocurrió un error al actualizar el taller',
-      icon: 'error',
-      confirmButtonColor: '#059669',
-      backdrop: 'rgba(4, 2, 115, 0.7)',
-    })
   }
 }
 

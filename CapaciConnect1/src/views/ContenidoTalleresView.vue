@@ -269,10 +269,10 @@ onMounted(async () => {
 
 const submitComment = async () => {
   if (newComment.value.trim() === '') {
-    Swal.fire( {
+    Swal.fire({
       icon: 'error',
       title: 'Error al Comentar',
-      text: 'El comentario no puede estar vacío'
+      text: 'El comentario no puede estar vacío',
     })
     // alert('El comentario no puede estar vacío')
     return
@@ -285,8 +285,8 @@ const submitComment = async () => {
 
   await workshopStore.createComment(commentData)
   newComment.value = ''
-  await workshopStore.fetchCommentsByWorkshop(id_workshop);
-    comments.value = workshopStore.comments;
+  await workshopStore.fetchCommentsByWorkshop(id_workshop)
+  comments.value = workshopStore.comments
 }
 
 const editComment = (comment) => {
@@ -299,7 +299,7 @@ const editComment = (comment) => {
     Swal.fire({
       icon: 'error',
       title: 'Error al Comentar',
-      text: 'No tienes permiso para editar este comentario'
+      text: 'No tienes permiso para editar este comentario',
     })
     // alert('No tienes permiso para editar este comentario')
     return
@@ -315,9 +315,9 @@ const saveEdit = async () => {
   if (editCommentId.value !== null) {
     await workshopStore.updatedComment(editCommentId.value, { comment: editCommentText.value })
     Swal.fire({
-      icon:'success',
+      icon: 'success',
       title: 'Actualizado correctamente',
-      text: 'Se actualizo correctamente su comentario'
+      text: 'Se actualizo correctamente su comentario',
     })
     isEditing.value = false // Cierra el modal
   }
@@ -342,20 +342,20 @@ const deleteComment = async (id_comment) => {
   // const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
   if (result.isConfirmed) {
     try {
-    await workshopStore.deleteComment(id_comment)
-    Swal.fire({
-      icon: 'success',
-      title: 'Success',
-      text: 'El comentario ha sido eliminado exitosamente.'
-    })
-    await workshopStore.fetchCommentsByWorkshop(id_workshop);
-    comments.value = workshopStore.comments;
-    } catch(error) {
+      await workshopStore.deleteComment(id_comment)
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'El comentario ha sido eliminado exitosamente.',
+      })
+      await workshopStore.fetchCommentsByWorkshop(id_workshop)
+      comments.value = workshopStore.comments
+    } catch (error) {
       console.error('Error al Eliminar el comentario', error)
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Hubo un problema al intentar eliminar el comentario. Por favor, inténtalo de nuevo.'
+        text: 'Hubo un problema al intentar eliminar el comentario. Por favor, inténtalo de nuevo.',
       })
     }
   }
@@ -378,7 +378,7 @@ const handleSubscribe = async () => {
     Swal.fire({
       icon: 'success',
       title: 'Inscricion Exitosa',
-      text: 'Te inscribirte correctamente al taller' 
+      text: 'Te inscribirte correctamente al taller',
     })
     // alert('Inscripto exitosa')
     subscriptions.value.push({ id_workshop_id: id_workshop })
@@ -395,7 +395,7 @@ const handleSubscribe = async () => {
       Swal.fire({
         icon: 'error',
         title: 'Error al Inscribirte',
-        text: 'Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.'
+        text: 'Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.',
       })
       // alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
     }
@@ -437,6 +437,6 @@ const clases = ref([
   { titulo: 'Clase 3', recursos: [] },
 ])
 const splitContent = (content: string) => {
-  return content ? content.split('\n').filter((paragraph) => paragraph.trim() !== '') : [];
+  return content ? content.split('\n').filter((paragraph) => paragraph.trim() !== '') : []
 }
 </script>
