@@ -1,4 +1,3 @@
-
 export interface Calendar {
   Id_calendar: number // Ahora coincide con la BD
   date_start: string

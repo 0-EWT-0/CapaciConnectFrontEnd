@@ -27,7 +27,6 @@
                 <span class="truncate">{{ getWorkshopTypeName(reporte.id_workshop_id) }}</span>
               </div>
 
-
               <div class="flex items-center gap-2 text-sm text-gray-500">
                 <!-- Icono mantenido -->
                 <span>{{ reporte.created_at }}</span>
@@ -67,7 +66,7 @@ onMounted(async () => {
 
 // Función para obtener el nombre del tipo de taller
 const getWorkshopTypeName = (id_type: number) => {
-  const type = workshopTypeStore.types.find(t => t.id_type === id_type)
+  const type = workshopTypeStore.types.find((t) => t.id_type === id_type)
   return type ? type.type_name : 'Tipo no especificado'
 }
 const handleFinalizar = async (id: number) => {

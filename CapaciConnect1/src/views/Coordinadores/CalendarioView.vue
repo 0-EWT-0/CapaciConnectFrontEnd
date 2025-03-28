@@ -24,10 +24,7 @@ const editingActivity = ref<UpdateCalendarDTO & { id_calendar: number }>({
 
 onMounted(async () => {
   try {
-    await Promise.all([
-      calendarStore.fetchAllCalendars(),
-      workshopStore.fetchWorkshops()
-    ])
+    await Promise.all([calendarStore.fetchAllCalendars(), workshopStore.fetchWorkshops()])
   } catch (error: any) {
     console.error('Error al cargar datos:', error)
     alert('Error al cargar datos: ' + (error.message || 'Error desconocido'))
@@ -81,7 +78,7 @@ const deleteActivity = async (activity: Calendar) => {
       alert(errorMessage)
       console.error('Error al eliminar actividad:', {
         Id_calendar: activity.id_calendar,
-        error: error.response?.data || error.message
+        error: error.response?.data || error.message,
       })
     }
   }
@@ -116,7 +113,7 @@ const formatDate = (dateString: string): string => {
 }
 
 const getWorkshopTitle = (id: number): string => {
-  const workshop = workshopStore.workshops.find(w => w.id_workshop === id)
+  const workshop = workshopStore.workshops.find((w) => w.id_workshop === id)
   return workshop ? workshop.title : `Taller #${id}`
 }
 

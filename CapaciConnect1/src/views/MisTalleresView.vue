@@ -47,7 +47,11 @@
             Cierra el 01 de Febrero
           </div>
 
-          <img src="../assets/imgs/capacityLogo.png" alt="Imagen del taller" class="w-full h-40 object-cover" />
+          <img
+            src="../assets/imgs/capacityLogo.png"
+            alt="Imagen del taller"
+            class="w-full h-40 object-cover"
+          />
 
           <div class="p-4">
             <!-- <h2 class="text-lg text-black font-bold">Title</h2>
@@ -55,14 +59,12 @@
 
             <p class="text-blue-600 font-semibold mt-2">{{ progress.id_workshop_id }}</p>
             <RouterLink to="/panel-Taller">
-                <button class="bg-blue-700 rounded-lg shadow-lg font-bold m-2 h-12 w-40 text-sm">
-                  Ver Contenido
-                </button>
-              </RouterLink>
+              <button class="bg-blue-700 rounded-lg shadow-lg font-bold m-2 h-12 w-40 text-sm">
+                Ver Contenido
+              </button>
+            </RouterLink>
             <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
-              <div
-                class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
-              >
+              <div class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full">
                 Progreso: {{ progress.progression_status }}%
               </div>
             </div>
@@ -100,8 +102,8 @@ const progressions = ref([])
 
 onMounted(async () => {
   try {
-    const response = await workshopStore.fetchProgression();
-    progressions.value = response;
+    const response = await workshopStore.fetchProgression()
+    progressions.value = response
   } catch (error) {
     console.log('Error al cargar progreso:', error)
   }

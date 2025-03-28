@@ -50,7 +50,8 @@
     <!-- Contenido del taller
     <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
       <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
-      <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
+      <span class="text-lg text-black">{{ workshop.content }}</span>
+      <!-- <<div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
           @click="toggleClase(index)"
           class="flex justify-between items-center w-full text-left text-lg font-medium text-black"
@@ -121,17 +122,18 @@
               src="../assets/logo.svg"
               class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
             />
+            <p>{{ comment.user }}</p>
             <span class="text-black">{{ comment.comment }}</span>
             <div class="flex gap-2">
               <button
                 @click="editComment(comment)"
-                class="bg-red-500 text-white p-5 m-5 rounded-xl"
+                class="bg-green-500 hover:bg-green-700 text-white p-5 m-5 rounded-xl"
               >
                 Editar
               </button>
               <button
                 @click="deleteComment(comment.id_comment)"
-                class="text-red-500 hover:text-red-800"
+                class="bg-red-500 hover:bg-red-700 text-white p-5 m-5 rounded-xl"
               >
                 Eliminar
               </button>
@@ -200,6 +202,7 @@ import { useWorkshopStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
 import Navbar from '@/components/global/Navbar.vue'
+import Swal from 'sweetalert2'
 
 const route = useRoute()
 const id_workshop = Number(route.params.id_workshop)
@@ -234,7 +237,7 @@ const currentUser = ref('')
 onMounted(async () => {
   await workshopStore.fetchCommentsByWorkshop(id_workshop)
   comments.value = workshopStore.comments
-  console.log('comentarios', comments.value)
+  // console.log('comentarios', comments.value)
 })
 
 onMounted(async () => {
@@ -266,7 +269,12 @@ onMounted(async () => {
 
 const submitComment = async () => {
   if (newComment.value.trim() === '') {
-    alert('El comentario no puede estar vacío')
+    Swal.fire( {
+      icon: 'error',
+      title: 'Error al Comentar',
+      text: 'El comentario no puede estar vacío'
+    })
+    // alert('El comentario no puede estar vacío')
     return
   }
 
@@ -277,6 +285,8 @@ const submitComment = async () => {
 
   await workshopStore.createComment(commentData)
   newComment.value = ''
+  await workshopStore.fetchCommentsByWorkshop(id_workshop);
+    comments.value = workshopStore.comments;
 }
 
 const editComment = (comment) => {
@@ -286,7 +296,12 @@ const editComment = (comment) => {
   }
 
   if (comment.id_user !== currentUser.id_user) {
-    alert('No tienes permiso para editar este comentario')
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Comentar',
+      text: 'No tienes permiso para editar este comentario'
+    })
+    // alert('No tienes permiso para editar este comentario')
     return
   }
 
@@ -299,6 +314,11 @@ const editComment = (comment) => {
 const saveEdit = async () => {
   if (editCommentId.value !== null) {
     await workshopStore.updatedComment(editCommentId.value, { comment: editCommentText.value })
+    Swal.fire({
+      icon:'success',
+      title: 'Actualizado correctamente',
+      text: 'Se actualizo correctamente su comentario'
+    })
     isEditing.value = false // Cierra el modal
   }
 }
@@ -309,9 +329,35 @@ const cancelEdit = () => {
 }
 
 const deleteComment = async (id_comment) => {
-  const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
-  if (confirmDelete) {
+  const result = await Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'No podrás deshacer esta acción.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+  })
+  // const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
+  if (result.isConfirmed) {
+    try {
     await workshopStore.deleteComment(id_comment)
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'El comentario ha sido eliminado exitosamente.'
+    })
+    await workshopStore.fetchCommentsByWorkshop(id_workshop);
+    comments.value = workshopStore.comments;
+    } catch(error) {
+      console.error('Error al Eliminar el comentario', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al intentar eliminar el comentario. Por favor, inténtalo de nuevo.'
+      })
+    }
   }
 }
 
@@ -319,19 +365,39 @@ const deleteComment = async (id_comment) => {
 const handleSubscribe = async () => {
   try {
     if (isSubscribed.value) {
-      alert('Ya esta inscrito en este taller')
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Ya esta inscrito en este taller',
+      })
+      // alert('Ya esta inscrito en este taller')
       return
     }
 
     await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
-    alert('Inscripto exitosa')
+    Swal.fire({
+      icon: 'success',
+      title: 'Inscricion Exitosa',
+      text: 'Te inscribirte correctamente al taller' 
+    })
+    // alert('Inscripto exitosa')
     subscriptions.value.push({ id_workshop_id: id_workshop })
   } catch (error) {
     if (error.message === 'Ya estás inscrito en este taller.') {
-      alert(error.message) // Mostrar el mensaje claro
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Inscribirte',
+        text: error.message,
+      })
+      // alert(error.message) Mostrar el mensaje claro
     } else {
       console.error('Error al inscribirse:', error)
-      alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Inscribirte',
+        text: 'Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.'
+      })
+      // alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
     }
   }
 }
@@ -358,11 +424,11 @@ onMounted(async () => {
 })
 
 //Contenidod
-const activeIndex = ref(null)
+// const activeIndex = ref(null)
 
-const toggleClase = (index) => {
-  activeIndex.value = activeIndex.value === index ? null : index
-}
+// const toggleClase = (index) => {
+//   activeIndex.value = activeIndex.value === index ? null : index
+// }
 
 const clases = ref([
   { titulo: 'Bienvenida al taller', recursos: ['Bienvenida.mp4'] },

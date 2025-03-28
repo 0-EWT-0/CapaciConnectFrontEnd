@@ -7,26 +7,37 @@
       <!-- Título del Reporte -->
       <div class="mb-6">
         <label class="block text-gray-700 text-xl font-semibold">Título del Reporte</label>
-        <input v-model="form.tittle" type="text"
+        <input
+          v-model="form.tittle"
+          type="text"
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          placeholder="Escribe el título del reporte..." required />
+          placeholder="Escribe el título del reporte..."
+          required
+        />
       </div>
 
       <!-- Descripción del Problema -->
       <div class="mb-6">
         <label class="block text-gray-700 text-xl font-semibold">Descripción del Problema</label>
-        <textarea v-model="form.content" rows="6"
+        <textarea
+          v-model="form.content"
+          rows="6"
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          placeholder="Describe el problema..." required></textarea>
+          placeholder="Describe el problema..."
+          required
+        ></textarea>
       </div>
 
       <!-- Seleccionar Taller -->
       <div class="mb-6">
         <label class="block text-gray-700 text-xl font-semibold">Taller Relacionado</label>
-        <select v-model="form.id_workshop_id"
-        @change="clearError"
+        <select
+          v-model="form.id_workshop_id"
+          @change="clearError"
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          required :disabled="workshopTypeStore.isLoading || reportStore.isLoading">
+          required
+          :disabled="workshopTypeStore.isLoading || reportStore.isLoading"
+        >
           <option disabled :value="null">Selecciona un taller</option>
           <option v-for="type in workshopTypeStore.types" :key="type.id_type" :value="type.id_type">
             {{ type.type_name }}
@@ -40,7 +51,6 @@
         <div v-if="workshopTypeStore.error" class="text-red-500 mt-2 text-lg">
           ❌ Error cargando talleres: {{ workshopTypeStore.error }}
         </div>
-
       </div>
 
       <!-- Estados de carga y error -->
@@ -56,9 +66,11 @@
 
       <!-- Botón Enviar -->
       <div class="flex justify-center mt-8">
-        <button type="submit"
+        <button
+          type="submit"
           class="px-8 py-4 text-lg bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="reportStore.isLoading || workshopTypeStore.isLoading">
+          :disabled="reportStore.isLoading || workshopTypeStore.isLoading"
+        >
           📩 {{ reportStore.isLoading ? 'Enviando...' : 'Enviar Reporte' }}
         </button>
       </div>
@@ -87,8 +99,6 @@ const form = ref({
   id_workshop_id: null as number | null,
 })
 
-
-
 // Cargar talleres al montar el componente
 onMounted(async () => {
   try {
@@ -113,7 +123,6 @@ const clearError = () => {
 
 // Manejar envío del formulario
 const handleSubmit = async () => {
-
   showSuccess.value = false
   reportStore.error = null
 
@@ -134,7 +143,7 @@ const handleSubmit = async () => {
   if (form.value.tittle.trim().length < 5 || form.value.content.trim().length < 10) {
     console.warn('[ReportForm] Validación fallida: Contenido muy corto', {
       titleLength: form.value.tittle.trim().length,
-      contentLength: form.value.content.trim().length
+      contentLength: form.value.content.trim().length,
     })
     reportStore.error = 'El título debe tener al menos 5 caracteres y la descripción 10'
     return
@@ -145,14 +154,14 @@ const handleSubmit = async () => {
       tittle: form.value.tittle,
       content: form.value.content,
       id_workshop_id: form.value.id_workshop_id,
-      id_user_id: authStore.user.Id_user
+      id_user_id: authStore.user.Id_user,
     })
 
     await reportStore.createReport({
       tittle: form.value.tittle,
       content: form.value.content,
       id_workshop_id: form.value.id_workshop_id,
-      id_user_id: authStore.user.Id_user
+      id_user_id: authStore.user.Id_user,
     })
 
     console.log('[ReportForm] Reporte enviado exitosamente')
@@ -160,7 +169,7 @@ const handleSubmit = async () => {
     form.value = {
       tittle: '',
       content: '',
-      id_workshop_id: null
+      id_workshop_id: null,
     }
   } catch (error) {
     console.error('[ReportForm] Error en el componente:', error)

@@ -46,7 +46,7 @@
           </div>
 
           <div class="space-y-3">
-            <label for="fechaFin" class="block text-sm  font-medium text-gray-700"
+            <label for="fechaFin" class="block text-sm font-medium text-gray-700"
               >Fecha de Fin</label
             >
             <input
@@ -110,7 +110,7 @@
                 <input
                   type="checkbox"
                   id="sinImagen"
-                  class="w-4 h-4 border-2  border-gray-300 rounded checked:bg-emerald-500"
+                  class="w-4 h-4 border-2 border-gray-300 rounded checked:bg-emerald-500"
                 />
                 <label for="sinImagen" class="text-sm text-gray-600"
                   >Usar imagen predeterminada</label
