@@ -1,8 +1,11 @@
 <template>
   <div class="p-16">
-    <h2 class="text-[#212122] pb-4">Crear taller</h2>
+    <h2 class="text-[#212122] pb-4">{{ isEditing ? 'Editar taller' : 'Crear taller' }}</h2>
 
-    <form class="bg-[#F2F5FA] rounded-lg p-4" @submit.prevent="handleSubmit">
+    <form
+      class="bg-[#F2F5FA] rounded-lg p-4"
+      @submit.prevent="isEditing ? handleUpdate(selectedWorkshopId) : handleSubmit"
+    >
       <!-- Inputs para campos del Workshop -->
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Título</h3></label>
@@ -58,7 +61,9 @@
       </div>
 
       <div class="pb-4 w-auto">
-        <BaseButton variant="green">Crear taller</BaseButton>
+        <BaseButton :variant="isEditing ? 'orange' : 'green'">
+          {{ isEditing ? 'Actualizar' : 'Crear' }}
+        </BaseButton>
       </div>
     </form>
 
@@ -93,21 +98,25 @@
             <div class="p-4">
               <h3 class="text-[#212122]">{{ workshop.title }}</h3>
               <p class="text-[#212122]">{{ workshop.description }}</p>
-              <!-- <h3 class="text-[#2563EB]">{{ workshop.id_type_id }}</h3> -->
               <!-- Obtener el nombre del tipo desde store.types -->
-              <h3 class="text-[#2563EB]">
-                {{ getTypeName(workshop.id_type_id) }}
-              </h3>
+              <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
             </div>
 
             <!-- Contenedor de acciones -->
-            <div class="p-4">
+            <div class="flex gap-x-2 p-4">
               <BaseButton
                 variant="red"
                 @click="handleDeleteWorkshop(workshop.id_workshop)"
                 class="w-full"
               >
                 Eliminar
+              </BaseButton>
+              <BaseButton
+                variant="orange"
+                @click="prepareEdit(workshop)"
+                class="w-full"
+              >
+                Editar
               </BaseButton>
             </div>
           </div>
@@ -125,12 +134,15 @@ import { onMounted, ref } from 'vue'
 import Swal from 'sweetalert2'
 import BaseButton from '@/components/common/BaseButton.vue'
 
-import { createWorkshop, deleteWorkshop, getAllWorkshop } from '@/services/WorkshopService'
+import { createWorkshop, deleteWorkshop, getAllWorkshop, updateWorkshop } from '@/services/WorkshopService'
 import type { IWorkshop } from '@/interfaces/IWorkshop'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 
 import { useLoadingStore } from '@/stores/loadingStore'
 import Loading from '@/components/common/Loading.vue'
+
+const isEditing = ref(false) // Indicador para saber si estamos editando
+const selectedWorkshopId = ref<number | null>(null)
 const loadingStore = useLoadingStore()
 
 const workshopList = ref<Array<IWorkshop>>([])
@@ -144,6 +156,12 @@ const formData = ref<IWorkshop>({
   image: 'Imagen url',
   id_type_id: 0,
 })
+
+const prepareEdit = (workshop: IWorkshop) => {
+  isEditing.value = true
+  selectedWorkshopId.value = workshop.id_workshop
+  formData.value = { ...workshop }
+}
 
 // Función para obtener el nombre del tipo según el ID
 const store = useWorkshopTypeStore()
@@ -256,6 +274,34 @@ const handleDeleteWorkshop = async (id_workshop: string): Promise<void> => {
     }
   }
 }
+
+
+const handleUpdate = async (id_workshop: number) => {
+  try {
+    await updateWorkshop(id_workshop, formData.value) // Llamada al servicio para actualizar
+    errorMessage.value = ''
+    Swal.fire({
+      icon: 'success',
+      title: 'Taller actualizado',
+      showConfirmButton: false,
+      timer: 1500,
+      backdrop: 'rgba(4, 2, 115, 0.7)',
+    })
+    formData.value = '' // Reinicia los datos del formulario
+    await fetchMultimedia() // Recarga la lista de workshops
+  } catch (error) {
+    errorMessage.value = 'Error al actualizar el Workshop'
+    console.error(error)
+    Swal.fire({
+      title: 'Error al actualizar el taller',
+      text: 'Ocurrió un error al actualizar el taller',
+      icon: 'error',
+      confirmButtonColor: '#059669',
+      backdrop: 'rgba(4, 2, 115, 0.7)',
+    })
+  }
+}
+
 
 onMounted(async () => {
   await fetchMultimedia()
