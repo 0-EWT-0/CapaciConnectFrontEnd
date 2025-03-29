@@ -2,7 +2,7 @@
   <Navbar />
 
   <CarouselComponent />
-  <main class="p-10">
+  <main>
     <div class="max-w-md mx-auto m-10">
       <label for="search" class="sr-only">Buscar</label>
       <div class="relative">
@@ -23,53 +23,54 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center m-5">
-      <h1 class="text-black text-2xl font-bold mb-6 text-center">Talleres destacados</h1>
+    <div class="mt-19 px-19 pb-11 bg-[#F2F5FA]">
+      <h2 class="text-[#212122] py-11">Talleres destacados</h2>
+      <Loading v-if="loadingStore.isLoading" />
 
-      <!-- Contenedor de tarjetas en formato grid -->
-      <div
-        v-if="workshops && workshops.length > 0"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
-      >
+      <div v-else>
         <div
-          v-for="workshop in workshops"
-          :key="workshop.id_workshop"
-          class="bg-white rounded-lg m-10 shadow-lg overflow-hidden"
+          v-if="workshops.length > 0"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
-          <img src="../assets/logo.svg" alt="Taller de arte" class="w-full h-40 object-cover" />
-          <div class="p-4">
-            <h2 class="text-lg text-black font-bold p-2">{{ workshop.title }}</h2>
-            <p class="text-gray-600 p-3">{{ workshop.description }}</p>
-            <p class="text-base text-gray-600">{{ workshop.id_user_id }}</p>
-            <!-- <a href="/contenidoTalleres" class="text-blue-600 font-semibold mt-2 block p-4"
-              >Tipo de taller</a
-            > -->
+          <div
+            v-for="workshop in workshops"
+            :key="workshop.id_workshop"
+            class="shadow-lg rounded-lg flex flex-col overflow-hidden"
+          >
+            <div class="flex-1 h-40 md:h-auto">
+              <img
+                :src="'data:image/jpeg;base64,' + workshop.image"
+                alt="Imagen"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="p-4">
+              <h3 class="text-[#212122]">{{ workshop.title }}</h3>
+              <p class="text-[#212122]">{{ workshop.description }}</p>
+              <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
+              >
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex-justify-start">
-        <RouterLink to="/Talleres">
-          <button class="bg-white text-[#2563EB] px-10 py-6 rounded-md border border-[#2563EB]">
-            Mostrar Más
-          </button>
-        </RouterLink>
+
+        <h3 v-else class="text-gray-500">No hay talleres creados</h3>
       </div>
     </div>
 
-    <div class="flex flex-col items-center m-10">
-      <h1 class="text-black text-2xl font-bold mb-6 text-center">Temas</h1>
+    <div class="flex flex-col items-center my-19 px-19 pb-11">
+      <div class="flex items-start w-full">
+        <h2 class="text-[#212122] text-start pb-4 items-start">Tipos de talleres</h2>
+      </div>
 
       <!-- Contenedor de tarjetas en formato grid -->
-      <div
-        v-if="types && types.length > 0"
-        class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10 py-10"
-      >
+      <div v-if="types && types.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10">
         <div
           v-for="type in types"
           :key="type.id_type"
           class="flex justify-center items-center h-[5rem] w-[20rem] bg-[#33415C] text-white font-bold text-xl rounded-lg shadow-md"
         >
-          <div class="text-center p-12">{{ type.type_name }}</div>
+          <div class="text-cente">{{ type.type_name }}</div>
         </div>
 
         <!-- <button
@@ -92,9 +93,18 @@ import CarouselComponent from '@/components/common/CarouselComponent.vue'
 
 import { useWorkshopStore, useTypeStore } from '@/stores/user'
 import { onMounted, computed } from 'vue'
+import Loading from '@/components/common/Loading.vue'
+import { useLoadingStore } from '@/stores/loadingStore'
+import BaseButton from '@/components/common/BaseButton.vue'
 
+const loadingStore = useLoadingStore()
 const workshopStore = useWorkshopStore()
 const typeStore = useTypeStore()
+
+const getTypeName = (id_type_id: number): string => {
+  const type = typeStore.types.find((tipo) => tipo.id_type === id_type_id)
+  return type ? type.type_name : 'Tipo desconocido'
+}
 
 onMounted(async () => {
   await workshopStore.fetchWorkshops()

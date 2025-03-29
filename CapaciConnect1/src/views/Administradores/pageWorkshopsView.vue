@@ -2,11 +2,15 @@
   <div class="p-16">
     <h2 class="text-[#212122] pb-4">{{ isEditing ? 'Editar taller' : 'Crear taller' }}</h2>
 
-    <Form :validation-schema="validationWorkshop" class="bg-[#F2F5FA] rounded-lg p-4" @submit="handleSubmit">
+    <Form
+      :validation-schema="validationWorkshop"
+      class="bg-[#F2F5FA] rounded-lg p-4"
+      @submit="handleSubmit"
+    >
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Título</h3></label>
         <Field
-        name="title"
+          name="title"
           v-model="formData.title"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Título del taller"
@@ -17,8 +21,8 @@
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Descripción</h3></label>
         <Field
-        as="textarea"
-        name="description"
+          as="textarea"
+          name="description"
           v-model="formData.description"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Descripción del taller"
@@ -29,8 +33,8 @@
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Contenido</h3></label>
         <Field
-        as="textarea"
-        name="content"
+          as="textarea"
+          name="content"
           v-model="formData.content"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Contenido del taller"
@@ -41,8 +45,8 @@
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Seleccionar tipo de taller</h3></label>
         <Field
-        as="select"
-        name="id_type_id"
+          as="select"
+          name="id_type_id"
           v-model="formData.id_type_id"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
         >
@@ -56,7 +60,7 @@
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Imagen</h3></label>
         <Field
-        name="img"
+          name="img"
           type="file"
           @change="handleFileUpload"
           accept="image/*"
@@ -65,7 +69,6 @@
         <ValidationMessage prop="img" />
         <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
         <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
-        
       </div>
 
       <div class="pb-4 flex gap-4">
@@ -73,7 +76,7 @@
         <BaseButton v-else variant="green" type="submit"> Crear </BaseButton>
         <BaseButton v-if="isEditing" variant="gray" @click="cancelEdit">Cancelar</BaseButton>
       </div>
-    </form>
+    </Form>
 
     <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
       <h2 class="text-[#212122] py-11">Talleres creados</h2>

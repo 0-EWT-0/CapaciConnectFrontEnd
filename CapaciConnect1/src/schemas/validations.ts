@@ -5,7 +5,8 @@ export const validationWorkshop = yup.object({
   title: yup.string().required('El título es requerido'),
   description: yup.string().required('La descripción es requerida'),
   content: yup.string().required('El contenido es requerido'),
-  id_type_id: yup.number()
+  id_type_id: yup
+    .number()
     .required('Seleccionar una opción es requerido')
     .min(1, 'Seleccionar una opción es requerido'),
   img: yup.string().required('La imagen es requerida'),
