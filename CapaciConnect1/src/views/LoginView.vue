@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="bg-red-400 w-screen h-screen flex"> -->
   <div class="w-screen h-screen flex">
     <div class="w-1/2">
       <img :src="img" class="object-cover w-full h-full" />
@@ -57,16 +56,23 @@ import { validationUserLogin } from '@/schemas/validations'
 import { useAuthStore } from '@/stores/auth'
 import { Field, Form } from 'vee-validate'
 import { ref } from 'vue'
+import { useLoadingStore } from '@/stores/loadingStore'
+import Loading from '@/components/common/Loading.vue'
+
+const loadingStore = useLoadingStore()
 
 const email = ref('')
 const password = ref('')
 const authStore = useAuthStore()
 
 const handleLogin = async () => {
+  loadingStore.startLoading()
   try {
     await authStore.login(email.value, password.value)
   } catch (error) {
     console.error('Error during login:', error)
+  } finally {
+    loadingStore.stopLoading()
   }
 }
 </script>
