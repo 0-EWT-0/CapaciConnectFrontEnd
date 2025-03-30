@@ -45,13 +45,18 @@
       >
         {{ isSubscribed ? 'Ya inscrito' : 'Inscribirse' }}
       </button>
+      <!-- Botón de Reporte -->
+      <button @click="$router.push('/Reportar')"
+        class="bg-red-500 text-white py-5 px-15 rounded-lg hover:bg-red-600 text-xl">
+        Reportar
+      </button>
     </div>
 
     <!-- Contenido del taller
     <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
       <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
       <span class="text-lg text-black">{{ workshop.content }}</span>
-      <!-- <<div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
+      <-- <<div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
           @click="toggleClase(index)"
           class="flex justify-between items-center w-full text-left text-lg font-medium text-black"
@@ -378,7 +383,7 @@ const handleSubscribe = async () => {
     Swal.fire({
       icon: 'success',
       title: 'Inscricion Exitosa',
-      text: 'Te inscribirte correctamente al taller' 
+      text: 'Te inscribirte correctamente al taller'
     })
     // alert('Inscripto exitosa')
     subscriptions.value.push({ id_workshop_id: id_workshop })
