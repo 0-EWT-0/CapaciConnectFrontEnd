@@ -19,7 +19,7 @@
 
     <!-- Imagen principal y título -->
     <div class="text-center mt-4">
-      <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
+      <img :src="'data:image/jpeg;base64,' + workshop.image" alt="Pinceles" class="mx-auto w-96" />
       <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
       <p class="text-2xl text-gray-700 mt-2">
         {{ workshop.description ? workshop.description : 'sin descripcion' }}.
@@ -380,6 +380,12 @@ const handleSubscribe = async () => {
     }
 
     await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
+    const progressionData = {
+      progression_status: '100',
+      id_workshop_id: id_workshop,
+    }
+    await workshopStore.createProgression(progressionData)
+
     Swal.fire({
       icon: 'success',
       title: 'Inscricion Exitosa',

@@ -13,6 +13,7 @@ import {
   fetchCalendarsByWorkshopIdService,
   fetchProgressionService,
   getUserInfoService,
+  createProgressionServices,
 } from '@/services/UserService'
 
 import type { Workshop } from '@/interfaces/Workshop'
@@ -159,6 +160,16 @@ export const useWorkshopStore = defineStore('workshop', () => {
     }
   }
 
+  async function createProgression(progressionData: any) {
+    try {
+      const response = await createProgressionServices(progressionData)
+      console.log(response)
+      return response
+    } catch (error) {
+      console.error(`Error en createProgression para taller:`, error)
+    }
+  }
+  
   return {
     workshops,
     fetchWorkshops,
@@ -170,6 +181,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
     subscribeToWorkshop,
     fetchCalendarsByWorkshopId,
     fetchProgression,
+    createProgression,
   }
 })
 

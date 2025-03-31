@@ -1,6 +1,6 @@
 <template>
-  <Header />
-  <div class="max-w-4xl mx-auto p-25 m-25 bg-white shadow-2xl rounded-2xl text-black">
+  <Navbar />
+  <div class="max-w-4xl mx-auto p-30 m-30 bg-white shadow-2xl rounded-2xl text-black">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Enviar Reporte</h2>
 
     <form @submit.prevent="handleSubmit">
@@ -64,6 +64,7 @@ import { useWorkshopStore } from '@/stores/adminWorkshop'
 import { useAuthStore } from '@/stores/auth'
 import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
+import Navbar from '@/components/global/Navbar.vue'
 
 const reportStore = useReportStore()
 const authStore = useAuthStore()

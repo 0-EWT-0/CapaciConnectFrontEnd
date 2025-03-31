@@ -163,6 +163,15 @@ export const fetchProgressionService = async () => {
   }
 }
 
+export const createProgressionServices = async (progressionData: any) => {
+  try {
+    const response = await genericRequestAuth(`${base_url}/Progression/CreateProgression`, 'POST', progressionData)
+    return response
+  } catch (error) {
+    await handleError(error, 'createProgressionServices')
+  }
+}
+
 //Servicios para Los tipos de Talleres
 export const getTypeService = async () => {
   try {

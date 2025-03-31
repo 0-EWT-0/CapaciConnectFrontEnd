@@ -93,7 +93,7 @@
                   </div>
                   <p class="text-sm text-gray-500 mt-2">
                     Se unió el
-                    <span class="text-blue-600 font-semibold">{{ usuario.created_at }}</span>
+                    <span class="text-blue-600 font-semibold">{{ formatDate(usuario.created_at) }}</span>
                   </p>
                 </div>
               </div>
@@ -152,7 +152,7 @@
   <Footer />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
 import { reactive, onMounted, watchEffect } from 'vue'
@@ -232,5 +232,10 @@ const cancelarEdicion = () => {
     usuario.telefono = userStore.user.phone || ''
     usuario.descripcion = userStore.user.description || ''
   }
+}
+
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('es-ES', options);
 }
 </script>
