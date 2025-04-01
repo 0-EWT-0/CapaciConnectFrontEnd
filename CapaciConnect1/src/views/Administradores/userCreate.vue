@@ -162,7 +162,18 @@ const handlePhoneInput = (event: Event) => {
 const handleImageChange = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files && input.files[0]) {
-    formData.value.profile_img = input.files[0]
+    const file = input.files[0]
+    // Validar tipo (opcional)
+    if (!file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen válido')
+      return
+    }
+    // Validar tamaño (ej. 2MB máximo)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('La imagen no debe exceder los 2MB')
+      return
+    }
+    formData.value.profile_img = file
   }
 }
 
@@ -186,7 +197,7 @@ const handleSubmit = async () => {
     formPayload.append('email', formData.value.email)
     formPayload.append('phone', formData.value.phone)
     formPayload.append('password', formData.value.password)
-    formPayload.append('escription', formData.value.description)
+    formPayload.append('description', formData.value.description)
 
     if (formData.value.profile_img) {
       formPayload.append('Profile_img', formData.value.profile_img)

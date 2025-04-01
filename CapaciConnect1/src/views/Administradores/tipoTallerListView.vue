@@ -1,17 +1,12 @@
 <template>
   <div class="bg-white shadow-xl rounded-2xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
-    <div
-      class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
-    >
+    <div class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200">
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Tipos de talleres</h2>
     </div>
 
     <!-- Mensajes de estado -->
     <div v-if="store.error" class="mx-6 p-4 bg-red-100 text-red-700 rounded-lg">
       {{ store.error }}
-    </div>
-    <div v-if="successMessage" class="mx-6 p-4 bg-green-100 text-green-700 rounded-lg">
-      {{ successMessage }}
     </div>
 
     <div class="p-6">
@@ -53,7 +48,7 @@
             <!-- Acciones -->
             <div class="flex justify-center gap-3 mt-6 pt-4 border-t border-gray-100">
               <button
-                @click="eliminarTipo(tipo.id_type)"
+                @click="confirmarEliminarTipo(tipo.id_type, tipo.type_name)"
                 :disabled="store.isLoading"
                 class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-2 disabled:bg-gray-100 disabled:text-gray-400"
               >
@@ -78,23 +73,51 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
+import Swal from 'sweetalert2'
 
 const store = useWorkshopTypeStore()
-const successMessage = ref('')
 
 onMounted(async () => {
   await store.fetchAllTypes()
 })
 
-const eliminarTipo = async (id: number) => {
-  if (confirm('¿Estás seguro de que deseas eliminar este tipo de taller?')) {
-    try {
-      await store.deleteType(id)
-      successMessage.value = 'Tipo de taller eliminado correctamente'
-      setTimeout(() => successMessage.value = '', 3000)
-    } catch {
-      // El error ya está manejado en el store
+const confirmarEliminarTipo = (id: number, nombreTipo: string) => {
+  Swal.fire({
+    title: `¿Eliminar "${nombreTipo}"?`,
+    text: "Esta acción no se puede deshacer",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#059669',
+    cancelButtonColor: '#dc2626',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+    backdrop: 'rgba(0,0,0,0.7)'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await store.deleteType(id)
+        // Mostrar alerta de éxito
+        Swal.fire({
+          title: '¡Eliminado!',
+          text: `El tipo "${nombreTipo}" ha sido eliminado`,
+          icon: 'success',
+          confirmButtonColor: '#059669',
+          timer: 2000,
+          showConfirmButton: false
+        })
+        // Recargar la lista
+        await store.fetchAllTypes()
+      } catch (error) {
+        // El error ya está manejado en el store
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo eliminar el tipo de taller',
+          icon: 'error',
+          confirmButtonColor: '#dc2626'
+        })
+      }
     }
-  }
+  })
 }
 </script>
