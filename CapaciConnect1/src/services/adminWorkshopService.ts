@@ -3,7 +3,6 @@ import type { Workshop } from '@/interfaces/Workshop'
 
 const base_url = 'https://localhost:44368/api'
 
-
 const handleError = async (error: any, context: string) => {
   const errorMessage = `Error during ${context}: ${error.message}`
   console.error(errorMessage)
@@ -27,10 +26,7 @@ const handleError = async (error: any, context: string) => {
 export const WorkshopService = {
   async getAllWorkshops(): Promise<Workshop[]> {
     try {
-      const response = await genericRequestAuth(
-        `${base_url}/Workshop/AllWorkshops`,
-        'GET'
-      )
+      const response = await genericRequestAuth(`${base_url}/Workshop/AllWorkshops`, 'GET')
       return response.data
     } catch (error: any) {
       await handleError(error, 'getAllWorkshops')
@@ -46,9 +42,9 @@ export const WorkshopService = {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       )
       return response.data
     } catch (error: any) {
@@ -65,9 +61,9 @@ export const WorkshopService = {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       )
       return response.data
     } catch (error: any) {
@@ -78,13 +74,10 @@ export const WorkshopService = {
 
   async deleteWorkshop(workshopId: number): Promise<void> {
     try {
-      await genericRequestAuth(
-        `${base_url}/Workshop/DeleteWorkshop/${workshopId}`,
-        'DELETE'
-      )
+      await genericRequestAuth(`${base_url}/Workshop/DeleteWorkshop/${workshopId}`, 'DELETE')
     } catch (error: any) {
       await handleError(error, 'deleteWorkshop')
       throw error
     }
-  }
+  },
 }

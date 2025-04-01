@@ -36,7 +36,7 @@
           class="bg-white rounded-lg shadow-lg overflow-hidden"
         >
           <img
-            :src="workshop.image || '../assets/logo.svg'"
+            :src="'data:image/jpeg;base64,' + workshop.image"
             alt="Taller de arte"
             class="w-full h-40 object-cover"
           />

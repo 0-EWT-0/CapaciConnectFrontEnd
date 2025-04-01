@@ -3,19 +3,27 @@
   <div class="bg-white p-8">
     <!-- Barra superior -->
     <div class="text-white flex justify-between p-2">
-      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Inicio el {{ formatDate(calendarData.date_start) }}</span
+      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center">
+        Fecha de Inicio:
+        <b class="font-semibold">{{
+          formatDate(calendarData.date_start ? calendarData.date_start : 'sin fecha de incio')
+        }}</b></span
       >
       <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Cierre el {{ formatDate(calendarData.date_end) }}</span
+        >Fecha de Cierre:
+        <b class="font-semibold">{{
+          formatDate(calendarData.date_end ? calendarData.date_end : 'sin fecha de cierre')
+        }}</b></span
       >
     </div>
 
     <!-- Imagen principal y título -->
     <div class="text-center mt-4">
-      <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
+      <img :src="'data:image/jpeg;base64,' + workshop.image" alt="Pinceles" class="mx-auto w-96" />
       <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
-      <p class="text-gray-700 mt-2">{{ workshop.description }}.</p>
+      <p class="text-2xl text-gray-700 mt-2">
+        {{ workshop.description ? workshop.description : 'sin descripcion' }}.
+      </p>
     </div>
 
     <!-- Información del instructor -->
@@ -37,12 +45,18 @@
       >
         {{ isSubscribed ? 'Ya inscrito' : 'Inscribirse' }}
       </button>
+      <!-- Botón de Reporte -->
+      <button @click="$router.push('/Reportar')"
+        class="bg-red-500 text-white py-5 px-15 rounded-lg hover:bg-red-600 text-xl">
+        Reportar
+      </button>
     </div>
 
-    <!-- Contenido del taller -->
+    <!-- Contenido del taller
     <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
       <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
-      <div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
+      <span class="text-lg text-black">{{ workshop.content }}</span>
+      <-- <<div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
         <button
           @click="toggleClase(index)"
           class="flex justify-between items-center w-full text-left text-lg font-medium text-black"
@@ -61,6 +75,15 @@
           </li>
         </ul>
       </div>
+    </div> -->
+
+    <div class="flex rounded p-5 mt-5 border border-black justify-center text-justify">
+      <div v-if="workshop.content" class="text-black font-light">
+        <p v-for="(paragraph, index) in splitContent(workshop.content)" :key="index">
+          {{ paragraph }}
+        </p>
+      </div>
+      <b v-else class="text-black font-light">Sin contenido disponible</b>
     </div>
 
     <!-- Sección de comentarios -->
@@ -104,17 +127,18 @@
               src="../assets/logo.svg"
               class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
             />
+            <p>{{ comment.user }}</p>
             <span class="text-black">{{ comment.comment }}</span>
             <div class="flex gap-2">
               <button
                 @click="editComment(comment)"
-                class="bg-red-500 text-white p-5 m-5 rounded-xl"
+                class="bg-green-500 hover:bg-green-700 text-white p-5 m-5 rounded-xl"
               >
                 Editar
               </button>
               <button
                 @click="deleteComment(comment.id_comment)"
-                class="text-red-500 hover:text-red-800"
+                class="bg-red-500 hover:bg-red-700 text-white p-5 m-5 rounded-xl"
               >
                 Eliminar
               </button>
@@ -183,6 +207,7 @@ import { useWorkshopStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
 import Navbar from '@/components/global/Navbar.vue'
+import Swal from 'sweetalert2'
 
 const route = useRoute()
 const id_workshop = Number(route.params.id_workshop)
@@ -217,15 +242,15 @@ const currentUser = ref('')
 onMounted(async () => {
   await workshopStore.fetchCommentsByWorkshop(id_workshop)
   comments.value = workshopStore.comments
-  console.log('comentarios', comments.value)
+  // console.log('comentarios', comments.value)
 })
 
 onMounted(async () => {
-    await userStore.getUserInfo()
-    const userInfo = userStore.user // Información completa del usuario
-    currentUser.value = userInfo.id_user // Asignar el ID del usuario actual
-    console.log('Usuario:', userInfo)
-    console.log('ID del usuario:', currentUser.value)
+  await userStore.getUserInfo()
+  const userInfo = userStore.user // Información completa del usuario
+  currentUser.value = userInfo.id_user // Asignar el ID del usuario actual
+  console.log('Usuario:', userInfo)
+  console.log('ID del usuario:', currentUser.value)
 })
 
 // Filtrar los comentarios propios (pertenecen al usuario actual)
@@ -249,7 +274,12 @@ onMounted(async () => {
 
 const submitComment = async () => {
   if (newComment.value.trim() === '') {
-    alert('El comentario no puede estar vacío')
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Comentar',
+      text: 'El comentario no puede estar vacío',
+    })
+    // alert('El comentario no puede estar vacío')
     return
   }
 
@@ -260,6 +290,8 @@ const submitComment = async () => {
 
   await workshopStore.createComment(commentData)
   newComment.value = ''
+  await workshopStore.fetchCommentsByWorkshop(id_workshop)
+  comments.value = workshopStore.comments
 }
 
 const editComment = (comment) => {
@@ -269,7 +301,12 @@ const editComment = (comment) => {
   }
 
   if (comment.id_user !== currentUser.id_user) {
-    alert('No tienes permiso para editar este comentario')
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Comentar',
+      text: 'No tienes permiso para editar este comentario',
+    })
+    // alert('No tienes permiso para editar este comentario')
     return
   }
 
@@ -282,6 +319,11 @@ const editComment = (comment) => {
 const saveEdit = async () => {
   if (editCommentId.value !== null) {
     await workshopStore.updatedComment(editCommentId.value, { comment: editCommentText.value })
+    Swal.fire({
+      icon: 'success',
+      title: 'Actualizado correctamente',
+      text: 'Se actualizo correctamente su comentario',
+    })
     isEditing.value = false // Cierra el modal
   }
 }
@@ -292,9 +334,35 @@ const cancelEdit = () => {
 }
 
 const deleteComment = async (id_comment) => {
-  const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
-  if (confirmDelete) {
-    await workshopStore.deleteComment(id_comment)
+  const result = await Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'No podrás deshacer esta acción.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+  })
+  // const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
+  if (result.isConfirmed) {
+    try {
+      await workshopStore.deleteComment(id_comment)
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'El comentario ha sido eliminado exitosamente.',
+      })
+      await workshopStore.fetchCommentsByWorkshop(id_workshop)
+      comments.value = workshopStore.comments
+    } catch (error) {
+      console.error('Error al Eliminar el comentario', error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al intentar eliminar el comentario. Por favor, inténtalo de nuevo.',
+      })
+    }
   }
 }
 
@@ -302,19 +370,45 @@ const deleteComment = async (id_comment) => {
 const handleSubscribe = async () => {
   try {
     if (isSubscribed.value) {
-      alert('Ya esta inscrito en este taller')
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Ya esta inscrito en este taller',
+      })
+      // alert('Ya esta inscrito en este taller')
       return
     }
 
     await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
-    alert('Inscripto exitosa')
+    const progressionData = {
+      progression_status: '100',
+      id_workshop_id: id_workshop,
+    }
+    await workshopStore.createProgression(progressionData)
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Inscricion Exitosa',
+      text: 'Te inscribirte correctamente al taller'
+    })
+    // alert('Inscripto exitosa')
     subscriptions.value.push({ id_workshop_id: id_workshop })
   } catch (error) {
     if (error.message === 'Ya estás inscrito en este taller.') {
-      alert(error.message) // Mostrar el mensaje claro
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Inscribirte',
+        text: error.message,
+      })
+      // alert(error.message) Mostrar el mensaje claro
     } else {
       console.error('Error al inscribirse:', error)
-      alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Inscribirte',
+        text: 'Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.',
+      })
+      // alert('Hubo un problema al intentar inscribirte. Por favor, inténtalo de nuevo.')
     }
   }
 }
@@ -341,11 +435,11 @@ onMounted(async () => {
 })
 
 //Contenidod
-const activeIndex = ref(null)
+// const activeIndex = ref(null)
 
-const toggleClase = (index) => {
-  activeIndex.value = activeIndex.value === index ? null : index
-}
+// const toggleClase = (index) => {
+//   activeIndex.value = activeIndex.value === index ? null : index
+// }
 
 const clases = ref([
   { titulo: 'Bienvenida al taller', recursos: ['Bienvenida.mp4'] },
@@ -353,4 +447,7 @@ const clases = ref([
   { titulo: 'Clase 2', recursos: [] },
   { titulo: 'Clase 3', recursos: [] },
 ])
+const splitContent = (content: string) => {
+  return content ? content.split('\n').filter((paragraph) => paragraph.trim() !== '') : []
+}
 </script>

@@ -13,55 +13,17 @@ import {
   fetchCalendarsByWorkshopIdService,
   fetchProgressionService,
   getUserInfoService,
+  createProgressionServices,
 } from '@/services/UserService'
 
+import type { Workshop } from '@/interfaces/Workshop'
+import type { Type } from '@/interfaces/Type'
+import type { Progressions } from '@/interfaces/Progressions'
+import type { Comments } from '@/interfaces/Comments'
+import type { User } from '@/interfaces/User'
 // esto esta hecho de la patada
-interface Workshop {
-  id_workshop: number
-  title: string
-  description: string
-  content: string
-  image: string | null
-  id_user_id: number
-  id_type_id: number
-  created_at: Date
-}
-
-interface Type {
-  id_type: number
-  type_name: string
-  workshops: []
-}
-
-interface Progressions {
-  id_progression: number
-  progression_status: number
-  id_user_id: number
-  user: string
-  Id_workshop_id: number
-  workshop: string
-}
-
-interface Comments {
-  id_comment: number
-  comment: string
-  created_at: Date
-  id_user_id: number
-  id_workshop_id: number
-  workshop: string
-}
 
 export const useUserStore = defineStore('user', () => {
-  interface User {
-    Id_user: number
-    Name: string
-    Last_names: string
-    Phone: string
-    Email: string
-    Description: string
-    Id_rol_id: string
-    created_at: Date
-  }
 
   const user = ref<User | null>(null)
 
@@ -198,6 +160,16 @@ export const useWorkshopStore = defineStore('workshop', () => {
     }
   }
 
+  async function createProgression(progressionData: any) {
+    try {
+      const response = await createProgressionServices(progressionData)
+      console.log(response)
+      return response
+    } catch (error) {
+      console.error(`Error en createProgression para taller:`, error)
+    }
+  }
+
   return {
     workshops,
     fetchWorkshops,
@@ -209,6 +181,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
     subscribeToWorkshop,
     fetchCalendarsByWorkshopId,
     fetchProgression,
+    createProgression,
   }
 })
 

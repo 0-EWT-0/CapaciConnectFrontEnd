@@ -64,6 +64,12 @@
         </h3>
       </RouterLink>
 
+      <RouterLink to="/admin" @click="toggleMenu" v-if="rolId === 1 || rolId === 2">
+        <h3 class="flex items-center hover:text-[#2563EB]">
+          <i class="pi pi-sliders-h mr-2"></i>Dashboard
+        </h3>
+      </RouterLink>
+
       <BaseButton variant="red" @click="handleLogout"> Cerrar sesión </BaseButton>
     </div>
   </header>
@@ -84,14 +90,12 @@ const toggleMenu = () => {
 const rolId = ref()
 
 onMounted(async () => {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
   await userStore.getUserInfo()
   rolId.value = userStore.user.id_rol_id
   // console.log('user', userInfo)
   // console.log('userId', userId)
 })
-
-
 
 // Importar el store de autenticación
 const authStore = useAuthStore()

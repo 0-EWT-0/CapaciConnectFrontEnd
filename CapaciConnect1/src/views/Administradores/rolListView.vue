@@ -7,9 +7,7 @@
     </div>
 
     <!-- Estado de carga -->
-    <div v-if="rolStore.isLoading" class="p-6 text-center text-gray-500">
-      Cargando roles...
-    </div>
+    <div v-if="rolStore.isLoading" class="p-6 text-center text-gray-500">Cargando roles...</div>
 
     <!-- Mensaje de error -->
     <div v-if="rolStore.error" class="p-6 text-center text-red-500">
@@ -84,26 +82,26 @@
 import { onMounted } from 'vue'
 import { useRolStore } from '@/stores/adminRol'
 
-const rolStore = useRolStore();
+const rolStore = useRolStore()
 
-onMounted(() =>{
-  rolStore.loadRoles();
+onMounted(() => {
+  rolStore.loadRoles()
 })
 
 const eliminarTodos = async () => {
   if (confirm('¿Estás seguro de eliminar todos los roles?')) {
-    await rolStore.deleteAllRoles();
+    await rolStore.deleteAllRoles()
   }
-};
+}
 
 const eliminarRol = async (id: number) => {
   if (confirm('¿Estás seguro de eliminar este rol?')) {
-    await rolStore.deleteRole(id);
+    await rolStore.deleteRole(id)
   }
-};
+}
 
 const editarRol = (id: number) => {
   // Lógica de edición (implementar según necesidades)
-  console.log('Editar rol:', id);
-};
+  console.log('Editar rol:', id)
+}
 </script>

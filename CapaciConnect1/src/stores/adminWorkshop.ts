@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { WorkshopService } from '@/services/adminWorkshopService'
 import type { Workshop } from '@/interfaces/Workshop'
 
-
 export const useWorkshopStore = defineStore('workshop', () => {
   const workshops = ref<Workshop[]>([])
   const isLoading = ref(false)
@@ -42,7 +41,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
     isLoading.value = true
     try {
       const updatedWorkshop = await WorkshopService.updateWorkshop(id, formData)
-      const index = workshops.value.findIndex(w => w.Id_workshop === id)
+      const index = workshops.value.findIndex((w) => w.Id_workshop === id)
       if (index !== -1) {
         workshops.value.splice(index, 1, updatedWorkshop)
       }
@@ -60,7 +59,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
     isLoading.value = true
     try {
       await WorkshopService.deleteWorkshop(id)
-      workshops.value = workshops.value.filter(w => w.Id_workshop !== id)
+      workshops.value = workshops.value.filter((w) => w.Id_workshop !== id)
       error.value = null
     } catch (err: any) {
       error.value = err.message
@@ -77,6 +76,6 @@ export const useWorkshopStore = defineStore('workshop', () => {
     fetchWorkshops,
     createWorkshop,
     updateWorkshop,
-    deleteWorkshop
+    deleteWorkshop,
   }
 })

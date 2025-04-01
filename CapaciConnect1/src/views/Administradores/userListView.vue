@@ -65,14 +65,14 @@
           <div class="mt-4 pt-4 border-t border-gray-100">
             <div class="flex flex-col sm:flex-row sm:justify-end gap-2">
               <router-link
-              v-if = "user.id_user"
+                v-if="user.id_user"
                 :to="`/admin/userUpdate/${user.id_user}`"
                 class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-center"
               >
                 Editar
               </router-link>
               <button
-              v-if="user.id_user"
+                v-if="user.id_user"
                 @click="handleDelete(user.id_user)"
                 class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg"
               >
@@ -111,7 +111,7 @@ const formatPhone = (phone: string = '') => {
   const match = cleanPhone.match(regex)
   return match ? `+52 (${match[2]}) ${match[3]}-${match[4]}` : phone
 }
-      
+
 // const handleImageError = (event: Event) => {
 //   const img = event.target as HTMLImageElement
 //   img.src = '/default-avatar.png'
@@ -122,7 +122,6 @@ onMounted(async () => {
   try {
     await userStore.fetchUsers()
     users.value = userStore.users
-
   } catch (err) {
     error.value = 'Error al cargar usuarios: ' + (err as Error).message
   } finally {
@@ -135,11 +134,11 @@ const handleDelete = async (userId: number) => {
   if (confirm('¿Estás seguro de eliminar este usuario permanentemente?')) {
     try {
       await userStore.removeUser(userId)
-      users.value = users.value.filter(user => user.Id_user !== userId)
-      alert('Usuario eliminado exitosamente.');
+      users.value = users.value.filter((user) => user.Id_user !== userId)
+      alert('Usuario eliminado exitosamente.')
     } catch (err) {
       error.value = 'Error al eliminar usuario: ' + (err as Error).message
-      alert('Error al eliminar usuario: ' + (err as Error).message);
+      alert('Error al eliminar usuario: ' + (err as Error).message)
     }
   }
 }

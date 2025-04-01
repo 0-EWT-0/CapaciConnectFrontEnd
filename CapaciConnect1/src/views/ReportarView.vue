@@ -1,46 +1,31 @@
 <template>
-  <Header />
-  <div class="max-w-4xl mx-auto p-25 m-25 bg-white shadow-2xl rounded-2xl text-black">
+  <Navbar />
+  <div class="max-w-4xl mx-auto p-30 m-30 bg-white shadow-2xl rounded-2xl text-black">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Enviar Reporte</h2>
 
     <form @submit.prevent="handleSubmit">
       <!-- Título del Reporte -->
       <div class="mb-6">
         <label class="block text-gray-700 text-xl font-semibold">Título del Reporte</label>
-        <input v-model="form.tittle" type="text"
+        <input
+          v-model="form.tittle"
+          type="text"
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          placeholder="Escribe el título del reporte..." required />
+          placeholder="Escribe el título del reporte..."
+          required
+        />
       </div>
 
       <!-- Descripción del Problema -->
       <div class="mb-6">
         <label class="block text-gray-700 text-xl font-semibold">Descripción del Problema</label>
-        <textarea v-model="form.content" rows="6"
+        <textarea
+          v-model="form.content"
+          rows="6"
           class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          placeholder="Describe el problema..." required></textarea>
-      </div>
-
-      <!-- Seleccionar Taller -->
-      <div class="mb-6">
-        <label class="block text-gray-700 text-xl font-semibold">Taller Relacionado</label>
-        <select v-model="form.id_workshop_id"
-        @change="clearError"
-          class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
-          required :disabled="workshopTypeStore.isLoading || reportStore.isLoading">
-          <option disabled :value="null">Selecciona un taller</option>
-          <option v-for="type in workshopTypeStore.types" :key="type.id_type" :value="type.id_type">
-            {{ type.type_name }}
-          </option>
-        </select>
-
-        <!-- Estados de carga de talleres -->
-        <div v-if="workshopTypeStore.isLoading" class="text-blue-500 mt-2 text-lg">
-          Cargando talleres disponibles...
-        </div>
-        <div v-if="workshopTypeStore.error" class="text-red-500 mt-2 text-lg">
-          ❌ Error cargando talleres: {{ workshopTypeStore.error }}
-        </div>
-
+          placeholder="Describe el problema..."
+          required
+        ></textarea>
       </div>
 
       <!-- Estados de carga y error -->
@@ -54,11 +39,16 @@
         ✅ Reporte enviado exitosamente!
       </div>
 
+      <!-- Campo oculto para el taller -->
+      <input type="hidden" v-model="form.id_workshop_id" />
+
       <!-- Botón Enviar -->
       <div class="flex justify-center mt-8">
-        <button type="submit"
+        <button
+          type="submit"
           class="px-8 py-4 text-lg bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="reportStore.isLoading || workshopTypeStore.isLoading">
+          :disabled="reportStore.isLoading || workshopStore.isLoading"
+        >
           📩 {{ reportStore.isLoading ? 'Enviando...' : 'Enviar Reporte' }}
         </button>
       </div>
@@ -68,16 +58,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useReportStore } from '@/stores/adminReport'
-import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
+import { useWorkshopStore } from '@/stores/adminWorkshop'
 import { useAuthStore } from '@/stores/auth'
 import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
+import Navbar from '@/components/global/Navbar.vue'
 
 const reportStore = useReportStore()
 const authStore = useAuthStore()
-const workshopTypeStore = useWorkshopTypeStore()
+const workshopStore = useWorkshopStore()
 
 // Estado local
 const showSuccess = ref(false)
@@ -87,33 +78,53 @@ const form = ref({
   id_workshop_id: null as number | null,
 })
 
-
+// Verificar si el usuario tiene talleres asignados
+const userHasWorkshops = computed(() => {
+  return authStore.user?.Workshops && authStore.user.Workshops.length > 0
+})
 
 // Cargar talleres al montar el componente
 onMounted(async () => {
   try {
-    if (workshopTypeStore.types.length === 0) {
-      await workshopTypeStore.fetchAllTypes()
+    // Reiniciar errores al montar
+    reportStore.error = null
+
+    // Verificar si el usuario está autenticado
+    if (!authStore.user) {
+      console.warn('[ReportForm] Usuario no autenticado')
+      reportStore.error = 'Debes iniciar sesión para enviar reportes'
+      return
     }
 
-    if (workshopTypeStore.types.length === 0) {
-      console.warn('[ReportForm] No hay talleres disponibles')
-      reportStore.error = 'No hay talleres disponibles para reportar'
+    // Cargar talleres solo si no están en el store
+    if (workshopStore.workshops.length === 0) {
+      await workshopStore.fetchWorkshops()
+    }
+
+    // Asignar taller del usuario autenticado
+    if (userHasWorkshops.value) {
+      // Asignar automáticamente el primer taller del usuario
+      form.value.id_workshop_id = authStore.user.Workshops[0].id_workshop
+      console.log('[ReportForm] Taller asignado automáticamente:', form.value.id_workshop_id)
+    } else {
+      // Verificar si hay talleres disponibles en el store
+      if (workshopStore.workshops && workshopStore.workshops.length > 0) {
+        // Si no tiene talleres asignados directamente pero hay talleres disponibles, asignar el primero
+        form.value.id_workshop_id = workshopStore.workshops[0].id_workshop
+        console.log('[ReportForm] Asignando primer taller disponible:', form.value.id_workshop_id)
+      } else {
+        console.warn('[ReportForm] No hay talleres disponibles')
+        reportStore.error = 'No hay talleres disponibles para reportar'
+      }
     }
   } catch (error) {
-    console.error('[ReportForm] Error en onMounted:', error)
-    reportStore.error = 'Error cargando talleres. Intenta recargar la página'
+    console.error('Error inicializando formulario:', error)
+    reportStore.error = 'Error cargando datos iniciales'
   }
 })
 
-// Nuevo método para limpiar errores
-const clearError = () => {
-  reportStore.error = null
-}
-
 // Manejar envío del formulario
 const handleSubmit = async () => {
-
   showSuccess.value = false
   reportStore.error = null
 
@@ -124,9 +135,9 @@ const handleSubmit = async () => {
   }
 
   // Validación manual del taller
-  if (!form.value.id_workshop_id || form.value.id_workshop_id === null) {
+  if (!form.value.id_workshop_id) {
     console.warn('[ReportForm] Validación fallida: Taller no seleccionado')
-    reportStore.error = 'Debes seleccionar un taller'
+    reportStore.error = 'No se ha seleccionado un taller'
     return
   }
 
@@ -134,7 +145,7 @@ const handleSubmit = async () => {
   if (form.value.tittle.trim().length < 5 || form.value.content.trim().length < 10) {
     console.warn('[ReportForm] Validación fallida: Contenido muy corto', {
       titleLength: form.value.tittle.trim().length,
-      contentLength: form.value.content.trim().length
+      contentLength: form.value.content.trim().length,
     })
     reportStore.error = 'El título debe tener al menos 5 caracteres y la descripción 10'
     return
@@ -145,23 +156,20 @@ const handleSubmit = async () => {
       tittle: form.value.tittle,
       content: form.value.content,
       id_workshop_id: form.value.id_workshop_id,
-      id_user_id: authStore.user.Id_user
+      id_user_id: authStore.user.Id_user,
     })
 
     await reportStore.createReport({
       tittle: form.value.tittle,
       content: form.value.content,
       id_workshop_id: form.value.id_workshop_id,
-      id_user_id: authStore.user.Id_user
+      id_user_id: authStore.user.Id_user,
     })
 
     console.log('[ReportForm] Reporte enviado exitosamente')
     showSuccess.value = true
-    form.value = {
-      tittle: '',
-      content: '',
-      id_workshop_id: null
-    }
+    form.value.tittle = ''
+    form.value.content = ''
   } catch (error) {
     console.error('[ReportForm] Error en el componente:', error)
     reportStore.error = 'Error al enviar el reporte. Intenta de nuevo'

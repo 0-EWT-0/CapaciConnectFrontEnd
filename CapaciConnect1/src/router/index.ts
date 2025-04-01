@@ -58,7 +58,7 @@ const router = createRouter({
       component: () => import('../views/ProfileView.vue'),
     },
     {
-      path: '/Panel-Taller',
+      path: '/Panel-Taller/:id_workshop_id',
       name: 'Panel-Taller',
       component: () => import('@/views/Panel-TallerView.vue'),
     },
@@ -89,7 +89,6 @@ const router = createRouter({
       name: 'panelMateriales',
       component: () => import('@/views/Coordinadores/MaterialesView.vue'),
     },
-
 
     //ADMINISTRADOR
     {
