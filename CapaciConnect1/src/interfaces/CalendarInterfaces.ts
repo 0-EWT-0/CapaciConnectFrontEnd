@@ -1,5 +1,5 @@
 export interface Calendar {
-  Id_calendar: number // Ahora coincide con la BD
+  Id_calendar: number
   date_start: string
   date_end: string
   id_workshop_id: number

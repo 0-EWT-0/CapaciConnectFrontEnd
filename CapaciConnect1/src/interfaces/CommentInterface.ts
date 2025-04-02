@@ -1,14 +1,35 @@
-// comment.interface.ts
 export interface Comment {
   id_comment: number
   comment: string
+  created_at: Date | string
+  id_user_id: number
   id_workshop_id: number
-  created_at?: string
-  user_name?: string // Agregué este campo opcional para mostrar quién hizo el comentario
+  user?: User
+  workshop?: IWorkshop
 }
 
-export interface CommentState {
-  comments: Comment[]
-  loading: boolean
-  error: string | null
+export interface IWorkshop {
+  id?: number
+  title: string
+  description: string
+  content: string
+  image: string
+  id_type_id: number
+  comments?: Comment[]
+}
+
+export interface User {
+  id_user: number
+  name: string
+  last_names: string
+  phone: string
+  email: string
+  password: string
+  comfirmPassword: string
+  profile_img: string | null
+  description: string
+  created_at: string | Date
+  id_rol_id: string | number
+  workshops?: IWorkshop[]
+  comments?: Comment[]
 }
