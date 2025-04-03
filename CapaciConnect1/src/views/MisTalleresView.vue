@@ -8,20 +8,21 @@
     <div class="mb-6">
       <input
         type="text"
+        v-model="searchQuery"
         placeholder="Buscar talleres..."
         class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
 
     <!-- Filtros -->
-    <div class="flex gap-4 mb-6">
+    <!-- <div class="flex gap-4 mb-6">
       <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
         Filtrar por tipos
       </button>
       <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
         Filtrar por fecha
       </button>
-    </div>
+    </div> -->
 
     <!-- Controles de filtros -->
     <div class="flex justify-between items-center mb-6 rounded-lg mx-10">
@@ -37,9 +38,11 @@
       </div> -->
 
       <!-- Grid de talleres -->
+       <Loading v-if="loadingStore.isLoading"/>
+       <div v-else>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div
-          v-for="progress in progressionWhithWorkshop"
+          v-for="progress in filteredProgressions"
           :key="progress.id_progression"
           class="bg-white rounded-lg shadow-lg"
         >
@@ -72,6 +75,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
   <Footer />
 </template>
@@ -81,7 +85,9 @@ import Footer from '@/components/global/Footer.vue'
 // import Select from 'primevue/select'
 import { ref, onMounted, computed } from 'vue'
 import { useWorkshopStore } from '@/stores/user'
+import { useLoadingStore } from '@/stores/loadingStore'
 import Navbar from '@/components/global/Navbar.vue'
+import Loading from '@/components/common/Loading.vue'
 
 // const selectedOrder = ref()
 // const order = ref([
@@ -97,7 +103,9 @@ import Navbar from '@/components/global/Navbar.vue'
 //   { name: 'Categoría 3', teacher: 'Instructor 3' },
 // ])
 
+const searchQuery = ref("");
 const workshopStore = useWorkshopStore()
+const loadingStore = useLoadingStore()
 const progressions = ref([])
 const calendars = ref([])
 
@@ -120,6 +128,7 @@ const progressionWhithWorkshop = computed(() => {
 
 onMounted(async () => {
   try {
+    loadingStore.startLoading();
     const progressionResponse  = await workshopStore.fetchProgression()
     progressions.value = progressionResponse 
 
@@ -137,6 +146,8 @@ onMounted(async () => {
     console.log('Progreso con talleres', progressionWhithWorkshop.value)
   } catch (error) {
     console.log('Error al cargar progreso:', error)
+  } finally {
+    loadingStore.stopLoading();
   }
 })
 
@@ -144,4 +155,10 @@ const formatDate = (dateString: string) => {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
   return new Date(dateString).toLocaleDateString('es-ES', options)
 }
+
+const filteredProgressions = computed(() => {
+  return progressionWhithWorkshop.value.filter((progress) =>
+    progress.workshopTitle.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>

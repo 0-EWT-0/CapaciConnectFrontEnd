@@ -16,14 +16,14 @@
       </div>
 
       <!-- Filtros -->
-      <div class="flex gap-4 mb-6">
+      <!-- <div class="flex gap-4 mb-6">
         <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por tipos
         </button>
         <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por fecha
         </button>
-      </div>
+      </div> -->
 
       <!-- Grid de talleres -->
       <div
@@ -62,15 +62,24 @@
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
 import Navbar from '@/components/global/Navbar.vue'
+import { useLoadingStore } from '@/stores/loadingStore'
 
 import { useWorkshopStore } from '@/stores/user'
 import { onMounted, computed, ref } from 'vue'
 
 const workshopStore = useWorkshopStore()
+const loadingStore = useLoadingStore()
 const searchQuery = ref('')
 
 onMounted(async () => {
-  await workshopStore.fetchWorkshops()
+  try {
+    loadingStore.startLoading()
+    await workshopStore.fetchWorkshops()
+  } catch (error) {
+    console.error('Error al cargar talleres:', error)
+  } finally {
+    loadingStore.stopLoading()
+  }
 })
 
 const filteredWorkshops = computed(() => {
