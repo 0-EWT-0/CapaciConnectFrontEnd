@@ -1,22 +1,20 @@
 <template>
-  <div class="bg-white shadow-xl rounded-2xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
-    <div class="p-6 border-b border-gray-200">
-      <h2 class="text-2xl font-semibold text-gray-900">Crear tipo de taller</h2>
+  <div class="bg-[#F2F5FA] shadow-xl rounded-2xl mx-4 sm:mx-6 lg:mx-8 my-6">
+    <div class="p-6">
+      <h2 class="text-2xl font-semibold text-gray-900">Crear categoría</h2>
     </div>
 
     <form @submit.prevent="handleSubmit" class="p-6">
       <div class="space-y-6">
         <!-- Campo Nombre -->
         <div class="space-y-3">
-          <label for="nombre" class="block text-sm font-medium text-gray-700">
-            Nombre del tipo
-          </label>
+          <label class="text-[#212122]"><h3 class="pb-2">Nombre</h3></label>
           <input
             id="nombre"
             v-model="formData.type_name"
             type="text"
             placeholder="Ej: Pintura Abstracta"
-            class="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             required
             :disabled="isLoading"
           />
@@ -28,17 +26,13 @@
         </div>
 
         <!-- Mensaje de éxito -->
-        <div v-if="successMessage" class="p-3 bg-green-100 text-green-700 rounded-lg">
+        <div v-if="successMessage" class="p-3 bg-green-100 text-[#047857] rounded-lg">
           {{ successMessage }}
         </div>
 
         <!-- Botón de envió -->
         <div class="border-t border-gray-100 pt-6">
-          <button
-            type="submit"
-            :disabled="isLoading"
-            class="w-full sm:w-auto px-8 py-3 text-white bg-emerald-500 rounded-xl hover:bg-emerald-600 transition-colors font-medium shadow-md hover:shadow-emerald-100 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
+          <BaseButton variant="blue" :disabled="isLoading">
             <span v-if="isLoading" class="inline-flex items-center">
               <svg
                 class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -62,8 +56,8 @@
               </svg>
               Procesando...
             </span>
-            <span v-else class="text-sm sm:text-base">Crear tipo</span>
-          </button>
+            <span v-else>Crear</span>
+          </BaseButton>
         </div>
       </div>
     </form>
@@ -74,6 +68,7 @@
 import { ref } from 'vue'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 import type { WorkshopTypeDTO } from '@/interfaces/workshopTypesInterface'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const formData = ref<WorkshopTypeDTO>({
   type_name: '',
@@ -91,10 +86,10 @@ const handleSubmit = async () => {
 
   try {
     await workshopTypeStore.createType(formData.value)
-    successMessage.value = 'Tipo de taller creado exitosamente!'
+    successMessage.value = 'Categoría  creada'
     formData.value.type_name = ''
   } catch (err) {
-    error.value = 'Error al crear el tipo de taller'
+    error.value = 'Error al crear la categoría'
     console.error('Error creating workshop type:', err)
   } finally {
     isLoading.value = false

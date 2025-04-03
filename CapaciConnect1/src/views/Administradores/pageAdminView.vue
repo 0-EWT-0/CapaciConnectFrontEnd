@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-6 space-y-8">
+  <div class="container mx-auto space-y-8">
     <user-create-form />
     <user-list />
   </div>

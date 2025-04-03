@@ -77,7 +77,7 @@
           >
           <input
             type="password"
-            v-model="formData.confirmPassword"
+            v-model="formData.confirmpassword"
             minlength="8"
             class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
           />
@@ -156,7 +156,7 @@ const formData = ref({
   email: '',
   phone: '',
   password: '',
-  confirmPassword: '',
+  confirmpassword: '',
   description: '',
   profile_img: null as File | null,
 })
@@ -176,7 +176,7 @@ onMounted(async () => {
         ...formData.value,
         ...user,
         password: '',
-        confirmPassword: '',
+        confirmpassword: '',
       }
       if (user.profile_img) {
         profileImagePreview.value = user.profile_img
@@ -204,7 +204,7 @@ const handleImageChange = (event: Event) => {
 }
 
 const validateForm = () => {
-  if (formData.value.password && formData.value.password !== formData.value.confirmPassword) {
+  if (formData.value.password && formData.value.password !== formData.value.confirmpassword) {
     alert('Las contraseñas no coinciden')
     return false
   }

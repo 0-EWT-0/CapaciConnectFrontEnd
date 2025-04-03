@@ -4,6 +4,9 @@
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
       <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
+      <Loading v-if="loadingStore.isLoading" />
+
+<div v-else>
 
       <!-- Buscador -->
       <div class="mb-6">
@@ -16,42 +19,51 @@
       </div>
 
       <!-- Filtros -->
-      <div class="flex gap-4 mb-6">
+      <!-- <div class="flex gap-4 mb-6">
         <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por tipos
         </button>
         <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por fecha
         </button>
-      </div>
+      </div> -->
 
       <!-- Grid de talleres -->
-      <div
-        v-if="filteredWorkshops && filteredWorkshops.length > 0"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
-      >
+
+      
         <div
-          v-for="workshop in filteredWorkshops"
-          :key="workshop.id_workshop"
-          class="bg-white rounded-lg shadow-lg overflow-hidden"
+          v-if="filteredWorkshops && filteredWorkshops.length > 0"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"
         >
-          <img
-            :src="workshop.image || '../assets/logo.svg'"
-            alt="Taller de arte"
-            class="w-full h-40 object-cover"
-          />
-          <div class="p-4">
-            <h2 class="text-lg text-black font-bold p-2">{{ workshop.title }}</h2>
-            <p class="text-gray-600 p-3">{{ workshop.description }}</p>
+          <div
+            v-for="workshop in filteredWorkshops"
+            :key="workshop.id_workshop"
+            class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105"
+          >
             <router-link
               :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
-              class="text-blue-600 font-semibold mt-2 block p-4"
-              >Ver Contenido</router-link
             >
+              <div class="flex-1 h-40 md:h-auto">
+                <img
+                  :src="'data:image/jpeg;base64,' + workshop.image"
+                  alt="Imagen"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-4">
+                <h3 class="text-[#212122]">{{ workshop.title }}</h3>
+                <p class="text-[#212122]">{{ workshop.description }}</p>
+                <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
+                <!-- <router-link
+              :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
+              
+            /> -->
+              </div>
+            </router-link>
           </div>
         </div>
+        <h3 v-else class="text-gray-500">No hay talleres disponibles</h3>
       </div>
-      <p v-else class="text-gray-500">No hay workshops disponibles.</p>
     </div>
   </main>
 
@@ -59,18 +71,30 @@
 </template>
 
 <script setup>
+import Loading from '@/components/common/Loading.vue'
 import Footer from '@/components/global/Footer.vue'
-import Header from '@/components/global/Header.vue'
 import Navbar from '@/components/global/Navbar.vue'
+import { useLoadingStore } from '@/stores/loadingStore'
 
 import { useWorkshopStore } from '@/stores/user'
+import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 import { onMounted, computed, ref } from 'vue'
+
+const loadingStore = useLoadingStore()
 
 const workshopStore = useWorkshopStore()
 const searchQuery = ref('')
 
+const store = useWorkshopTypeStore()
+
+const getTypeName = (id_type_id) => {
+  const type = store.types.find((tipo) => tipo.id_type === id_type_id)
+  return type ? type.type_name : 'Tipo desconocido'
+}
+
 onMounted(async () => {
   await workshopStore.fetchWorkshops()
+  await store.fetchAllTypes()
 })
 
 const filteredWorkshops = computed(() => {

@@ -5,6 +5,7 @@ import router from '@/router'
 import type { User } from '@/interfaces/User'
 import { setToken as saveTokenToStorage, getToken, clearToken } from '@/utils/tokenStorage'
 import { setToken } from '../utils/tokenStorage'
+import Swal from 'sweetalert2'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({} as User)
@@ -22,6 +23,16 @@ export const useAuthStore = defineStore('auth', () => {
       }
       console.log('no funciono')
     } catch (error: any) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: 'Credenciales incorrectas',
+          text: 'Inténtelo de nuevo',
+          icon: 'error',
+          confirmButtonColor: '#2563EB',
+          backdrop: 'rgba(4, 2, 115, 0.7)',
+        })
+      }
+
       console.error('Error in login:', error)
     }
   }
@@ -53,6 +64,15 @@ export const useAuthStore = defineStore('auth', () => {
       }
     } catch (error: any) {
       console.error('Error in register:', error)
+      if (error.response.status === 400) {
+        Swal.fire({
+          title: 'Correo inválido',
+          text: 'El correo ingresado ya se encuentra registrado en otra cuenta',
+          icon: 'error',
+          confirmButtonColor: '#2563EB',
+          backdrop: 'rgba(4, 2, 115, 0.7)',
+        })
+      }
     }
   }
 

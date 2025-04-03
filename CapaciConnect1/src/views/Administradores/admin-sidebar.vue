@@ -24,6 +24,10 @@
             </router-link>
           </li>
         </ul>
+        <div class="p-4 flex flex-col gap-y-4">
+          <BaseButton variant="blue" @click="$router.push('/')">Inicio</BaseButton>
+          <BaseButton variant="red" @click="handleLogout">Cerrar sesión</BaseButton>
+        </div>
       </nav>
     </div>
 
@@ -44,8 +48,19 @@ import {
   FilmIcon,
   BookTextIcon,
   Calendar1Icon,
-  BriefcaseIcon,
 } from 'lucide-vue-next'
+import BaseButton from '@/components/common/BaseButton.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  try {
+    await authStore.logout()
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
+}
 
 interface MenuItem {
   name: string
@@ -66,7 +81,6 @@ const menuItems: MenuItem[] = [
   { name: 'Multimedias', icon: FilmIcon, href: '/adminMultimedias', rolesAllowed: [1, 2] },
   { name: 'Calendario', icon: Calendar1Icon, href: '/calendario', rolesAllowed: [1, 2] },
   //{ name: 'Talleres', icon: BookTextIcon, href: '/adminWorkshops', rolesAllowed: [1] },
-  { name: 'Inicio', icon: HomeIcon, href: '/' },
 ]
 
 const filteredMenuItems = ref<MenuItem[]>([])

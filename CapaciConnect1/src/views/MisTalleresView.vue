@@ -3,7 +3,7 @@
   <div class="max-w-[90rem] mx-auto p-10 min-h-screen">
     <!-- Contenedor flex para alinear título y buscador -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-black text-3xl font-bold">Talleres en curso</h1>
+      <h2 class="text-[#212122]">Talleres en curso</h2>
     </div>
     <div class="mb-6">
       <input

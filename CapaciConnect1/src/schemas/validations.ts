@@ -12,14 +12,14 @@ export const validationWorkshop = yup.object({
   img: yup.string().required('La imagen es requerida'),
 })
 
-export const validationUser = yup.object({
+export const validationUserRegister = yup.object({
   name: yup.string().required('El nombre es requerido'),
   last_names: yup.string().required('Los apellidos son requeridos'),
   email: yup
     .string()
     .required('El correo es requerido')
-    .email('El correo debe de tener el carácter "@"'),
-  // phone: yup.string().required('El teléfono es requerido'),
+    // .email('El correo debe de tener el carácter "@"'),
+    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Formato de correo inválido'),
   password: yup
     .string()
     .required('La contraseña es requerida')
@@ -35,7 +35,8 @@ export const validationUserLogin = yup.object({
   email: yup
     .string()
     .required('El correo es requerido')
-    .email('El correo debe de tener el carácter "@"'),
+    // .email('El correo debe de tener el carácter "@"'),
+    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Formato de correo inválido'),
   password: yup
     .string()
     .required('La contraseña es requerida')

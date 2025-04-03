@@ -1,10 +1,12 @@
 <template>
+  <Loading v-if="loadingStore.isLoading" class="absolute z-10" />
+
   <div class="w-screen h-screen flex overflow-hidden">
     <div class="w-1/2">
       <img :src="img" class="object-cover w-full h-full" />
     </div>
     <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
-      <Form v-bind:validation-schema="validationUser" @submit="handleRegister">
+      <Form v-bind:validation-schema="validationUserRegister" @submit="handleRegister">
         <div class="py-4">
           <h2 class="text-white">Crear cuenta</h2>
         </div>
@@ -105,7 +107,7 @@
 <script setup>
 import img from '@/assets/imgs/imgRegister.webp'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
-import { validationUser } from '@/schemas/validations'
+import { validationUserRegister } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'
 import 'intl-tel-input/build/css/intlTelInput.css'
 import intlTelInput from 'intl-tel-input'
@@ -113,8 +115,11 @@ import intlTelInput from 'intl-tel-input'
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import BaseButton from '@/components/common/BaseButton.vue'
+import Loading from '@/components/common/Loading.vue'
+import { useLoadingStore } from '@/stores/loadingStore.js'
 
 // const toast = useToast();
+const loadingStore = useLoadingStore()
 
 const name = ref('')
 const last_names = ref('')
@@ -130,6 +135,7 @@ const phoneError = ref('')
 const error = ref('')
 
 const handleRegister = async () => {
+  loadingStore.startLoading()
   try {
     await authStore.register(
       name.value,
@@ -141,6 +147,8 @@ const handleRegister = async () => {
     )
   } catch (error) {
     console.error('Error during register:', error)
+  } finally {
+    loadingStore.stopLoading()
   }
 }
 

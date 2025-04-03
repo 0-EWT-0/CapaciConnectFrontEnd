@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminLayout from '@/views/Administradores/admin-layout.vue'
 import InstrutoresLayout from '@/views/Instrutores/instrutoresLayout.vue'
 import { useAuthStore } from '@/stores/auth'
+import DashbordLayout from '@/components/layout/DashbordLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -93,7 +94,7 @@ const router = createRouter({
     //ADMINISTRADOR
     {
       path: '/admin',
-      component: AdminLayout,
+      component: DashbordLayout,
       children: [
         // Dashboard principal
         {

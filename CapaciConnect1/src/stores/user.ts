@@ -14,6 +14,7 @@ import {
   fetchProgressionService,
   getUserInfoService,
 } from '@/services/UserService'
+import { useLoadingStore } from './loadingStore'
 
 // esto esta hecho de la patada
 interface Workshop {
@@ -114,13 +115,18 @@ export const useWorkshopStore = defineStore('workshop', () => {
   const progressions = ref<Progressions[]>([])
   const calendars = ref([])
 
+  const loadingStore = useLoadingStore()
+
   // Acción para cargar workshops desde el servicio
   async function fetchWorkshops() {
+    loadingStore.startLoading()
     try {
       const data = await getWorkshopsService()
       workshops.value = data
     } catch (error) {
       console.error('Error en fetchWorkshops:', error)
+    } finally {
+      loadingStore.stopLoading()
     }
   }
 

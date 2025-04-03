@@ -25,48 +25,47 @@
 
     <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
       <h2 class="text-[#212122] py-11">Multimedias en línea</h2>
+      <Loading v-if="loadingStore.isLoading" />
 
-      <!-- Mostrar Mensaje de Error -->
-      <h3 v-if="errorMessage" class="text-[#DC2626]">{{ errorMessage }}</h3>
-
-      <!-- Mostrar Archivos -->
-      <div
-        v-if="multimediaList.length > 0"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-      >
+      <div v-else>
         <div
-          v-for="media in multimediaList"
-          :key="media.media_url"
-          class="shadow-lg rounded-lg flex flex-col overflow-hidden"
+          v-if="multimediaList.length > 0"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
-          <!-- Contenedor de multimedia -->
-          <div class="flex-1 h-40 md:h-auto">
-            <!-- Mostrar Imagen -->
-            <img
-              v-if="media.media_type === 0"
-              :src="'data:image/jpeg;base64,' + media.media_url"
-              alt="Imagen"
-              class="w-full h-full object-cover"
-            />
+          <div
+            v-for="media in multimediaList"
+            :key="media.media_url"
+            class="shadow-lg rounded-lg flex flex-col overflow-hidden"
+          >
+            <!-- Contenedor de multimedia -->
+            <div class="flex-1 h-40 md:h-auto">
+              <!-- Mostrar Imagen -->
+              <img
+                v-if="media.media_type === 0"
+                :src="'data:image/jpeg;base64,' + media.media_url"
+                alt="Imagen"
+                class="w-full h-full object-cover"
+              />
 
-            <!-- Mostrar Video -->
-            <video v-else controls class="w-full h-full object-cover">
-              <source :src="'data:video/mp4;base64,' + media.media_url" type="video/mp4" />
-              Tu navegador no soporta videos.
-            </video>
-          </div>
+              <!-- Mostrar Video -->
+              <video v-else controls class="w-full h-full object-cover">
+                <source :src="'data:video/mp4;base64,' + media.media_url" type="video/mp4" />
+                Tu navegador no soporta videos.
+              </video>
+            </div>
 
-          <!-- Contenedor de acciones -->
-          <div class="p-4">
-            <BaseButton variant="red" @click="deleteFile(media.id_multimedia)" class="w-full">
-              Eliminar
-            </BaseButton>
+            <!-- Contenedor de acciones -->
+            <div class="p-4">
+              <BaseButton variant="red" @click="deleteFile(media.id_multimedia)" class="w-full">
+                Eliminar
+              </BaseButton>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Sin Archivos -->
-      <h3 v-else class="text-gray-500">No hay archivos disponibles</h3>
+        <!-- Sin Archivos -->
+        <h3 v-else class="text-gray-500">No hay archivos disponibles</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +76,10 @@ import Swal from 'sweetalert2'
 import BaseButton from '@/components/common/BaseButton.vue'
 import type { IMultimedia } from '@/interfaces/IMultimedia'
 import { createMultimedia, deleteMultimedia, getAllMultimedia } from '@/services/MultimediaService'
+import { useLoadingStore } from '@/stores/loadingStore'
+import Loading from '@/components/common/Loading.vue'
+
+const loadingStore = useLoadingStore()
 
 // ✅ Tipos para ref
 const selectedFile = ref<string | null>(null)
@@ -186,12 +189,15 @@ const uploadFile = async (): Promise<void> => {
 
 // ✅ Obtener archivos multimedia
 const fetchMultimedia = async (): Promise<void> => {
+  loadingStore.startLoading()
   try {
     const response = await getAllMultimedia()
     multimediaList.value = response.data
   } catch (error) {
     console.error('Error al obtener los archivos:', error)
     errorMessage.value = 'Error al cargar los archivos'
+  } finally {
+    loadingStore.stopLoading()
   }
 }
 

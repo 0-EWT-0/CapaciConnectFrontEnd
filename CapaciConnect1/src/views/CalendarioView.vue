@@ -3,16 +3,16 @@
   <main class="p-10 min-h-screen">
     <div class="max-w-[90rem] mx-auto p-10">
       <!-- Título -->
-      <h1 class="text-3xl font-bold mb-6 text-black">Próximas fechas</h1>
+      <h2 class="text-[#212122] mb-6">Próximas fechas</h2>
 
       <!-- Buscador -->
-      <div class="mb-6">
+      <!-- <div class="mb-6">
         <input
           type="text"
           placeholder="Buscar talleres..."
           class="text-black w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-      </div>
+      </div> -->
 
       <!-- Filtros -->
       <div class="flex gap-4 mb-6">

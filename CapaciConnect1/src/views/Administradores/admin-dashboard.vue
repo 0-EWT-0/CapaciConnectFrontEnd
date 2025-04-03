@@ -1,9 +1,13 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 p-16">
     <!-- Header -->
     <div>
-      <h1 class="text-3xl text-blue-600 font-bold">Dashboard</h1>
-      <p class="text-gray-500">Welcome to your admin dashboard</p>
+      <h1 class="text-[#2563EB]">Bienvenido {{ userInfo.name }} {{ userInfo.last_names }}</h1>
+      <div class="text-[#565656]">
+        <h2>{{ userInfo.email }}</h2>
+        <h2>{{ userInfo.phone }}</h2>
+        <h2>{{ userInfo.last_names }}</h2>
+      </div>
     </div>
 
     <!-- Dashboard Stats -->
@@ -29,4 +33,15 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useUserStore } from '@/stores/user'
+
+const userInfo = ref([])
+const userStore = useUserStore()
+
+onMounted(async () => {
+  await userStore.getUserInfo()
+  userInfo.value = userStore.user
+})
+</script>

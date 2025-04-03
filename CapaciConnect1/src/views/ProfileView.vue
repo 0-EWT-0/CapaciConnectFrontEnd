@@ -24,7 +24,7 @@
                 <div class="space-y-4 w-[15rem]">
                   <div class="field">
                     <label for="nombre" class="block text-lg font-bold mb-1 text-center text-black"
-                      >Nombre</label
+                      >Nombre(s)</label
                     >
                     <InputText
                       id="nombre"
@@ -36,7 +36,7 @@
                     <label
                       for="apellido"
                       class="block text-lg font-bold mb-1 text-center text-black"
-                      >Apellido</label
+                      >Apellidos</label
                     >
                     <InputText
                       id="apellido"
@@ -46,7 +46,7 @@
                   </div>
                   <div class="field">
                     <label for="email" class="block text-lg font-bold mb-1 text-center text-black"
-                      >Email</label
+                      >Correo</label
                     >
                     <InputText
                       id="email"
@@ -93,7 +93,9 @@
                   </div>
                   <p class="text-sm text-gray-500 mt-2">
                     Se unió el
-                    <span class="text-blue-600 font-semibold">{{ usuario.created_at }}</span>
+                    <span class="text-blue-600 font-semibold">{{
+                      formatDate(usuario.created_at)
+                    }}</span>
                   </p>
                 </div>
               </div>
@@ -103,18 +105,12 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <button
-            @click="cancelarEdicion"
-            class="bg-red-500 text-white px-5 py-3 rounded-lg text-lg font-semibold cursor-pointer"
+          <!-- <BaseButton class="text-white" variant="gray" @click="cancelarEdicion"
+            >Cancelar</BaseButton
+          > -->
+          <BaseButton class="text-white" variant="green" @click="guardarCambios"
+            >Guardar cambios</BaseButton
           >
-            Cancelar
-          </button>
-          <button
-            @click="guardarCambios"
-            class="bg-green-500 text-white px-5 py-3 rounded-lg text-lg font-semibold cursor-pointer"
-          >
-            Guardar Cambios
-          </button>
         </div>
       </template>
     </Card>
@@ -165,9 +161,18 @@ import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Textarea from 'primevue/textarea'
 import Navbar from '@/components/global/Navbar.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const userStore = useUserStore()
 const authStore = useAuthStore()
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('es-MX', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
 
 onMounted(async () => {
   await userStore.getUserInfo()

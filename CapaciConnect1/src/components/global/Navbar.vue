@@ -10,26 +10,30 @@
     <!-- Normal -->
     <div class="hidden md:flex items-center gap-x-11">
       <div class="flex gap-x-11">
-        <RouterLink to="/admin" v-if="rolId === 1 || rolId === 2">
-          <h3 class="hover:text-[#2563EB] cursor-pointer">Dashboard</h3>
-        </RouterLink>
-        <RouterLink to="/Talleres">
-          <h3 class="hover:text-[#2563EB] cursor-pointer">Talleres</h3>
-        </RouterLink>
-        <RouterLink to="/MisTalleres">
-          <h3 class="hover:text-[#2563EB] cursor-pointer">Mi aprendizaje</h3>
-        </RouterLink>
-        <RouterLink to="/calendarios">
-          <h3 class="hover:text-[#2563EB] cursor-pointer">Calendario</h3>
-        </RouterLink>
-        <RouterLink to="/perfil">
-          <h3 class="hover:text-[#2563EB] cursor-pointer">Perfil</h3>
-        </RouterLink>
+        <h3
+          class="hover:text-[#2563EB] cursor-pointer"
+          v-if="rolId === 1 || rolId === 2"
+          @click="$router.push('/admin')"
+        >
+          Dashboard
+        </h3>
+
+        <h3 class="hover:text-[#2563EB] cursor-pointer" @click="$router.push('/Talleres')">
+          Talleres
+        </h3>
+
+        <h3 class="hover:text-[#2563EB] cursor-pointer" @click="$router.push('/MisTalleres')">
+          Mi aprendizaje
+        </h3>
+
+        <h3 class="hover:text-[#2563EB] cursor-pointer" @click="$router.push('/calendarios')">
+          Calendario
+        </h3>
+
+        <h3 class="hover:text-[#2563EB] cursor-pointer" @click="$router.push('/perfil')">Perfil</h3>
       </div>
       <div>
-        <RouterLink to="/login">
-          <BaseButton variant="red" @click="handleLogout">Cerrar sesión</BaseButton>
-        </RouterLink>
+        <BaseButton variant="red" @click="handleLogout">Cerrar sesión</BaseButton>
       </div>
     </div>
 

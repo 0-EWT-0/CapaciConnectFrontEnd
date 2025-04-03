@@ -4,7 +4,7 @@
 
     <Form
       :validation-schema="validationWorkshop"
-      class="bg-[#F2F5FA] rounded-lg p-4"
+      class="bg-[#F2F5FA] rounded-lg p-8"
       @submit="handleSubmit"
     >
       <div class="pb-4">
@@ -43,7 +43,7 @@
       </div>
 
       <div class="pb-4">
-        <label class="text-[#212122]"><h3 class="pb-2">Seleccionar tipo de taller</h3></label>
+        <label class="text-[#212122]"><h3 class="pb-2">Seleccionar categoría</h3></label>
         <Field
           as="select"
           name="id_type_id"
@@ -78,8 +78,8 @@
       </div>
     </Form>
 
-    <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
-      <h2 class="text-[#212122] py-11">Talleres creados</h2>
+    <div class="mt-19 px-8 pb-11 rounded-lg bg-[#F2F5FA]">
+      <h2 class="text-[#212122] py-11">Lista de talleres</h2>
       <Loading v-if="loadingStore.isLoading" />
 
       <div v-else>

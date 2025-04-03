@@ -1,9 +1,11 @@
 <template>
+  <Loading v-if="loadingStore.isLoading" class="absolute z-10" />
+
   <div class="w-screen h-screen flex">
     <div class="w-1/2">
       <img :src="img" class="object-cover w-full h-full" />
     </div>
-    <div class="bg-[#040273] w-1/2 p-19 flex flex-col justify-center">
+    <div class="w-1/2 bg-[#040273] p-19 flex flex-col justify-center">
       <Form :validation-schema="validationUserLogin" @submit="handleLogin">
         <div class="py-4">
           <h2 class="text-white">Iniciar sesión</h2>
