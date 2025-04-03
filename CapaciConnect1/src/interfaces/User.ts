@@ -6,7 +6,7 @@ export interface User {
   Email: string
   Password: string
   ComfirmPassword: string
-  Profile_img: string
+  Profile_img: null
   Description: string
   Created_at: string
   Id_rol_id: string

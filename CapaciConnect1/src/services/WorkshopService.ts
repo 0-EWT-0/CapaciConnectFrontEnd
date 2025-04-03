@@ -41,15 +41,15 @@ export const deleteWorkshop = async (id_workshop: number): Promise<any> => {
   return await genericRequestAuth(`${base_url}/DeleteWorkshop/${id_workshop}`, 'DELETE')
 }
 
-export const updateWorkshop = async (id_workshop: number, workshopData: IWorkshop) => {
+export const updateWorkshop = async (id_workshop: number, workshopData: IWorkshop): Promise<any> => {
   try {
     const response = await genericRequestAuth(
       `${base_url}/UpdateWorkshop/${id_workshop}`,
       'PUT',
-      workshopData,
-    )
-    return response.data
+      workshopData
+    );
+    return response.data;
   } catch (error: any) {
-    await handleError(error, 'updateWorkshop')
+    await handleError(error, 'updateWorkshop');
   }
-}
+};

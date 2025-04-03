@@ -88,7 +88,9 @@
         </div>
 
         <div class="pb-4 w-auto">
-          <BaseButton variant="blue" @click="validatePhone">Crear cuenta</BaseButton>
+          <BaseButton variant="blue" @click="validatePhone" :disabled="isLoading">
+            {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
+          </BaseButton>
         </div>
 
         <div class="pb-4 text-center">
@@ -109,19 +111,20 @@ import { validationUser } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'
 import 'intl-tel-input/build/css/intlTelInput.css'
 import intlTelInput from 'intl-tel-input'
-// import { useToast } from "primevue/usetoast";
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import BaseButton from '@/components/common/BaseButton.vue'
+import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router'
 
-// const toast = useToast();
-
+const router = useRouter()
 const name = ref('')
 const last_names = ref('')
 const phone = ref('')
 const email = ref('')
 const password = ref('')
 const confirmpassword = ref('')
+const isLoading = ref(false)
 
 const authStore = useAuthStore()
 
@@ -129,18 +132,86 @@ const iti = ref({})
 const phoneError = ref('')
 const error = ref('')
 
+const showLoadingAlert = () => {
+  Swal.fire({
+    title: 'Creando cuenta',
+    html: 'Por favor espere...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
+}
+
 const handleRegister = async () => {
   try {
+    isLoading.value = true
+    showLoadingAlert()
+
+    // Validar teléfono primero
+    validatePhone()
+    if (phoneError.value) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor corrige el número de teléfono',
+        icon: 'error',
+        confirmButtonColor: '#DC2626'
+      })
+      return
+    }
+
     await authStore.register(
       name.value,
       last_names.value,
       phone.value,
       email.value,
       password.value,
-      confirmpassword.value,
+      confirmpassword.value
     )
+
+    // Registro exitoso
+    Swal.fire({
+      title: '¡Cuenta creada!',
+      text: 'Tu cuenta ha sido creada exitosamente',
+      icon: 'success',
+      confirmButtonColor: '#2563EB',
+      timer: 2000,
+      showConfirmButton: false
+    }).then(() => {
+      // Redirigir al login o dashboard según tu flujo
+      router.push('/login')
+    })
+
   } catch (error) {
     console.error('Error during register:', error)
+
+    let errorMessage = 'Ocurrió un error al crear la cuenta'
+
+    // Personalizar mensajes según el tipo de error
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          errorMessage = error.response.data.message || 'Datos inválidos'
+          break
+        case 409:
+          errorMessage = 'El correo electrónico ya está registrado'
+          break
+        case 500:
+          errorMessage = 'Error del servidor, intente más tarde'
+          break
+      }
+    }
+
+    Swal.fire({
+      title: 'Error',
+      text: errorMessage,
+      icon: 'error',
+      confirmButtonColor: '#DC2626'
+    })
+
+  } finally {
+    isLoading.value = false
+    Swal.close()
   }
 }
 
@@ -161,13 +232,15 @@ const validatePhone = () => {
     error.value = iti.value.getValidationError()
 
     if (error.value == 2) {
-      phoneError.value = 'Demasaido corto'
+      phoneError.value = 'Número demasiado corto'
     } else if (error.value == 3) {
-      phoneError.value = 'Demasiado largo'
+      phoneError.value = 'Número demasiado largo'
     } else {
-      phoneError.value = 'Número inválido'
+      phoneError.value = 'Número de teléfono inválido'
     }
+    return false
   }
+  return true
 }
 </script>
 

@@ -169,7 +169,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
       console.error(`Error en createProgression para taller:`, error)
     }
   }
-  
+
   return {
     workshops,
     fetchWorkshops,

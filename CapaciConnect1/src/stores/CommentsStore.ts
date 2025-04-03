@@ -1,8 +1,8 @@
-// src/stores/CommentsStore.ts
 import { defineStore } from 'pinia'
 import type { Comment } from '@/interfaces/CommentInterface'
 import CommentsService from '@/services/CommentsService'
 import type { AxiosError } from 'axios'
+import { useRouter } from 'vue-router'
 
 interface CommentState {
   comments: Comment[]
@@ -14,7 +14,7 @@ export const useCommentStore = defineStore('comments', {
   state: (): CommentState => ({
     comments: [],
     loading: false,
-    error: null,
+    error: null
   }),
 
   actions: {
@@ -34,7 +34,7 @@ export const useCommentStore = defineStore('comments', {
       this.loading = true
       try {
         await CommentsService.deleteComment(id)
-        this.comments = this.comments.filter((comment) => comment.id_comment !== id)
+        this.comments = this.comments.filter(comment => comment.id_comment !== id)
       } catch (error) {
         this.handleError(error as AxiosError)
       } finally {
@@ -46,7 +46,7 @@ export const useCommentStore = defineStore('comments', {
       this.loading = true
       try {
         await CommentsService.deleteAllWorkshopComments(workshopId)
-        this.comments = this.comments.filter((comment) => comment.id_workshop_id !== workshopId)
+        this.comments = this.comments.filter(comment => comment.id_workshop_id !== workshopId)
       } catch (error) {
         this.handleError(error as AxiosError)
       } finally {
@@ -55,13 +55,14 @@ export const useCommentStore = defineStore('comments', {
     },
 
     handleError(error: AxiosError): void {
+      const router = useRouter()
       if (error.response?.status === 401) {
-        this.error = 'No autorizado. Por favor inicie sesión nuevamente.'
-        // Redirigir a login si es necesario
+        this.error = 'Sesión expirada. Por favor inicie sesión nuevamente.'
+        router.push('/login')
       } else {
         this.error = error.message || 'Error desconocido al procesar comentarios'
       }
-    },
+    }
   },
 
   getters: {
@@ -77,7 +78,7 @@ export const useCommentStore = defineStore('comments', {
     },
 
     workshopIds(): number[] {
-      return [...new Set(this.comments.map((comment) => comment.id_workshop_id))]
-    },
-  },
+      return [...new Set(this.comments.map(comment => comment.id_workshop_id))]
+    }
+  }
 })

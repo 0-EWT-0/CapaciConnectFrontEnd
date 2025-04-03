@@ -34,7 +34,9 @@
         </div>
 
         <div class="pb-4 w-auto">
-          <BaseButton variant="blue">Iniciar sesión</BaseButton>
+          <BaseButton variant="blue" :disabled="isLoading">
+            {{ isLoading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+          </BaseButton>
         </div>
 
         <div class="pb-4 text-center">
@@ -57,21 +59,79 @@ import { useAuthStore } from '@/stores/auth'
 import { Field, Form } from 'vee-validate'
 import { ref } from 'vue'
 import { useLoadingStore } from '@/stores/loadingStore'
-import Loading from '@/components/common/Loading.vue'
+import Swal from 'sweetalert2'
 
 const loadingStore = useLoadingStore()
+const isLoading = ref(false)
 
 const email = ref('')
 const password = ref('')
 const authStore = useAuthStore()
 
+const showLoadingAlert = () => {
+  Swal.fire({
+    title: 'Iniciando sesión',
+    html: 'Por favor espere...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  })
+}
+
 const handleLogin = async () => {
-  loadingStore.startLoading()
   try {
+    isLoading.value = true
+    showLoadingAlert()
+
     await authStore.login(email.value, password.value)
+
+    // Cerrar alerta de carga y mostrar éxito
+    Swal.fire({
+      title: '¡Bienvenido!',
+      text: 'Has iniciado sesión correctamente',
+      icon: 'success',
+      confirmButtonColor: '#2563EB',
+      timer: 2000,
+      showConfirmButton: false
+    }).then(() => {
+      // Redirección después del login exitoso
+      // (esto debería manejarlo tu store de auth probablemente)
+      window.location.href = '/dashboard'
+    })
+
   } catch (error) {
     console.error('Error during login:', error)
+
+    let errorMessage = 'Ocurrió un error al iniciar sesión'
+
+    // Personalizar mensajes según el tipo de error
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          errorMessage = 'Credenciales incorrectas'
+          break
+        case 403:
+          errorMessage = 'Cuenta no verificada'
+          break
+        case 404:
+          errorMessage = 'Usuario no encontrado'
+          break
+        case 500:
+          errorMessage = 'Error del servidor, intente más tarde'
+          break
+      }
+    }
+
+    Swal.fire({
+      title: 'Error',
+      text: errorMessage,
+      icon: 'error',
+      confirmButtonColor: '#DC2626'
+    })
+
   } finally {
+    isLoading.value = false
     loadingStore.stopLoading()
   }
 }
