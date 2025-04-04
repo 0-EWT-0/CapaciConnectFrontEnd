@@ -332,6 +332,12 @@ const handleSubscribe = async () => {
     }
 
     await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
+    const progressionData={
+      progression_status: '100',
+      id_workshop_id: id_workshop,
+    }
+    await workshopStore.CreateProgression(progressionData)
+    
     Swal.fire({
       icon: 'success',
       title: 'Inscricion Exitosa',
