@@ -34,10 +34,12 @@
           </p>
         </div>
 
-        <div>
+        <div class="flex flex-col space-y-2 ">
           <BaseButton @click="handleSubscribe" :disabled="isSubscribed">{{
             isSubscribed ? 'Ya estás inscrito' : 'Inscríbete'
           }}</BaseButton>
+
+          <BaseButton variant="" v-if="isSubscribed">Reportar</BaseButton>
         </div>
       </div>
     </div>
