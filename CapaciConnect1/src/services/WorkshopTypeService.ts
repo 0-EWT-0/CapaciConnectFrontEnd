@@ -3,7 +3,7 @@ import router from '@/router'
 import type { AxiosError } from 'axios'
 import type { WorkshopType, WorkshopTypeDTO } from '@/interfaces/workshopTypesInterface'
 
-const API_BASE_URL = import.meta.env.VITE_ENDPOINT_API 
+const API_BASE_URL = import.meta.env.VITE_ENDPOINT_API
 
 export class WorkshopTypeService {
   private readonly baseUrl: string
@@ -22,9 +22,7 @@ export class WorkshopTypeService {
       router.push('/login')
     }
 
-    throw new Error(
-      (axiosError.response?.data as { message?: string })?.message || defaultMessage
-    )
+    throw new Error((axiosError.response?.data as { message?: string })?.message || defaultMessage)
   }
 
   async getAllTypes(): Promise<WorkshopType[]> {

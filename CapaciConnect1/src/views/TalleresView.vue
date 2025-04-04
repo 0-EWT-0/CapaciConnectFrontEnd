@@ -2,8 +2,7 @@
   <Navbar />
   <main class="p-10 min-h-screen">
     <div class="max-w-[90rem] mx-auto p-10">
-      <!-- Título -->
-      <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
+      <h2 class="mb-6 text-[#212122]">Todos nuestros talleres</h2>
       <Loading v-if="loadingStore.isLoading" />
 
       <div v-else>
@@ -13,21 +12,9 @@
             v-model="searchQuery"
             type="text"
             placeholder="Buscar talleres..."
-            class="text-black w-full p-3 bg-[#F2F5FA] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]"
+            class="text-[#212122] w-full p-3 bg-[#F2F5FA] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]"
           />
         </div>
-
-        <!-- Filtros -->
-        <!-- <div class="flex gap-4 mb-6">
-        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
-          Filtrar por tipos
-        </button>
-        <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
-          Filtrar por fecha
-        </button>
-      </div> -->
-
-        <!-- Grid de talleres -->
 
         <div
           v-if="filteredWorkshops && filteredWorkshops.length > 0"
@@ -36,26 +23,22 @@
           <div
             v-for="workshop in filteredWorkshops"
             :key="workshop.id_workshop"
-            class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105"
+            class="bg-white h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105"
           >
             <router-link
               :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
             >
-              <div class="flex-1 h-40 md:h-auto">
+              <div class="h-2/3">
                 <img
                   :src="'data:image/jpeg;base64,' + workshop.image"
                   alt="Imagen"
                   class="w-full h-full object-cover"
                 />
               </div>
-              <div class="p-4">
+              <div class="h-1/3 p-4">
                 <h3 class="text-[#212122]">{{ workshop.title }}</h3>
                 <p class="text-[#212122]">{{ workshop.description }}</p>
                 <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
-                <!-- <router-link
-              :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
-              
-            /> -->
               </div>
             </router-link>
           </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#F2F5FA] shadow-xl rounded-2xl mx-4 sm:mx-6 lg:mx-8 my-6">
+  <div class="bg-[#F2F5FA] rounded-2xl mx-4 sm:mx-6 lg:mx-8 my-6">
     <div class="flex flex-col sm:flex-row items-center justify-between p-6">
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Lista de categorías</h2>
     </div>
@@ -20,30 +20,14 @@
         No hay categorías registradas
       </div>
       <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-        <div
-          v-for="tipo in store.types"
-          :key="tipo.id_type"
-          class="bg-white shadow-sm rounded-xl border hover:shadow-md transition-shadow"
-        >
+        <div v-for="tipo in store.types" :key="tipo.id_type" class="bg-white shadow-lg rounded-lg">
           <div class="p-5 sm:p-6">
             <!-- Icono y Nombre -->
             <div class="flex flex-col items-center text-center">
-              <div class="mb-4 w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center">
-                <svg
-                  class="w-10 h-10 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5.25 14.25M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.984 24.984 0 016.518 3.458M9.75 3.104v5.714c0 .597.237 1.17.659 1.591L14.25 14.25M4.5 14.25l5.159-5.159a2.25 2.25 0 011.591-.659h5.714m-9.036 9.036l5.159-5.159M19.5 14.25l-5.159 5.159a2.25 2.25 0 01-1.591.659H6.636"
-                  />
-                </svg>
+              <div class="mb-4 w-20 h-20 flex items-center justify-center">
+                <img src="@/assets/imgs/capacityLogo.png" />
               </div>
-              <h3 class="text-lg font-semibold text-[#212122]">{{ tipo.type_name }}</h3>
+              <h3 class="text-[#212122]">{{ tipo.type_name }}</h3>
             </div>
 
             <!-- Acciones -->

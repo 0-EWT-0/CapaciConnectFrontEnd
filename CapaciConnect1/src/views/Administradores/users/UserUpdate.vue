@@ -7,6 +7,7 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="p-4 sm:p-6">
+      <!-- Campos del formulario -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
         <!-- Nombre -->
         <div class="space-y-2">
@@ -95,47 +96,29 @@
         ></textarea>
       </div>
 
-      <!-- Imagen de perfil -->
-      <div class="space-y-6">
-        <div class="bg-gray-50 p-4 sm:p-5 rounded-xl">
-          <div class="space-y-4">
-            <!-- <div class="space-y-2">
-              <label class="block text-sm sm:text-base font-medium text-gray-700"
-                >Imagen de perfil</label
-              >
-              <div class="flex items-center gap-4">
-                <img
-                  v-if="profileImagePreview"
-                  :src="profileImagePreview"
-                  class="w-16 h-16 rounded-full object-cover"
-                />
-                <input
-                  type="file"
-                  @change="handleImageChange"
-                  accept="image/*"
-                  class="w-full text-sm sm:text-base file:mr-3 file:py-1.5 file:px-4 file:rounded file:border-0 file:text-sm file:bg-emerald-500 file:text-white hover:file:bg-emerald-600"
-                />
-              </div>
-            </div> -->
-          </div>
-        </div>
+      <!-- Botones de acción -->
+      <div class="flex flex-col-reverse sm:flex-row justify-between gap-4 mt-6">
+        <button
+          type="button"
+          @click="handleVolver"
+          class="w-full md:w-auto px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        >
+          Volver
+        </button>
 
-        <!-- Botón de envío -->
-        <div class="flex justify-end mt-6">
-          <button
-            type="submit"
-            class="w-full md:w-auto px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors disabled:opacity-50"
-            :disabled="isSubmitting || isFetching"
-          >
-            <span v-if="isSubmitting">
-              <i class="fas fa-spinner fa-spin mr-2"></i> Actualizando...
-            </span>
-            <span v-else-if="isFetching">
-              <i class="fas fa-spinner fa-spin mr-2"></i> Cargando...
-            </span>
-            <span v-else>Actualizar usuario</span>
-          </button>
-        </div>
+        <button
+          type="submit"
+          class="w-full md:w-auto px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors disabled:opacity-50"
+          :disabled="isSubmitting || isFetching"
+        >
+          <span v-if="isSubmitting">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Actualizando...
+          </span>
+          <span v-else-if="isFetching">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Cargando...
+          </span>
+          <span v-else>Actualizar usuario</span>
+        </button>
       </div>
     </form>
   </div>
@@ -143,10 +126,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAdminUserStore } from '@/stores/adminUserStore'
 
 const route = useRoute()
+const router = useRouter()
 const userAdminStore = useAdminUserStore()
 
 // Datos del formulario
@@ -166,7 +150,7 @@ const isSubmitting = ref(false)
 const isFetching = ref(false)
 const profileImagePreview = ref<string | null>(null)
 
-// Obtener usuario al montar el componente
+// Cargar datos del usuario
 onMounted(async () => {
   isFetching.value = true
   try {
@@ -189,22 +173,22 @@ onMounted(async () => {
   }
 })
 
+// Handlers
 const handlePhoneInput = (event: Event) => {
   const input = event.target as HTMLInputElement
-  const cleanedValue = input.value.replace(/\D/g, '')
-  formData.value.phone = cleanedValue
+  formData.value.phone = input.value.replace(/\D/g, '')
 }
 
-/*const handleImageChange = (event: Event) => {
+const handleImageChange = (event: Event) => {
   const input = event.target as HTMLInputElement
-  if (input.files && input.files[0]) {
+  if (input.files?.[0]) {
     formData.value.profile_img = input.files[0]
     profileImagePreview.value = URL.createObjectURL(input.files[0])
   }
-}*/
+}
 
 const validateForm = () => {
-  if (formData.value.password && formData.value.password !== formData.value.confirmpassword) {
+  if (formData.value.password !== formData.value.confirmpassword) {
     alert('Las contraseñas no coinciden')
     return false
   }
@@ -215,22 +199,13 @@ const handleSubmit = async () => {
   if (!validateForm()) return
 
   isSubmitting.value = true
-
   try {
     const formPayload = new FormData()
-    formPayload.append('name', formData.value.name)
-    formPayload.append('last_names', formData.value.last_names)
-    formPayload.append('email', formData.value.email)
-    formPayload.append('phone', formData.value.phone)
-    formPayload.append('description', formData.value.description)
-
-    if (formData.value.password) {
-      formPayload.append('password', formData.value.password)
-    }
-
-    if (formData.value.profile_img) {
-      formPayload.append('Profile_img', formData.value.profile_img)
-    }
+    Object.entries(formData.value).forEach(([key, value]) => {
+      if (value !== null && value !== '' && key !== 'confirmpassword') {
+        formPayload.append(key, value)
+      }
+    })
 
     await userAdminStore.updateUserProfile(Number(route.params.id), formPayload)
     alert('Usuario actualizado exitosamente!')
@@ -239,5 +214,10 @@ const handleSubmit = async () => {
   } finally {
     isSubmitting.value = false
   }
+}
+
+// Navegación a /adminuser
+const handleVolver = () => {
+  router.push('/adminuser')
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#F2F5FA] shadow-xl rounded-2xl mx-4 sm:mx-6 lg:mx-8 my-6">
+  <div class="bg-[#F2F5FA] rounded-2xl mx-4 sm:mx-6 lg:mx-8 my-6">
     <div class="p-6">
       <h2 class="text-2xl font-semibold text-gray-900">Crear categoría</h2>
     </div>
@@ -34,7 +34,7 @@
 
         <!-- Botón de envió -->
         <div class="border-t border-gray-100 pt-6">
-          <BaseButton variant="blue" :disabled="isLoading">
+          <BaseButton variant="green" :disabled="isLoading">
             <span v-if="isLoading" class="inline-flex items-center">
               <svg
                 class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"

@@ -209,23 +209,23 @@ const handleSubmit = async () => {
     }
 
     Swal.fire({
-        icon: 'success',
-        title: 'Usuario creado',
-        showConfirmButton: false,
-        timer: 1500,
-        backdrop: 'rgba(4, 2, 115, 0.7)',
-      })
+      icon: 'success',
+      title: 'Usuario creado',
+      showConfirmButton: false,
+      timer: 1500,
+      backdrop: 'rgba(4, 2, 115, 0.7)',
+    })
 
-      userAdminStore.fetchUsers()
+    userAdminStore.fetchUsers()
   } catch (error) {
     console.error('Error al crear usuario:', error)
     Swal.fire({
-        title: 'Error',
-        text: 'No se pudo crear el usuario',
-        icon: 'error',
-        confirmButtonColor: '#2563EB',
-        backdrop: 'rgba(4, 2, 115, 0.7)',
-      })
+      title: 'Error',
+      text: 'No se pudo crear el usuario',
+      icon: 'error',
+      confirmButtonColor: '#2563EB',
+      backdrop: 'rgba(4, 2, 115, 0.7)',
+    })
   } finally {
     isSubmitting.value = false
   }

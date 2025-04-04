@@ -74,11 +74,9 @@
               </router-link> -->
 
               <router-link :to="`/admin/userUpdate/${user.id_user}`" class="w-full">
-              <BaseButton variant="orange">
-                Editar
-              </BaseButton>
-            </router-link>
-            
+                <BaseButton variant="orange"> Editar </BaseButton>
+              </router-link>
+
               <!-- <button
                 v-if="user.id_user"
                 @click="handleDelete(user.id_user)"
@@ -87,7 +85,9 @@
                 Eliminar
               </button> -->
 
-              <BaseButton variant="red" v-if="user.id_user" @click="handleDelete(user.id_user)">Eliminar</BaseButton>
+              <BaseButton variant="red" v-if="user.id_user" @click="handleDelete(user.id_user)"
+                >Eliminar</BaseButton
+              >
             </div>
           </div>
         </div>
