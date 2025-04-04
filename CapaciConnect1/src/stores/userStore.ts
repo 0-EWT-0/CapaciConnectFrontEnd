@@ -230,7 +230,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
   async function fetchSubscriptions() {
     try {
       const response = await fetchSubscriptionsService()
-      subscriptions.value = response || [];
+      subscriptions.value = response || []
     } catch (error) {
       console.error(`Error en fetchSubscriptions:`, error)
     }

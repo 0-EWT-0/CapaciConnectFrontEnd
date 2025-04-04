@@ -2,6 +2,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { adminUserService, type User } from '@/services/adminUserService'
+import { useLoadingStore } from './loadingStore'
+
+const loadingStore = useLoadingStore()
 
 export const useAdminUserStore = defineStore('user', () => {
   const users = ref<User[]>([])
@@ -10,8 +13,8 @@ export const useAdminUserStore = defineStore('user', () => {
   const error = ref<string | null>(null)
 
   // Acciones principales
-  const fetchUsers = async () => {
-    isLoading.value = true
+  async function fetchUsers() {
+    loadingStore.startLoading()
     error.value = null
     try {
       users.value = await adminUserService.getUsers()
@@ -19,11 +22,11 @@ export const useAdminUserStore = defineStore('user', () => {
       error.value = err.message || 'Error al cargar usuarios'
       throw err
     } finally {
-      isLoading.value = false
+      loadingStore.stopLoading()
     }
   }
 
-  const fetchUserById = async (userId: number) => {
+  async function fetchUserById(userId: number) {
     isLoading.value = true
     try {
       const user = await adminUserService.getUserById(userId)
@@ -37,7 +40,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const fetchCurrentUser = async () => {
+  async function fetchCurrentUser() {
     isLoading.value = true
     try {
       currentUser.value = await adminUserService.getCurrentUserInfo()
@@ -49,7 +52,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const updateAdminUserRole = async (userId: number, roleId: number) => {
+  async function updateAdminUserRole(userId: number, roleId: number) {
     isLoading.value = true
     try {
       const updatedUser = await adminUserService.updateAdminUser(userId, roleId)
@@ -64,7 +67,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const updateUserProfile = async (userId: number, userData: Partial<User>) => {
+  async function updateUserProfile(userId: number, userData: Partial<User>) {
     isLoading.value = true
     try {
       const updatedUser = await adminUserService.updateUser(userId, userData)
@@ -80,7 +83,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const removeUser = async (userId: number) => {
+  async function removeUser(userId: number) {
     isLoading.value = true
     try {
       await adminUserService.deleteUser(userId)
@@ -96,7 +99,7 @@ export const useAdminUserStore = defineStore('user', () => {
     }
   }
 
-  const registerUser = async (userData: FormData) => {
+  async function registerUser(userData: FormData) {
     isLoading.value = true
     try {
       const newUser = await adminUserService.createUser(userData)

@@ -1,6 +1,8 @@
 <template>
   <div class="p-16">
-    <h2 class="text-[#212122] pb-4">{{ isEditing ? 'Editar taller' : 'Crear taller' }}</h2>
+    <h2 id="idForm" class="text-[#212122] pb-4">
+      {{ isEditing ? 'Editar taller' : 'Crear taller' }}
+    </h2>
 
     <Form
       :validation-schema="validationWorkshop"
@@ -235,6 +237,11 @@ const startEdit = (workshop: IWorkshop) => {
   isEditing.value = true
   currentWorkshopId.value = workshop.id_workshop
   formData.value = { ...workshop }
+
+  const element = document.getElementById('idForm')
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
 const cancelEdit = () => {

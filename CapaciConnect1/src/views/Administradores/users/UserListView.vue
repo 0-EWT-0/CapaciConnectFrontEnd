@@ -1,42 +1,14 @@
 <template>
-  <div class="bg-[#F2F5FA] rounded-xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
-    <div class="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
-      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Lista de usuarios</h2>
+  <div class="bg-[#F2F5FA] rounded-lg mx-4 sm:mx-6 lg:mx-8 my-6">
+    <div class="p-8 flex justify-between items-center">
+      <h2 class="text-[#212122]">Lista de usuarios</h2>
     </div>
+    <Loading v-if="loadingStore.isLoading" />
 
-    <!-- Estados de carga y error -->
-    <div v-if="isLoading" class="p-6 text-center text-gray-500">
-      <Loading />
-      <!-- <i class="fas fa-spinner fa-spin mr-2"></i> Cargando usuarios... -->
-    </div>
-
-    <div v-else-if="error" class="p-6 bg-red-50 text-red-700 border-l-4 border-red-400">
-      <i class="fas fa-exclamation-triangle mr-2"></i> {{ error }}
-    </div>
-
-    <!-- Lista de usuarios -->
     <div v-else class="p-4 sm:p-6">
       <div class="space-y-4">
-        <div
-          v-for="user in users"
-          :key="user.Id_user"
-          class="bg-white shadow-sm rounded-xl p-4 sm:p-5 border border-gray-200"
-        >
+        <div v-for="user in users" :key="user.Id_user" class="bg-white shadow-sm rounded-xl p-4">
           <div class="flex flex-col sm:flex-row gap-4 items-start">
-            <!-- Avatar -->
-            <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <!-- <div
-                class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
-              >
-                <img
-                  :src="user.profile_img || '/default-avatar.png'"
-                  :alt="user.name"
-                  class="w-full h-full object-cover rounded-full"
-                />
-              </div> -->
-            </div>
-
-            <!-- Información del usuario -->
             <div class="flex-1 w-full min-w-0">
               <h3 class="text-lg font-semibold text-gray-900 truncate">
                 {{ user.name }} {{ user.last_names }}
@@ -103,9 +75,11 @@ import type { User } from '@/interfaces/User'
 import Loading from '@/components/common/Loading.vue'
 import Swal from 'sweetalert2'
 import BaseButton from '@/components/common/BaseButton.vue'
+import { useLoadingStore } from '@/stores/loadingStore'
+
+const loadingStore = useLoadingStore()
 
 const userStore = useAdminUserStore()
-const isLoading = ref(true)
 const error = ref<string | null>(null)
 const users = ref<User[]>([])
 
@@ -131,16 +105,6 @@ const formatPhone = (phone: string = '') => {
 // }
 
 // Cargar usuarios
-onMounted(async () => {
-  try {
-    await userStore.fetchUsers()
-    users.value = userStore.users
-  } catch (err) {
-    error.value = 'Error al cargar usuarios: ' + (err as Error).message
-  } finally {
-    isLoading.value = false
-  }
-})
 
 // Eliminar usuario
 const handleDelete = async (userId: number) => {
@@ -160,6 +124,9 @@ const handleDelete = async (userId: number) => {
     try {
       await userStore.removeUser(userId)
       users.value = users.value.filter((user) => user.Id_user !== userId)
+      await userStore.fetchUsers()
+      users.value = userStore.users
+
       Swal.fire({
         title: 'Usuario eliminado',
         text: 'El usuario ha sido eliminado correctamente',
@@ -180,4 +147,9 @@ const handleDelete = async (userId: number) => {
     }
   }
 }
+
+onMounted(async () => {
+  await userStore.fetchUsers()
+  users.value = userStore.users
+})
 </script>

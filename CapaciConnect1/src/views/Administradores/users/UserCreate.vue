@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="bg-[#F2F5FA] shadow-lg rounded-xl text-[#212122] border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6"
-  >
-    <div class="p-4 sm:p-6 border-b border-gray-200">
-      <h2 class="text-xl sm:text-2xl font-semibold">Crear usuario</h2>
+  <div class="bg-[#F2F5FA] rounded-xl text-[#212122] mx-4 sm:mx-6 lg:mx-8 my-6">
+    <div class="p-6">
+      <h2>Crear usuario</h2>
     </div>
 
     <Form
@@ -103,26 +101,7 @@
         <ValidationMessage prop="description" />
       </div>
 
-      <!-- Imagen de perfil -->
       <div class="space-y-6">
-        <div class="bg-gray-50 p-4 sm:p-5 rounded-xl">
-          <!-- <div class="space-y-4">
-            <div class="space-y-2">
-              <label class="text-[#212122]"><h3 class="pb-2">Imagen de perfil</h3></label>
-              <Field
-                name="img"
-                @change="handleFileUpload"
-                type="file"
-                accept="image/*"
-                class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
-              />
-              <ValidationMessage prop="img" />
-              <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
-              <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
-            </div>
-          </div> -->
-        </div>
-
         <!-- Botón de envío -->
         <div class="flex justify-end mt-6 text-white">
           <BaseButton :disabled="isSubmitting" variant="green"
@@ -216,7 +195,7 @@ const handleSubmit = async () => {
       backdrop: 'rgba(4, 2, 115, 0.7)',
     })
 
-    userAdminStore.fetchUsers()
+    await userAdminStore.fetchUsers()
   } catch (error) {
     console.error('Error al crear usuario:', error)
     Swal.fire({
