@@ -15,54 +15,59 @@ import {
   getUserInfoService,
 } from '@/services/UserService'
 import { useLoadingStore } from './loadingStore'
+import type { Workshop } from '@/interfaces/Workshop'
+import type { Type } from '@/interfaces/Type'
+import type { Progressions } from '@/interfaces/Progressions.ts'
+import type { Comments } from '@/interfaces/Comments'
+import type { User } from '@/interfaces/User'
 
 // esto esta hecho de la patada
-interface Workshop {
-  id_workshop: number
-  title: string
-  description: string
-  content: string
-  image: string | null
-  id_user_id: number
-  id_type_id: number
-  created_at: Date
-}
+// interface Workshop {
+//   id_workshop: number
+//   title: string
+//   description: string
+//   content: string
+//   image: string | null
+//   id_user_id: number
+//   id_type_id: number
+//   created_at: Date
+// }
 
-interface Type {
-  id_type: number
-  type_name: string
-  workshops: []
-}
+// interface Type {
+//   id_type: number
+//   type_name: string
+//   workshops: []
+// }
 
-interface Progressions {
-  id_progression: number
-  progression_status: number
-  id_user_id: number
-  user: string
-  id_workshop_id: number
-  workshop: string
-}
+// interface Progressions {
+//   id_progression: number
+//   progression_status: number
+//   id_user_id: number
+//   user: string
+//   id_workshop_id: number
+//   workshop: string
+// }
 
-interface Comments {
-  id_comment: number
-  comment: string
-  created_at: Date
-  id_user_id: number
-  id_workshop_id: number
-  workshop: string
-}
+// interface Comments {
+//   id_comment: number
+//   comment: string
+//   created_at: Date
+//   id_user_id: number
+//   id_workshop_id: number
+//   workshop: string
+// }
 
 export const useUserStore = defineStore('user', () => {
-  interface User {
-    Id_user: number
-    Name: string
-    Last_names: string
-    Phone: string
-    Email: string
-    Description: string
-    Id_rol_id: string
-    created_at: Date
-  }
+  // interface User {
+  //   Id_user: number
+  //   Name: string
+  //   Last_names: string
+  //   Phone: string
+  //   Email: string
+  //   Description: string
+  //   Id_rol_id: string
+  //   created_at: Date
+  // }
 
   const user = ref<User | null>(null)
 

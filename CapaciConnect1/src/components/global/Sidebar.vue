@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 import BaseButton from '../common/BaseButton.vue'
 import { ref } from 'vue'
 

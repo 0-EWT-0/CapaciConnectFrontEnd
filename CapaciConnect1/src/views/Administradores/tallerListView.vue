@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useWorkshopStore } from '@/stores/adminWorkshop'
+import { useWorkshopStore } from '@/stores/adminWorkshopStore'
 import router from '@/router'
 
 const workshopStore = useWorkshopStore()

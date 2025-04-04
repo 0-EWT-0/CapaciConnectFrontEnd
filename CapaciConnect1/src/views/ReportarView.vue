@@ -81,9 +81,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useReportStore } from '@/stores/adminReport'
+import { useReportStore } from '@/stores/adminReportStore'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
 

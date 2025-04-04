@@ -1,6 +1,6 @@
 import { genericRequest, genericRequestAuth } from '@/utils/genericRequest'
 
-const base_url = 'https://localhost:44368/api'
+const base_url = import.meta.env.VITE_ENDPOINT_API
 
 export interface User {
   Id_user: number

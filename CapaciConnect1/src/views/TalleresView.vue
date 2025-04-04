@@ -74,7 +74,7 @@ import Footer from '@/components/global/Footer.vue'
 import Navbar from '@/components/global/Navbar.vue'
 import { useLoadingStore } from '@/stores/loadingStore'
 
-import { useWorkshopStore } from '@/stores/user'
+import { useWorkshopStore } from '@/stores/userStore'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 import { onMounted, computed, ref } from 'vue'
 

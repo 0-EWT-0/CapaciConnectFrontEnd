@@ -1,6 +1,6 @@
 import { genericRequest, genericRequestAuth } from '@/utils/genericRequest'
 
-const base_url = 'https://localhost:44368/api'
+const base_url = import.meta.env.VITE_ENDPOINT_API
 const headers = {
   'Content-Type': 'application/json',
   Authorization: 'Bearer ' + localStorage.getItem('token'),

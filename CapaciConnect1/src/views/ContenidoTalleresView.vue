@@ -142,9 +142,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useWorkshopStore } from '@/stores/user'
-import { useAuthStore } from '@/stores/auth'
-import { useUserStore } from '@/stores/user'
+import { useWorkshopStore } from '@/stores/userStore'
+import { useAuthStore } from '@/stores/authStore'
+import { useUserStore } from '@/stores/userStore'
 import Navbar from '@/components/global/Navbar.vue'
 import Swal from 'sweetalert2'
 import BaseButton from '@/components/common/BaseButton.vue'

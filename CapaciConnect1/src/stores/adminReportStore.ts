@@ -6,15 +6,15 @@ import {
   createReport as createReportService,
   deleteReport as deleteReportService,
 } from '@/services/adminReportService'
-//import type { Reporte } from '@/interfaces/Report'
-interface Report {
-  Id_Report: number
-  Tittle: string
-  Content: string
-  Created_at: string
-  Id_user_id: number
-  Id_workshop_id: number
-}
+import type { Reporte } from '@/interfaces/Report'
+// interface Report {
+//   Id_Report: number
+//   Tittle: string
+//   Content: string
+//   Created_at: string
+//   Id_user_id: number
+//   Id_workshop_id: number
+// }
 
 export const useReportStore = defineStore('report', () => {
   const reports = ref<Reporte[]>([])

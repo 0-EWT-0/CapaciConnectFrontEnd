@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useAdminUserStore } from '@/stores/adminUser'
+import { useAdminUserStore } from '@/stores/adminUserStore'
 import type { User } from '@/interfaces/User'
 import Loading from '@/components/common/Loading.vue'
 import Swal from 'sweetalert2'

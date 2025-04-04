@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useReportStore } from '@/stores/adminReport'
+import { useReportStore } from '@/stores/adminReportStore'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 
 const reportStore = useReportStore()

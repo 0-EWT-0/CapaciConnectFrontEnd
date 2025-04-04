@@ -1,7 +1,7 @@
 import { genericRequestAuth } from '@/utils/genericRequest'
 import type { Workshop } from '@/interfaces/Workshop'
 
-const base_url = 'https://localhost:44368/api'
+const base_url = import.meta.env.VITE_ENDPOINT_API
 
 const handleError = async (error: any, context: string) => {
   const errorMessage = `Error during ${context}: ${error.message}`

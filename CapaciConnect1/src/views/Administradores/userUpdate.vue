@@ -144,7 +144,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useAdminUserStore } from '@/stores/adminUser'
+import { useAdminUserStore } from '@/stores/adminUserStore'
 
 const route = useRoute()
 const userAdminStore = useAdminUserStore()

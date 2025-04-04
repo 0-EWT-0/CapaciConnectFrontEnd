@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useRolStore } from '@/stores/adminRol'
+import { useRolStore } from '@/stores/adminRolStore'
 import type { Rol } from '@/services/adminRolService'
 
 const rolStore = useRolStore()

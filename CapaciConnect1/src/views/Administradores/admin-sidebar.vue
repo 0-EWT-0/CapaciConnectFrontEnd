@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 import {
   HomeIcon,
   UsersIcon,
@@ -50,7 +50,7 @@ import {
   Calendar1Icon,
 } from 'lucide-vue-next'
 import BaseButton from '@/components/common/BaseButton.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 
 const authStore = useAuthStore()
 

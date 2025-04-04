@@ -83,8 +83,8 @@
 import { onMounted, ref } from 'vue'
 import BaseButton from '../common/BaseButton.vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/authStore'
+import { useUserStore } from '@/stores/userStore'
 
 const menuOpen = ref(false)
 const toggleMenu = () => {

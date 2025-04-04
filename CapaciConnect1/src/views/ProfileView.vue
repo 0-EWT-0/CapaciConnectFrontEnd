@@ -148,8 +148,8 @@
 <script setup>
 import Footer from '@/components/global/Footer.vue'
 import { reactive, onMounted, watchEffect, ref } from 'vue'
-import { useUserStore } from '@/stores/user'
-import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/stores/userStore.js'
+import { useAuthStore } from '@/stores/authStore.js'
 import Navbar from '@/components/global/Navbar.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import Swal from 'sweetalert2'

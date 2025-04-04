@@ -141,7 +141,7 @@
 import Footer from '@/components/global/Footer.vue'
 import Header from '@/components/global/Header.vue'
 import Carousel from 'primevue/carousel'
-import { useWorkshopStore, useTypeStore } from '@/stores/user'
+import { useWorkshopStore, useTypeStore } from '@/stores/userStore'
 import { onMounted, computed } from 'vue'
 
 const workshopStore = useWorkshopStore()

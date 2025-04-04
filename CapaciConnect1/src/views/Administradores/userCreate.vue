@@ -139,7 +139,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAdminUserStore } from '@/stores/adminUser'
+import { useAdminUserStore } from '@/stores/adminUserStore'
 import { Field, Form } from 'vee-validate'
 import ValidationMessage from '@/components/common/ValidationMessage.vue'
 import { validationUserRegisterAdmin } from '@/schemas/validations'

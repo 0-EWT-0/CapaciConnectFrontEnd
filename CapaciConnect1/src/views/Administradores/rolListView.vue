@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRolStore } from '@/stores/adminRol'
+import { useRolStore } from '@/stores/adminRolStore'
 
 const rolStore = useRolStore()
 

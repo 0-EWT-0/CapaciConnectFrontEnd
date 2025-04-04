@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useCalendarStore } from '@/stores/calendarStore'
-import { useWorkshopStore } from '@/stores/adminWorkshop'
+import { useWorkshopStore } from '@/stores/adminWorkshopStore'
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 import type { Workshop } from '@/interfaces/Workshop'
 

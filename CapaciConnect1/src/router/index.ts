@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import AdminLayout from '@/views/Administradores/admin-layout.vue'
 import InstrutoresLayout from '@/views/Instrutores/instrutoresLayout.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 import DashbordLayout from '@/components/layout/DashbordLayout.vue'
 
 const router = createRouter({

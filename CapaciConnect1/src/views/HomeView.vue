@@ -94,7 +94,7 @@
 import Footer from '@/components/global/Footer.vue'
 import Navbar from '@/components/global/Navbar.vue'
 import CarouselComponent from '@/components/common/CarouselComponent.vue'
-import { useWorkshopStore, useTypeStore } from '@/stores/user'
+import { useWorkshopStore, useTypeStore } from '@/stores/userStore'
 import { onMounted, computed } from 'vue'
 import { useLoadingStore } from '@/stores/loadingStore'
 import Loading from '@/components/common/Loading.vue'

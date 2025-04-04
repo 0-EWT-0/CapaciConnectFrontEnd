@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import BaseButton from '@/components/common/BaseButton.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 
 const authStore = useAuthStore()
 
