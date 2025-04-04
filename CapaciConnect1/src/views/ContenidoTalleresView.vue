@@ -238,12 +238,12 @@ const submitComment = async () => {
   await workshopStore.fetchCommentsByWorkshop(id_workshop)
   comments.value = workshopStore.comments
   Swal.fire({
-        icon: 'success',
-        title: 'Comentario publicado',
-        showConfirmButton: false,
-        timer: 1500,
-        backdrop: 'rgba(4, 2, 115, 0.7)',
-      })
+    icon: 'success',
+    title: 'Comentario publicado',
+    showConfirmButton: false,
+    timer: 1500,
+    backdrop: 'rgba(4, 2, 115, 0.7)',
+  })
 }
 
 const editComment = (comment) => {
@@ -339,12 +339,12 @@ const handleSubscribe = async () => {
     }
 
     await workshopStore.subscribeToWorkshop({ id_workshop_id: id_workshop })
-    const progressionData={
+    const progressionData = {
       progression_status: '100',
       id_workshop_id: id_workshop,
     }
     await workshopStore.CreateProgression(progressionData)
-    
+
     Swal.fire({
       icon: 'success',
       title: 'Inscricion Exitosa',

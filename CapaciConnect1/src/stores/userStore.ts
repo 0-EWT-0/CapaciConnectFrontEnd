@@ -170,12 +170,12 @@ export const useWorkshopStore = defineStore('workshop', () => {
     }
   }
 
-  async function CreateProgression(progressionData:any) {
-    try{
+  async function CreateProgression(progressionData: any) {
+    try {
       const response = await createProgressionServices(progressionData)
       console.log(response)
       return response
-    } catch (error){
+    } catch (error) {
       console.error(`Error en createProgression para taller:`, error)
     }
   }
@@ -235,7 +235,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
     subscribeToWorkshop,
     fetchCalendarsByWorkshopId,
     fetchProgression,
-    CreateProgression
+    CreateProgression,
   }
 })
 

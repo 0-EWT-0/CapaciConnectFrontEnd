@@ -163,12 +163,16 @@ export const fetchProgressionService = async () => {
   }
 }
 
-export const createProgressionServices = async (progressionData: any) =>{
-  try{
-    const response = await genericRequestAuth(`${base_url}/Progression/CreateProgression`, 'POST', progressionData)
+export const createProgressionServices = async (progressionData: any) => {
+  try {
+    const response = await genericRequestAuth(
+      `${base_url}/Progression/CreateProgression`,
+      'POST',
+      progressionData,
+    )
     return response
-  } catch (error){
-    await handleError(error,'createProgressionServices')
+  } catch (error) {
+    await handleError(error, 'createProgressionServices')
   }
 }
 

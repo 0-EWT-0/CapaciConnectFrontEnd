@@ -461,7 +461,7 @@ const openDatePicker = (id) => {
                 <template v-else>Cancelar</template>
               </BaseButton>
 
-              <BaseButton variant="green" type="submit"  :disabled="!hasChanges">
+              <BaseButton variant="green" type="submit" :disabled="!hasChanges">
                 <template v-if="calendarStore.isLoading" class="inline-flex items-center">
                   <span class="pi pi-spinner text-4xl animate-spin"></span>
                 </template>

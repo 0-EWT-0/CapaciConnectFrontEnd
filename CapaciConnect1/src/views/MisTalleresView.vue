@@ -1,84 +1,60 @@
 <template>
   <Navbar />
-  <div class="max-w-[90rem] mx-auto p-10 min-h-screen">
-    <!-- Contenedor flex para alinear título y buscador -->
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-[#212122]">Talleres en curso</h2>
-    </div>
-    <div class="mb-6">
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Buscar talleres..."
-        class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
-
-    <!-- Filtros -->
-    <!-- <div class="flex gap-4 mb-6">
-      <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
-        Filtrar por tipos
-      </button>
-      <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
-        Filtrar por fecha
-      </button>
-    </div> -->
-
-    <!-- Controles de filtros -->
-    <div class="flex justify-between items-center mb-6 rounded-lg mx-10">
-      <!-- <div class="flex gap-4">
-        <label class="text-lg font-semibold">Ordenar por:</label>
-        <Select
-          v-model="selectedOrder"
-          :options="order"
-          optionLabel="name"
-          placeholder="Ordenado por:"
-          class="border border-gray-300 rounded p-2"
-        />
-      </div> -->
-
-      <!-- Grid de talleres -->
+  <main class="p-10 min-h-screen">
+    <div class="max-w-[90rem] mx-auto p-10">
+      <h2 class="mb-6 text-[#212122]">Talleres en curso</h2>
       <Loading v-if="loadingStore.isLoading" />
+
       <div v-else>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="mb-6">
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Buscar talleres..."
+            class="text-[#212122] w-full p-3 bg-[#F2F5FA] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           <div
             v-for="progress in filteredProgressions"
             :key="progress.id_progression"
-            class="bg-white rounded-lg shadow-lg"
+            class="bg-white h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 relative"
           >
-            <div class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-t-lg">
-              Cierra el {{ progress.dateEnd }}
-            </div>
+            <router-link
+              :to="{ name: 'contenidoTalleres', params: { id_workshop: progress.id_workshop_id } }"
+            >
+              <h3 class="bg-[#DC2626] p-2 rounded-t-lg text-center w-full absolute">
+                Cierra el {{ progress.dateEnd }}
+              </h3>
 
-            <img
-              :src="'data:image/jpeg;base64,' + progress.workshopImage"
-              alt="Imagen del taller"
-              class="w-full h-40 object-cover"
-            />
+              <div class="h-2/3">
+                <img
+                  :src="'data:image/jpeg;base64,' + progress.workshopImage"
+                  alt="Imagen"
+                  class="w-full h-full object-cover"
+                />
+              </div>
 
-            <div class="p-4">
-              <!-- <h2 class="text-lg text-black font-bold">Title</h2>
-            <p class="text-gray-600 text-sm">Descripcion</p> -->
+              <div class="h-1/3 p-4">
+                <h3 class="text-[#212122]">{{ progress.workshopTitle }}</h3>
+                <p class="text-[#212122]">{{ progress.workshopDescription }}</p>
+                <h3 class="text-[#2563EB]">{{ getTypeName(progress.workshopType) }}</h3>
 
-              <p class="text-blue-600 font-semibold mt-2">{{ progress.workshopTitle }}</p>
-              <!-- <RouterLink to="/panel-Taller">
-              <button class="bg-blue-700 rounded-lg shadow-lg font-bold m-2 h-12 w-40 text-sm">
-                Ver Contenido
-              </button>
-            </RouterLink> -->
-              <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
+                <!-- <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
                 <div
                   class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
                 >
                   Progreso: {{ progress.progression_status }}%
                 </div>
+              </div> -->
               </div>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
   <Footer />
 </template>
 
@@ -90,6 +66,14 @@ import { useWorkshopStore } from '@/stores/userStore'
 import { useLoadingStore } from '@/stores/loadingStore'
 import Navbar from '@/components/global/Navbar.vue'
 import Loading from '@/components/common/Loading.vue'
+import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
+
+const store = useWorkshopTypeStore()
+
+const getTypeName = (id_type_id: number) => {
+  const type = store.types.find((tipo) => tipo.id_type === id_type_id)
+  return type ? type.type_name : 'Tipo desconocido'
+}
 
 // const selectedOrder = ref()
 // const order = ref([
@@ -122,7 +106,11 @@ const progressionWhithWorkshop = computed(() => {
     return {
       ...progress,
       workshopTitle: relateWorkshop ? relateWorkshop.title : 'Taller no encontrado',
-      workshopImage: relateWorkshop ? relateWorkshop.image : 'Imagen no encontrado',
+      workshopType: relateWorkshop ? relateWorkshop.id_type_id : 'Categoria no encontrada',
+      workshopDescription: relateWorkshop
+        ? relateWorkshop.description
+        : 'Descripcion no encontrada',
+      workshopImage: relateWorkshop ? relateWorkshop.image : 'Imagen no encontrada',
       dateEnd: relatedCalendar?.date_end
         ? formatDate(relatedCalendar.date_end)
         : 'Sin fecha de cierra',
@@ -131,6 +119,8 @@ const progressionWhithWorkshop = computed(() => {
 })
 
 onMounted(async () => {
+  await store.fetchAllTypes()
+
   try {
     loadingStore.startLoading()
     const response = await workshopStore.fetchProgression()

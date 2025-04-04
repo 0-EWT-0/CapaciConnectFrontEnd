@@ -35,12 +35,12 @@
           <div
             v-for="workshop in workshops"
             :key="workshop.id_workshop"
-            class="shadow-lg rounded-lg flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
+            class="shadow-lg h-auto rounded-lg flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
           >
             <router-link
               :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
             >
-              <div class="flex-1 h-40 md:h-auto">
+              <div class="h-2/3">
                 <img
                   :src="'data:image/jpeg;base64,' + workshop.image"
                   alt="Imagen"
@@ -48,7 +48,7 @@
                 />
               </div>
 
-              <div class="p-4">
+              <div class="h-1/3 p-4">
                 <h3 class="text-[#212122]">{{ workshop.title }}</h3>
                 <p class="text-[#212122]">{{ workshop.description }}</p>
                 <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>

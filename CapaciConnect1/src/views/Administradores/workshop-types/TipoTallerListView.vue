@@ -20,16 +20,12 @@
         No hay categorías registradas
       </div>
       <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-        <div
-          v-for="tipo in store.types"
-          :key="tipo.id_type"
-          class="bg-white shadow-lg rounded-lg"
-        >
+        <div v-for="tipo in store.types" :key="tipo.id_type" class="bg-white shadow-lg rounded-lg">
           <div class="p-5 sm:p-6">
             <!-- Icono y Nombre -->
             <div class="flex flex-col items-center text-center">
               <div class="mb-4 w-20 h-20 flex items-center justify-center">
-                <img src="@/assets/imgs/capacityLogo.png"/>
+                <img src="@/assets/imgs/capacityLogo.png" />
               </div>
               <h3 class="text-[#212122]">{{ tipo.type_name }}</h3>
             </div>
