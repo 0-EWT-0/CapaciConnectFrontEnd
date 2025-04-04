@@ -172,3 +172,13 @@ export const getTypeService = async () => {
     await handleError(error, 'getTypeService')
   }
 }
+
+//Servicio para obtener los subcripcion
+export const fetchSubscriptionsService = async () => {
+  try {
+    const response = await genericRequestAuth(`${base_url}/Subscription/UserSubscriptions`, 'GET')
+    return response.data
+  } catch (error) {
+    await handleError(error, 'fetchSubscriptionsService')
+  }
+}

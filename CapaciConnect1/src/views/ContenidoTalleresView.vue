@@ -36,7 +36,7 @@
 
         <div>
           <BaseButton @click="handleSubscribe" :disabled="isSubscribed">{{
-            isSubscribed ? 'Inscrito' : 'Inscríbete'
+            isSubscribed ? 'Ya inscrito' : 'Inscríbete'
           }}</BaseButton>
         </div>
       </div>
@@ -176,9 +176,12 @@ const newComment = ref('')
 const isEditing = ref(false)
 const editCommentId = ref<number | null>(null)
 const editCommentText = ref('')
-const subscriptions = ref<{ id_workshop_id: number }[]>([])
+const subscriptions = ref<{ id_workshop_id: number, id_user_id: number }[]>([])
 const isSubscribed = computed(() =>
-  subscriptions.value.some((sub) => sub.id_workshop_id === id_workshop),
+  subscriptions.value.some(
+    (subscription) =>
+      subscription.id_workshop_id === id_workshop && subscription.id_user_id === currentUser.value
+  )
 )
 const currentUser = ref('')
 
@@ -213,6 +216,8 @@ onMounted(async () => {
 })
 onMounted(async () => {
   await workshopStore.fetchSubscriptions() // Cargar las inscripciones
+  subscriptions.value = workshopStore.subscriptions
+    console.log('Subscripciones cargadas:', subscriptions.value)
 })
 
 const submitComment = async () => {

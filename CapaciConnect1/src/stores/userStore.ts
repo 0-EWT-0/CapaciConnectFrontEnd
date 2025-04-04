@@ -13,6 +13,7 @@ import {
   fetchCalendarsByWorkshopIdService,
   fetchProgressionService,
   getUserInfoService,
+  fetchSubscriptionsService,
 } from '@/services/UserService'
 import { useLoadingStore } from './loadingStore'
 import type { Workshop } from '@/interfaces/Workshop'
@@ -20,6 +21,7 @@ import type { Type } from '@/interfaces/Type'
 import type { Progressions } from '@/interfaces/Progressions.ts'
 import type { Comments } from '@/interfaces/Comments'
 import type { User } from '@/interfaces/User'
+import type { Subscription } from '@/interfaces/Subscription'
 
 // esto esta hecho de la patada
 // interface Workshop {
@@ -118,6 +120,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
   const workshops = ref<Workshop[]>([])
   const comments = ref<Comments[]>([])
   const progressions = ref<Progressions[]>([])
+  const subscriptions = ref<Subscription[]>([])
   const calendars = ref([])
 
   const loadingStore = useLoadingStore()
@@ -212,6 +215,15 @@ export const useWorkshopStore = defineStore('workshop', () => {
     }
   }
 
+  async function fetchSubscriptions() {
+    try {
+      const response = await fetchSubscriptionsService()
+      subscriptions.value = response || [];
+    } catch (error) {
+      console.error(`Error en fetchSubscriptions:`, error)
+    }
+  }
+
   return {
     workshops,
     fetchWorkshops,
@@ -223,6 +235,8 @@ export const useWorkshopStore = defineStore('workshop', () => {
     subscribeToWorkshop,
     fetchCalendarsByWorkshopId,
     fetchProgression,
+    fetchSubscriptions,
+    subscriptions,
   }
 })
 
