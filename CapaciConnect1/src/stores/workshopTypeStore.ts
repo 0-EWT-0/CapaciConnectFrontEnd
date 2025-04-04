@@ -9,69 +9,55 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  // Obtener todos los tipos de taller
-  const fetchAllTypes = async (): Promise<void> => {
+  const handleError = (err: unknown, context: string): void => {
+    error.value = err instanceof Error ? err.message : `Error al ${context}`
+
+    if (error.value.includes('401')) {
+      router.push('/login')
+    }
+  }
+
+  const withLoading = async <T>(action: () => Promise<T>): Promise<T> => {
     try {
       isLoading.value = true
       error.value = null
-      types.value = await workshopTypeService.getAllTypes()
-    } catch (err: unknown) {
-      error.value = err instanceof Error ? err.message : 'Error al cargar tipos de taller'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
+      return await action()
     } finally {
       isLoading.value = false
     }
   }
 
-  // Crear nuevo tipo de taller
+  const fetchAllTypes = async (): Promise<void> => {
+    await withLoading(async () => {
+      types.value = await workshopTypeService.getAllTypes()
+    }).catch(err => {
+      handleError(err, 'cargar tipos de taller')
+    })
+  }
+
   const createType = async (typeData: WorkshopTypeDTO): Promise<WorkshopType> => {
-    try {
-      isLoading.value = true
-      error.value = null
+    if (!typeData.type_name?.trim()) {
+      throw new Error('El nombre del tipo es requerido')
+    }
 
-      // Validación básica del DTO
-      if (!typeData.type_name || typeData.type_name.trim() === '') {
-        throw new Error('El nombre del tipo es requerido')
-      }
-
+    return withLoading(async () => {
       const newType = await workshopTypeService.createType(typeData)
       await fetchAllTypes() // Actualizar la lista
       return newType
-    } catch (err: unknown) {
-      error.value = err instanceof Error ? err.message : 'Error al crear tipo de taller'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
-
+    }).catch(err => {
+      handleError(err, 'crear tipo de taller')
       throw err
-    } finally {
-      isLoading.value = false
-    }
+    })
   }
 
-  // Eliminar tipo de taller
   const deleteType = async (id: number): Promise<void> => {
-    try {
-      isLoading.value = true
-      error.value = null
-
+    await withLoading(async () => {
       await workshopTypeService.deleteType(id)
       await fetchAllTypes() // Actualizar la lista
-    } catch (err: unknown) {
-      error.value = err instanceof Error ? err.message : 'Error al eliminar tipo de taller'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
-
+    }).catch(err => {
+      handleError(err, 'eliminar tipo de taller')
       throw err
-    } finally {
-      isLoading.value = false
-    }
+    })
   }
 
   return {

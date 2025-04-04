@@ -9,91 +9,69 @@ export const useCalendarStore = defineStore('calendar', () => {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  const fetchAllCalendars = async (): Promise<void> => {
+  const handleError = (err: unknown, context: string): string => {
+    const errorMessage = err instanceof Error ? err.message : 'Error desconocido'
+    error.value = `Error al ${context}: ${errorMessage}`
+
+    console.error(error.value, err)
+
+    if (errorMessage.includes('401')) {
+      router.push('/login')
+    }
+
+    return error.value
+  }
+
+  const withLoading = async <T>(action: () => Promise<T>): Promise<T> => {
     try {
       isLoading.value = true
       error.value = null
-      activities.value = await calendarService.getAllCalendars()
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Error al cargar calendarios'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
+      return await action()
     } finally {
       isLoading.value = false
     }
   }
 
-  const createNewCalendar = async (calendarData: CalendarDTO): Promise<Calendar> => {
-    try {
-      isLoading.value = true
-      error.value = null
+  const  fetchAllCalendars = async (): Promise<void> => {
+    await withLoading(async () => {
+      activities.value = await calendarService.getAll()
+    }).catch(err => {
+      throw handleError(err, 'obtener calendarios')
+    })
+  }
 
-      const newCalendar = await calendarService.createCalendar(calendarData)
+  const createNewCalendar = async (data: CalendarDTO): Promise<Calendar> => {
+    return withLoading(async () => {
+      const newCalendar = await calendarService.create(data)
       activities.value.push(newCalendar)
       return newCalendar
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Error al crear evento'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
-
-      throw err
-    } finally {
-      isLoading.value = false
-    }
+    }).catch(err => {
+      throw handleError(err, 'crear calendario')
+    })
   }
 
-  const updateExistingCalendar = async (
-    calendarId: number,
-    updateData: UpdateCalendarDTO,
-  ): Promise<Calendar> => {
-    try {
-      isLoading.value = true
-      error.value = null
-
-      const updatedCalendar = await calendarService.updateCalendar(calendarId, updateData)
-      const index = activities.value.findIndex((a) => a.Id_calendar === calendarId)
+  const  updateExistingCalendar = async (id: number, data: UpdateCalendarDTO): Promise<Calendar> => {
+    return withLoading(async () => {
+      const updated = await calendarService.update(id, data)
+      const index = activities.value.findIndex(a => a.Id_calendar === id)
 
       if (index !== -1) {
-        activities.value[index] = updatedCalendar
+        activities.value[index] = updated
       }
 
-      return updatedCalendar
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Error al actualizar evento'
-
-      if (err instanceof Error && err.message.includes('401')) {
-        router.push('/login')
-      }
-
-      throw err
-    } finally {
-      isLoading.value = false
-    }
+      return updated
+    }).catch(err => {
+      throw handleError(err, 'actualizar calendario')
+    })
   }
 
-  const deleteExistingCalendar = async (Id_calendar: number): Promise<void> => {
-    try {
-      isLoading.value = true
-      error.value = null
-
-      console.log('Store - ID recibido para eliminar:', Id_calendar)
-
-      await calendarService.deleteCalendar(Id_calendar)
-      activities.value = activities.value.filter((activity) => activity.Id_calendar !== Id_calendar)
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Error al eliminar evento'
-      console.error('Error en store al eliminar:', {
-        Id_calendar,
-        error: err,
-      })
-      throw err
-    } finally {
-      isLoading.value = false
-    }
+  const deleteExistingCalendar = async (id: number): Promise<void> => {
+    await withLoading(async () => {
+      await calendarService.delete(id)
+      activities.value = activities.value.filter(a => a.Id_calendar !== id)
+    }).catch(err => {
+      throw handleError(err, 'eliminar calendario')
+    })
   }
 
   return {
