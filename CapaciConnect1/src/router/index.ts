@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
-import AdminLayout from '@/views/Administradores/admin-layout.vue'
+import AdminLayout from '@/views/Administradores/layout/Admin-layout.vue'
 import InstrutoresLayout from '@/views/Instrutores/instrutoresLayout.vue'
 import { useAuthStore } from '@/stores/authStore'
 import DashbordLayout from '@/components/layout/DashbordLayout.vue'
@@ -100,17 +100,17 @@ const router = createRouter({
         {
           path: '',
           name: 'admin-dashboard',
-          component: () => import('../views/Administradores/admin-dashboard.vue'),
+          component: () => import('../views/Administradores/dashboard/Admin-dashboard.vue'),
         },
         {
           path: '/adminuser',
           name: 'admin-user',
-          component: () => import('../views/Administradores/pageAdminView.vue'),
+          component: () => import('../views/Administradores/PageAdminView.vue'),
         },
         {
           path: '/adminTaller',
           name: 'admin-talleres',
-          component: () => import('../views/Administradores/pageTalleresView.vue'),
+          component: () => import('../views/Administradores/workshops/pageTalleresView.vue'),
         },
         {
           path: '/adminRol',
@@ -120,22 +120,22 @@ const router = createRouter({
         {
           path: '/adminReport',
           name: 'admin-reportes',
-          component: () => import('../views/Administradores/pageReporteView.vue'),
+          component: () => import('../views/Administradores/reports/PageReporteView.vue'),
         },
         {
           path: '/adminTipos',
           name: 'admin-tipos-taller',
-          component: () => import('../views/Administradores/pageTiposTallerView.vue'),
+          component: () => import('../views/Administradores/workshop-types/PageTiposTallerView.vue'),
         },
         {
           path: '/admin/userUpdate/:id',
           name: 'admin-user-update',
-          component: () => import('../views/Administradores/userUpdate.vue'),
+          component: () => import('../views/Administradores/users/UserUpdate.vue'),
         },
         {
           path: '/adminMultimedias',
           name: 'admin-multimedias',
-          component: () => import('../views/Administradores/pageMultimediasView.vue'),
+          component: () => import('../views/Administradores/multimedia/PageMultimediasView.vue'),
         },
         {
           path: '/calendario',
@@ -146,12 +146,12 @@ const router = createRouter({
         {
           path: '/adminWorkshops',
           name: 'admin-workshops',
-          component: () => import('@/views/Administradores/pageWorkshopsView.vue'),
+          component: () => import('@/views/Administradores/workshops/PageWorkshopsView.vue'),
         },
         {
           path: '/adminComentarios',
           name: 'admin-admincomentarios',
-          component: () => import('@/views/Administradores/AdminCommentsView.vue'),
+          component: () => import('@/views/Administradores/comments/AdminCommentsView.vue'),
         },
       ],
     },

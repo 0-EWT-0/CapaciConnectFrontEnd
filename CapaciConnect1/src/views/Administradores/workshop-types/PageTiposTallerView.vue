@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import TipoTallerCreate from './tipoTallerCreate.vue'
-import TipoTallerListView from './tipoTallerListView.vue'
+import TipoTallerCreate from '@/views/Administradores/workshop-types/TipoTallerCreate.vue'
+import TipoTallerListView from '@/views/Administradores/workshop-types/TipoTallerListView.vue'
 
 export default defineComponent({
   name: 'PagetiposTallerView',

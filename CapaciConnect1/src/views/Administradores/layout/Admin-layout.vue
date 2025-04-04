@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import AdminSidebar from '@/views/Administradores/admin-sidebar.vue'
+import AdminSidebar from '@/views/Administradores/layout/Admin-sidebar.vue'
 //import { useHead } from '@unhead/vue'
 
 const isSidebarMobileOpen = ref(false)

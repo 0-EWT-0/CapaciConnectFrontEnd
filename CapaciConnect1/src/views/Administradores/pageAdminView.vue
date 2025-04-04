@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import UserCreateForm from '@/views/Administradores/userCreate.vue'
-import UserList from '@/views/Administradores/userListView.vue'
+import UserCreateForm from '@/views/Administradores/users/userCreate.vue'
+import UserList from '@/views/Administradores/users/userListView.vue'
 
 export default defineComponent({
   name: 'PageAdminView',

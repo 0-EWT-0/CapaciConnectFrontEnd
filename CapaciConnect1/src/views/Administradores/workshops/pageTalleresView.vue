@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import TallerCreateForm from '@/views/Administradores/tallerCreate.vue'
-import TallerListView from '@/views/Administradores/tallerListView.vue'
+import TallerCreateForm from '@/views/Administradores/workshops/TallerCreate.vue'
+import TallerListView from '@/views/Administradores/workshops/TallerListView.vue'
 
 export default defineComponent({
   name: 'PageTalleresView',

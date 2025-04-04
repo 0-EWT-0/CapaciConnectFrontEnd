@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ReporteListView from './reporteListView.vue'
+import ReporteListView from '@/views/Administradores/reports/PeporteListView.vue'
 
 export default defineComponent({
   name: 'PageReporteView',

@@ -195,13 +195,13 @@ const handlePhoneInput = (event: Event) => {
   formData.value.phone = cleanedValue
 }
 
-const handleImageChange = (event: Event) => {
+/*const handleImageChange = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files && input.files[0]) {
     formData.value.profile_img = input.files[0]
     profileImagePreview.value = URL.createObjectURL(input.files[0])
   }
-}
+}*/
 
 const validateForm = () => {
   if (formData.value.password && formData.value.password !== formData.value.confirmpassword) {
