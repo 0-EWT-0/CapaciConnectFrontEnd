@@ -47,12 +47,12 @@
             <p>Talleres</p>
           </li>
 
-          <li
+          <!-- <li
             class="block px-4 py-2 rounded-lg hover:bg-[#1d4ed8] hover:cursor-pointer transition-colors duration-250"
             @click="$router.push('/adminRol')"
           >
             <p>Roles</p>
-          </li>
+          </li> -->
 
           <li
             class="block px-4 py-2 rounded-lg hover:bg-[#1d4ed8] hover:cursor-pointer transition-colors duration-250"

@@ -99,7 +99,7 @@
       <div class="space-y-6">
         <div class="bg-gray-50 p-4 sm:p-5 rounded-xl">
           <div class="space-y-4">
-            <div class="space-y-2">
+            <!-- <div class="space-y-2">
               <label class="block text-sm sm:text-base font-medium text-gray-700"
                 >Imagen de perfil</label
               >
@@ -116,7 +116,7 @@
                   class="w-full text-sm sm:text-base file:mr-3 file:py-1.5 file:px-4 file:rounded file:border-0 file:text-sm file:bg-emerald-500 file:text-white hover:file:bg-emerald-600"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 

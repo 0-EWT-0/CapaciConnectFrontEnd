@@ -1,12 +1,13 @@
 <template>
-  <div class="bg-white shadow-lg rounded-xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
+  <div class="bg-[#F2F5FA] rounded-xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
     <div class="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
-      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Administración de Usuarios</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold text-gray-900">Lista de usuarios</h2>
     </div>
 
     <!-- Estados de carga y error -->
     <div v-if="isLoading" class="p-6 text-center text-gray-500">
-      <i class="fas fa-spinner fa-spin mr-2"></i> Cargando usuarios...
+      <Loading />
+      <!-- <i class="fas fa-spinner fa-spin mr-2"></i> Cargando usuarios... -->
     </div>
 
     <div v-else-if="error" class="p-6 bg-red-50 text-red-700 border-l-4 border-red-400">
@@ -24,7 +25,7 @@
           <div class="flex flex-col sm:flex-row gap-4 items-start">
             <!-- Avatar -->
             <div class="flex-shrink-0 relative w-full sm:w-auto">
-              <div
+              <!-- <div
                 class="mx-auto sm:mx-0 w-16 h-16 rounded-full bg-gray-100 border-2 border-emerald-100"
               >
                 <img
@@ -32,7 +33,7 @@
                   :alt="user.name"
                   class="w-full h-full object-cover rounded-full"
                 />
-              </div>
+              </div> -->
             </div>
 
             <!-- Información del usuario -->
@@ -64,20 +65,29 @@
           <!-- Acciones -->
           <div class="mt-4 pt-4 border-t border-gray-100">
             <div class="flex flex-col sm:flex-row sm:justify-end gap-2">
-              <router-link
+              <!-- <router-link
                 v-if="user.id_user"
                 :to="`/admin/userUpdate/${user.id_user}`"
                 class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-center"
               >
                 Editar
-              </router-link>
-              <button
+              </router-link> -->
+
+              <router-link :to="`/admin/userUpdate/${user.id_user}`" class="w-full">
+              <BaseButton variant="orange">
+                Editar
+              </BaseButton>
+            </router-link>
+            
+              <!-- <button
                 v-if="user.id_user"
                 @click="handleDelete(user.id_user)"
                 class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg"
               >
                 Eliminar
-              </button>
+              </button> -->
+
+              <BaseButton variant="red" v-if="user.id_user" @click="handleDelete(user.id_user)">Eliminar</BaseButton>
             </div>
           </div>
         </div>
@@ -90,6 +100,9 @@
 import { onMounted, ref } from 'vue'
 import { useAdminUserStore } from '@/stores/adminUser'
 import type { User } from '@/interfaces/User'
+import Loading from '@/components/common/Loading.vue'
+import Swal from 'sweetalert2'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const userStore = useAdminUserStore()
 const isLoading = ref(true)
@@ -131,14 +144,39 @@ onMounted(async () => {
 
 // Eliminar usuario
 const handleDelete = async (userId: number) => {
-  if (confirm('¿Estás seguro de eliminar este usuario permanentemente?')) {
+  const confirm = await Swal.fire({
+    title: '¿Quieres eliminar este usuario?',
+    text: 'Esta acción es irreversible',
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonColor: '#BCCCDC',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#059669',
+    confirmButtonText: 'Confirmar',
+    backdrop: 'rgba(4, 2, 115, 0.7)',
+  })
+
+  if (confirm.isConfirmed) {
     try {
       await userStore.removeUser(userId)
       users.value = users.value.filter((user) => user.Id_user !== userId)
-      alert('Usuario eliminado exitosamente.')
+      Swal.fire({
+        title: 'Usuario eliminado',
+        text: 'El usuario ha sido eliminado correctamente',
+        icon: 'success',
+        confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
     } catch (err) {
       error.value = 'Error al eliminar usuario: ' + (err as Error).message
-      alert('Error al eliminar usuario: ' + (err as Error).message)
+      // alert('Error al eliminar usuario: ' + (err as Error).message)
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo eliminar el usuario',
+        icon: 'error',
+        confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
     }
   }
 }

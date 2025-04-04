@@ -60,6 +60,7 @@
       <div class="pb-4">
         <label class="text-[#212122]"><h3 class="pb-2">Imagen</h3></label>
         <Field
+          v-model="formData.image"
           name="img"
           type="file"
           @change="handleFileUpload"
@@ -202,6 +203,7 @@ const handleSubmit = async () => {
         timer: 1500,
         backdrop: 'rgba(4, 2, 115, 0.7)',
       })
+      resetForm()
     } else {
       await createWorkshop(formData.value)
       Swal.fire({

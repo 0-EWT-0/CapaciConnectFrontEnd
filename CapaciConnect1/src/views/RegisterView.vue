@@ -111,14 +111,13 @@ import { validationUserRegister } from '@/schemas/validations'
 import { Form, Field } from 'vee-validate'
 import 'intl-tel-input/build/css/intlTelInput.css'
 import intlTelInput from 'intl-tel-input'
-// import { useToast } from "primevue/usetoast";
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import BaseButton from '@/components/common/BaseButton.vue'
 import Loading from '@/components/common/Loading.vue'
 import { useLoadingStore } from '@/stores/loadingStore.js'
+import Swal from 'sweetalert2'
 
-// const toast = useToast();
 const loadingStore = useLoadingStore()
 
 const name = ref('')
@@ -135,6 +134,19 @@ const phoneError = ref('')
 const error = ref('')
 
 const handleRegister = async () => {
+  validatePhone()
+
+  if (phoneError.value) {
+    Swal.fire({
+      title: 'Error',
+      text: 'Ingresa un número de teléfono válido',
+      icon: 'error',
+      confirmButtonColor: '#2563EB',
+      backdrop: 'rgba(4, 2, 115, 0.7)',
+    })
+    return
+  }
+
   loadingStore.startLoading()
   try {
     await authStore.register(

@@ -1,56 +1,63 @@
 <template>
   <div
-    class="bg-white shadow-lg rounded-xl text-gray-900 border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6"
+    class="bg-[#F2F5FA] shadow-lg rounded-xl text-[#212122] border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6"
   >
     <div class="p-4 sm:p-6 border-b border-gray-200">
-      <h2 class="text-xl sm:text-2xl font-semibold">Crear nuevo usuario</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold">Crear usuario</h2>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="p-4 sm:p-6">
+    <Form
+      :validation-schema="validationUserRegisterAdmin"
+      @submit="handleSubmit"
+      class="p-4 sm:p-6"
+    >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6">
         <!-- Nombre -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Nombre</label>
-          <input
+          <label class="text-[#212122]"><h3 class="pb-2">Nombre(s)</h3></label>
+          <Field
+            name="name"
             v-model="formData.name"
-            required
             placeholder="Ej: Juan"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           />
+          <ValidationMessage prop="name" />
         </div>
 
         <!-- Apellidos -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Apellidos</label>
-          <input
+          <label class="text-[#212122]"><h3 class="pb-2">Apellidos</h3></label>
+          <Field
+            name="last_names"
             v-model="formData.last_names"
-            required
             placeholder="Ej: Pérez García"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           />
+          <ValidationMessage prop="last_names" />
         </div>
 
         <!-- Email -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Email</label>
-          <input
+          <label class="text-[#212122]"><h3 class="pb-2">Correo</h3></label>
+          <Field
+            name="email"
             type="email"
             v-model="formData.email"
-            required
             placeholder="Ej: usuario@example.com"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           />
+          <ValidationMessage prop="email" />
         </div>
 
         <!-- Teléfono -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Teléfono</label>
+          <label class="text-[#212122]"><h3 class="pb-2">Teléfono</h3></label>
           <input
             v-model="formData.phone"
             type="tel"
             required
             placeholder="Ej: 525512345678"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
             @input="handlePhoneInput"
             pattern="[0-9]*"
             title="Solo se permiten números"
@@ -59,85 +66,88 @@
 
         <!-- Contraseña -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700">Contraseña</label>
-          <input
+          <label class="text-[#212122]"><h3 class="pb-2">Contraseña</h3></label>
+          <Field
+            name="password"
             type="password"
             v-model="formData.password"
-            required
-            minlength="8"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           />
+          <ValidationMessage prop="password" />
         </div>
 
         <!-- Confirmar Contraseña -->
         <div class="space-y-2">
-          <label class="block text-sm sm:text-base font-medium text-gray-700"
-            >Confirmar Contraseña</label
-          >
-          <input
+          <label class="text-[#212122]"><h3 class="pb-2">Confirmar contraseña</h3></label>
+          <Field
+            name="confirmpassword"
             type="password"
             v-model="formData.confirmpassword"
-            required
-            minlength="8"
-            class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           />
+          <ValidationMessage prop="confirmpassword" />
         </div>
       </div>
 
       <!-- Descripción -->
       <div class="mb-6 space-y-2">
-        <label class="block text-sm sm:text-base font-medium text-gray-700">Descripción</label>
-        <textarea
+        <label class="text-[#212122]"><h3 class="pb-2">Descripción</h3></label>
+        <Field
+          as="textarea"
+          name="description"
           v-model="formData.description"
           placeholder="Escribe una descripción..."
           rows="3"
-          class="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-        ></textarea>
+          class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
+        />
+        <ValidationMessage prop="description" />
       </div>
 
       <!-- Imagen de perfil -->
       <div class="space-y-6">
         <div class="bg-gray-50 p-4 sm:p-5 rounded-xl">
-          <div class="space-y-4">
+          <!-- <div class="space-y-4">
             <div class="space-y-2">
-              <label class="block text-sm sm:text-base font-medium text-gray-700"
-                >Imagen de perfil</label
-              >
-              <input
+              <label class="text-[#212122]"><h3 class="pb-2">Imagen de perfil</h3></label>
+              <Field
+                name="img"
+                @change="handleFileUpload"
                 type="file"
-                @change="handleImageChange"
                 accept="image/*"
-                class="w-full text-sm sm:text-base file:mr-3 file:py-1.5 file:px-4 file:rounded file:border-0 file:text-sm file:bg-emerald-500 file:text-white hover:file:bg-emerald-600"
+                class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
               />
+              <ValidationMessage prop="img" />
+              <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
+              <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <!-- Botón de envío -->
-        <div class="flex justify-end mt-6">
-          <button
-            type="submit"
-            class="w-full md:w-auto px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors disabled:opacity-50"
-            :disabled="isSubmitting"
-          >
-            <span v-if="isSubmitting">
+        <div class="flex justify-end mt-6 text-white">
+          <BaseButton :disabled="isSubmitting" variant="green"
+            ><span v-if="isSubmitting">
               <i class="fas fa-spinner fa-spin mr-2"></i> Creando...
             </span>
-            <span v-else>Crear usuario</span>
-          </button>
+            <span v-else class="">Crear</span></BaseButton
+          >
         </div>
       </div>
-    </form>
+    </Form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAdminUserStore } from '@/stores/adminUser'
+import { Field, Form } from 'vee-validate'
+import ValidationMessage from '@/components/common/ValidationMessage.vue'
+import { validationUserRegisterAdmin } from '@/schemas/validations'
+import BaseButton from '@/components/common/BaseButton.vue'
+import Swal from 'sweetalert2'
 
 const userAdminStore = useAdminUserStore()
 
-// Datos del formulario
 const formData = ref({
   name: '',
   last_names: '',
@@ -146,24 +156,15 @@ const formData = ref({
   password: '',
   confirmpassword: '',
   description: '',
-  profile_img: null as File | null,
+  profile_img: '',
 })
 
-// Estados
 const isSubmitting = ref(false)
 
 const handlePhoneInput = (event: Event) => {
   const input = event.target as HTMLInputElement
   const cleanedValue = input.value.replace(/\D/g, '') // Elimina todos los no numéricos
   formData.value.phone = cleanedValue
-}
-
-// Manejadores
-const handleImageChange = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (input.files && input.files[0]) {
-    formData.value.profile_img = input.files[0]
-  }
 }
 
 const validateForm = () => {
@@ -204,12 +205,27 @@ const handleSubmit = async () => {
       password: '',
       confirmpassword: '',
       description: '',
-      profile_img: null,
+      profile_img: '',
     }
 
-    alert('Usuario creado exitosamente!')
+    Swal.fire({
+        icon: 'success',
+        title: 'Usuario creado',
+        showConfirmButton: false,
+        timer: 1500,
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
+
+      userAdminStore.fetchUsers()
   } catch (error) {
     console.error('Error al crear usuario:', error)
+    Swal.fire({
+        title: 'Error',
+        text: 'No se pudo crear el usuario',
+        icon: 'error',
+        confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
   } finally {
     isSubmitting.value = false
   }

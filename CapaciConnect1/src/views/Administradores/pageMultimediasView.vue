@@ -11,6 +11,11 @@
           accept="image/*,video/*"
           class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
         />
+
+        <div class="py-4">
+          <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
+          <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
+        </div>
       </div>
 
       <div class="pb-4 w-auto">
@@ -18,9 +23,6 @@
           >Subir multimedia</BaseButton
         >
       </div>
-
-      <h3 v-if="errorMessage" class="text-[#DC2626] font-bold">{{ errorMessage }}</h3>
-      <h3 v-if="successMessage" class="text-[#059669] font-bold">{{ successMessage }}</h3>
     </div>
 
     <div class="mt-19 px-4 pb-11 rounded-lg bg-[#F2F5FA]">
@@ -164,7 +166,7 @@ const uploadFile = async (): Promise<void> => {
 
   try {
     const response = await createMultimedia(multimediaDTO)
-    successMessage.value = 'Archivo subido con éxito.'
+    // successMessage.value = 'Archivo subido con éxito.'
     console.log('Respuesta del backend:', response.data)
     Swal.fire({
       icon: 'success',
@@ -175,7 +177,7 @@ const uploadFile = async (): Promise<void> => {
     })
     await fetchMultimedia()
   } catch (error) {
-    errorMessage.value = 'Error al subir el archivo.'
+    errorMessage.value = 'Error al subir el archivo'
     console.error(error)
     Swal.fire({
       title: 'Error al subir el archivo',

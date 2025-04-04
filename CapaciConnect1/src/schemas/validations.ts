@@ -1,6 +1,46 @@
 import { configure } from 'vee-validate'
 import * as yup from 'yup'
 
+export const validationUserRegisterAdmin = yup.object({
+  name: yup.string().required('El nombre es requerido'),
+  last_names: yup.string().required('Los apellidos son requeridos'),
+  email: yup
+    .string()
+    .required('El correo es requerido')
+    // .email('El correo debe de tener el carácter "@"'),
+    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Formato de correo inválido'),
+  password: yup
+    .string()
+    .required('La contraseña es requerida')
+    .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+
+  confirmpassword: yup
+    .string()
+    .required('La contraseña debe de ser confirmada')
+    .oneOf([yup.ref('password')], 'Las contraseñas no coinciden'),
+
+  description: yup.string().required('La descripción es requerida'),
+})
+
+export const validationUserProfile = yup.object({
+  name: yup.string().required('El nombre es requerido'),
+  last_names: yup.string().required('Los apellidos son requeridos'),
+  email: yup
+    .string()
+    .required('El correo es requerido')
+    // .email('El correo debe de tener el carácter "@"'),
+    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Formato de correo inválido'),
+  description: yup.string().required('La descripción es requerida'),
+})
+
+export const validationComments = yup.object({
+  comment: yup.string().required('Tu comentario no puede estar vacío'),
+})
+
+export const validationTypes = yup.object({
+  name: yup.string().required('El nombre es requerido'),
+})
+
 export const validationWorkshop = yup.object({
   title: yup.string().required('El título es requerido'),
   description: yup.string().required('La descripción es requerida'),

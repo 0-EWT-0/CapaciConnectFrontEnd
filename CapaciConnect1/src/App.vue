@@ -14,7 +14,7 @@ import Loading from './components/common/Loading.vue'
       </nav>
     </div>
   </header> -->
-  <!-- <Loading class="absolute"/> -->
+  <!-- <Loading class="absolute z-50"/> -->
   <RouterView />
 </template>
 

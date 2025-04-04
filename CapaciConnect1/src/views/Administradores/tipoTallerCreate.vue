@@ -4,12 +4,13 @@
       <h2 class="text-2xl font-semibold text-gray-900">Crear categoría</h2>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="p-6">
+    <Form :validation-schema="validationTypes" @submit="handleSubmit" class="p-6">
       <div class="space-y-6">
         <!-- Campo Nombre -->
         <div class="space-y-3">
           <label class="text-[#212122]"><h3 class="pb-2">Nombre</h3></label>
-          <input
+          <Field
+            name="name"
             id="nombre"
             v-model="formData.type_name"
             type="text"
@@ -18,6 +19,7 @@
             required
             :disabled="isLoading"
           />
+          <ValidationMessage prop="name" />
         </div>
 
         <!-- Mensaje de error -->
@@ -60,7 +62,7 @@
           </BaseButton>
         </div>
       </div>
-    </form>
+    </Form>
   </div>
 </template>
 
@@ -69,6 +71,9 @@ import { ref } from 'vue'
 import { useWorkshopTypeStore } from '@/stores/workshopTypeStore'
 import type { WorkshopTypeDTO } from '@/interfaces/workshopTypesInterface'
 import BaseButton from '@/components/common/BaseButton.vue'
+import { Field, Form } from 'vee-validate'
+import { validationTypes } from '@/schemas/validations'
+import ValidationMessage from '@/components/common/ValidationMessage.vue'
 
 const formData = ref<WorkshopTypeDTO>({
   type_name: '',

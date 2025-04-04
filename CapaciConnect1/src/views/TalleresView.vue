@@ -6,20 +6,19 @@
       <h2 class="text-3xl font-bold mb-6 text-black">Todos nuestros talleres</h2>
       <Loading v-if="loadingStore.isLoading" />
 
-<div v-else>
+      <div v-else>
+        <!-- Buscador -->
+        <div class="mb-6">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Buscar talleres..."
+            class="text-black w-full p-3 bg-[#F2F5FA] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]"
+          />
+        </div>
 
-      <!-- Buscador -->
-      <div class="mb-6">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Buscar talleres..."
-          class="text-black w-full p-3 bg-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <!-- Filtros -->
-      <!-- <div class="flex gap-4 mb-6">
+        <!-- Filtros -->
+        <!-- <div class="flex gap-4 mb-6">
         <button class="w-1/2 bg-gray-200 p-3 text-lg font-semibold rounded-lg shadow-md text-black">
           Filtrar por tipos
         </button>
@@ -28,9 +27,8 @@
         </button>
       </div> -->
 
-      <!-- Grid de talleres -->
+        <!-- Grid de talleres -->
 
-      
         <div
           v-if="filteredWorkshops && filteredWorkshops.length > 0"
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6"

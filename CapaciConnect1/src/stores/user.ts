@@ -150,6 +150,7 @@ export const useWorkshopStore = defineStore('workshop', () => {
   }
   //Editar
   async function updatedComment(id_comment: number, updatedComment: { comment: string }) {
+    loadingStore.startLoading()
     try {
       const updatedData = await updateCommentService(id_comment, updatedComment)
       const index = comments.value.findIndex((comments) => comments.id_comment === id_comment)
@@ -158,6 +159,8 @@ export const useWorkshopStore = defineStore('workshop', () => {
       }
     } catch (error) {
       console.error('Error en updatedComment:', error)
+    } finally {
+      loadingStore.stopLoading()
     }
   }
   //Eliminar

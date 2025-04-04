@@ -37,20 +37,24 @@
             :key="workshop.id_workshop"
             class="shadow-lg rounded-lg flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
           >
-            <div class="flex-1 h-40 md:h-auto">
-              <img
-                :src="'data:image/jpeg;base64,' + workshop.image"
-                alt="Imagen"
-                class="w-full h-full object-cover"
-              />
-            </div>
+            <router-link
+              :to="{ name: 'contenidoTalleres', params: { id_workshop: workshop.id_workshop } }"
+            >
+              <div class="flex-1 h-40 md:h-auto">
+                <img
+                  :src="'data:image/jpeg;base64,' + workshop.image"
+                  alt="Imagen"
+                  class="w-full h-full object-cover"
+                />
+              </div>
 
-            <div class="p-4">
-              <h3 class="text-[#212122]">{{ workshop.title }}</h3>
-              <p class="text-[#212122]">{{ workshop.description }}</p>
-              <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
-              >
-            </div>
+              <div class="p-4">
+                <h3 class="text-[#212122]">{{ workshop.title }}</h3>
+                <p class="text-[#212122]">{{ workshop.description }}</p>
+                <h3 class="text-[#2563EB]">{{ getTypeName(workshop.id_type_id) }}</h3>
+                >
+              </div>
+            </router-link>
           </div>
         </div>
 

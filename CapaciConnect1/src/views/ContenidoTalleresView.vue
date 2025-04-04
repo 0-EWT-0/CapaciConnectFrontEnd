@@ -1,114 +1,73 @@
 <template>
   <Navbar />
-  <div class="bg-white p-8">
+  <div>
     <!-- Barra superior -->
-    <div class="text-white flex justify-between p-2">
-      <span v-if="calendarData" class="bg-green-500 p-2 rounded-lg h-10 w-[20rem] text-center">
-        Fecha de Inicio:
-        <b class="font-semibold">{{
-          formatDate(calendarData.date_start ? calendarData.date_start : 'sin fecha de incio')
-        }}</b></span
-      >
-      <span class="bg-red-500 p-2 rounded-lg h-10 w-[20rem] text-center"
-        >Fecha de Cierre:
-        <b class="font-semibold">{{
-          formatDate(calendarData.date_end ? calendarData.date_end : 'sin fecha de cierre')
-        }}</b></span
-      >
+    <div class="w-full absolute flex flex-col gap-4 mt-11">
+      <h3 v-if="calendarData" class="bg-[#059669] p-2 rounded-r-lg h-10 w-[20rem] text-center">
+        Inicia el
+        {{ formatDate(calendarData.date_start ? calendarData.date_start : 'sin fecha de incio') }}
+      </h3>
+      <h3 class="bg-[#DC2626] p-2 rounded-r-lg h-10 w-[20rem] text-center">
+        Cierra el
+        {{ formatDate(calendarData.date_end ? calendarData.date_end : 'sin fecha de cierre') }}
+      </h3>
     </div>
 
-    <!-- Imagen principal y título -->
-    <div class="text-center mt-4">
-      <img src="../assets/logo.svg" alt="Pinceles" class="mx-auto w-96" />
-      <h1 class="text-4xl font-bold mt-4 text-black">Taller de {{ workshop.title }}</h1>
-      <p class="text-2xl text-gray-700 mt-2">
-        {{ workshop.description ? workshop.description : 'sin descripcion' }}.
-      </p>
-    </div>
+    <div class="flex-1 h-40 md:h-auto">
+      <img
+        :src="'data:image/jpeg;base64,' + workshop.image"
+        alt="Imagen"
+        class="w-full h-[500px] object-cover"
+      />
+      <div class="bg-[#F2F5FA] p-11">
+        <div class="mb-4">
+          <h2 class="text-[#212122]">Taller de {{ workshop.title }}</h2>
+          <p class="text-[#212122]">
+            {{ workshop.description ? workshop.description : 'sin descripcion' }}.
+          </p>
+        </div>
 
-    <!-- Información del instructor -->
-    <div class="mt-4 text-gray-600">
-      <p>
-        Instructor: <span class="text-[#2563EB]">{{ workshop.id_user_id }}</span>
-      </p>
-      <p>
-        Fecha de creación: <span class="text-[#2563EB]">{{ formatDate(workshop.created_at) }}</span>
-      </p>
-    </div>
+        <div class="my-4 text-[#212122]">
+          <p>
+            Fecha de creación:
+            <span class="text-[#2563EB]">{{ formatDate(workshop.created_at) }}</span>
+          </p>
+        </div>
 
-    <!-- Botón de inscripción -->
-    <div class="mt-6 text-center flex justify-between mx-10">
-      <button
-        @click="handleSubscribe"
-        :disabled="isSubscribed"
-        class="bg-blue-500 text-white py-5 px-15 rounded-lg hover:bg-blue-600 text-xl disabled:opacity-50"
-      >
-        {{ isSubscribed ? 'Ya inscrito' : 'Inscribirse' }}
-      </button>
-    </div>
-
-    <!-- Contenido del taller
-    <div class="mt-8 bg-gray-200 m-10 p-10 rounded-xl">
-      <h2 class="text-2xl font-bold text-gray-800">Contenido del taller</h2>
-      <span class="text-lg text-black">{{ workshop.content }}</span>
-      <!-- <<div v-for="(clase, index) in clases" :key="index" class="border-b py-3">
-        <button
-          @click="toggleClase(index)"
-          class="flex justify-between items-center w-full text-left text-lg font-medium text-black"
-        >
-          <span> {{ clase.titulo }} </span>
-          <span> {{ activeIndex === index ? '▲' : '▼' }} </span>
-        </button>
-        <ul v-if="activeIndex === index" class="pl-6 mt-2">
-          <li
-            v-for="(recurso, i) in clase.recursos"
-            :key="i"
-            class="flex justify-between items-center text-black"
-          >
-            <span>{{ recurso }}</span>
-            <span>📁</span>
-          </li>
-        </ul>
+        <div>
+          <BaseButton @click="handleSubscribe" :disabled="isSubscribed">{{
+            isSubscribed ? 'Inscrito' : 'Inscríbete'
+          }}</BaseButton>
+        </div>
       </div>
-    </div> -->
+    </div>
 
-    <div class="flex rounded p-5 mt-5 border border-black justify-center text-justify">
-      <div v-if="workshop.content" class="text-black font-light">
+    <div class="flex flex-col px-11 justify-center text-justify">
+      <h2 class="text-[#212122] pt-11 pb-4">Contenido</h2>
+      <div v-if="workshop.content" class="text-[#212122]">
         <p v-for="(paragraph, index) in splitContent(workshop.content)" :key="index">
           {{ paragraph }}
         </p>
       </div>
-      <b v-else class="text-black font-light">Sin contenido disponible</b>
+      <h3 v-else class="text-[#212122]">Sin contenido disponible</h3>
     </div>
 
-    <!-- Sección de comentarios -->
-    <div class="mt-8">
-      <h2 class="text-2xl font-bold text-gray-800">Comentarios</h2>
-      <img
-        src="../assets/logo.svg"
-        class="h-15 w-15 rounded-full flex items-center justify-center text-xl mt-2"
-      />
-      <div class="mt-4">
+    <div class="my-19 p-11 bg-[#F2F5FA]">
+      <h2 class="text-[#212122]">Comentarios</h2>
+
+      <div class="flex gap-2 my-4">
+        <img
+          src="../assets/imgs/userAvatar.webp"
+          class="h-15 w-15 rounded-full flex items-center justify-center"
+        />
         <textarea
           v-model="newComment"
-          class="w-full p-2 border border-gray-300 rounded text-black"
-          placeholder="Escriba su comentario aquí..."
-        ></textarea>
-        <div class="mt-2 flex gap-2">
-          <button
-            @click="cancelComment"
-            class="bg-gray-300 text-gray-800 py-1 px-4 rounded-lg hover:bg-gray-400"
-          >
-            Cancelar
-          </button>
-          <button
-            @click="submitComment"
-            class="bg-blue-500 text-white py-1 px-4 rounded-lg hover:bg-blue-600"
-          >
-            Enviar Comentarios
-          </button>
-        </div>
+          class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
+          placeholder="Agrega un comentario..."
+        />
       </div>
+
+      <BaseButton variant="" @click="submitComment">Comentar</BaseButton>
 
       <!-- Comentarios de ejemplo -->
       <div class="mt-5">
@@ -116,77 +75,63 @@
           <div
             v-for="comment in ownComments"
             :key="comment.id_comment"
-            class="bg-white shadow-md p-5 flex justify-between items-center"
+            class="gap-2 flex justify-between items-center w-full mt-11"
           >
             <img
-              src="../assets/logo.svg"
-              class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
+              src="../assets/imgs/userAvatar.webp"
+              class="h-15 w-15 rounded-full flex items-center justify-center"
             />
-            <p>{{ comment.user }}</p>
-            <span class="text-black">{{ comment.comment }}</span>
+            <div class="bg-white text-[#212122] rounded-lg w-full p-4">{{ comment.comment }}</div>
+
             <div class="flex gap-2">
-              <button
-                @click="editComment(comment)"
-                class="bg-green-500 hover:bg-green-700 text-white p-5 m-5 rounded-xl"
+              <BaseButton variant="orange" @click="editComment(comment)">Editar</BaseButton>
+              <BaseButton variant="red" @click="deleteComment(comment.id_comment)"
+                >Eliminar</BaseButton
               >
-                Editar
-              </button>
-              <button
-                @click="deleteComment(comment.id_comment)"
-                class="bg-red-500 hover:bg-red-700 text-white p-5 m-5 rounded-xl"
-              >
-                Eliminar
-              </button>
             </div>
           </div>
         </div>
-        <div v-else>
-          <p class="text-gray-500">Aún no has añadido comentarios.</p>
-        </div>
 
-        <div class="mt-6">
+        <div class="mt-5">
           <div v-if="otherComments.length > 0">
             <div
               v-for="comment in comments"
               :key="comment.id_comment"
-              class="bg-white shadow-md p-5 flex justify-between items-center mt-2"
+              class="gap-2 flex justify-between items-center w-full mt-11"
             >
               <img
-                src="../assets/logo.svg"
-                class="h-15 w-15 rounded-full flex items-center justify-center mt-2"
+                src="../assets/imgs/userAvatar.webp"
+                class="h-15 w-15 rounded-full flex items-center justify-center"
               />
-              <span class="text-black">{{ comment.comment }}</span>
+              <div class="bg-white text-[#212122] rounded-lg w-full p-4">{{ comment.comment }}</div>
             </div>
           </div>
-          <div v-else>
-            <p class="text-gray-500">No hay comentarios de otros usuarios.</p>
-          </div>
+        </div>
+
+        <div v-if="comments.length < 0">
+          <h3 class="text-gray-500">No hay comentarios disponibles</h3>
         </div>
 
         <div
           v-if="isEditing"
-          class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+          class="fixed inset-0 bg-[#040273] bg-opacity-75 flex items-center justify-center"
         >
-          <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 class="text-xl font-bold mb-4 text-black">Editar Comentario</h3>
-            <textarea
-              v-model="editCommentText"
-              class="w-full p-2 border border-gray-300 rounded text-black"
-            ></textarea>
-            <div class="flex justify-end gap-2 mt-4">
-              <button
-                class="bg-gray-400 text-white py-1 px-4 rounded hover:bg-gray-500"
-                @click="cancelEdit"
-              >
-                Cancelar
-              </button>
-              <button
-                class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600"
-                @click="saveEdit"
-              >
-                Guardar
-              </button>
-            </div>
+          <!-- <Loading v-if="loadingStore.isLoading" class="absolute"/> -->
+          <div class="bg-white p-8 rounded-lg shadow-lg w-1/3">
+            <Form :validation-schema="validationComments" @submit="saveEdit">
+              <h3 class="text-[#212122] pb-4">Editar</h3>
+              <Field
+                as="textarea"
+                name="comment"
+                v-model="editCommentText"
+                class="bg-[#F2F5FA] text-[#565656] rounded-lg w-full p-4 focus:outline-0"
+              />
+              <ValidationMessage prop="comment" />
+              <div class="flex justify-end gap-2 mt-4">
+                <BaseButton variant="gray" @click="cancelEdit">Cancelar</BaseButton>
+                <BaseButton variant="green">Guardar</BaseButton>
+              </div>
+            </Form>
           </div>
         </div>
       </div>
@@ -195,7 +140,6 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/global/Header.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useWorkshopStore } from '@/stores/user'
@@ -203,6 +147,10 @@ import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
 import Navbar from '@/components/global/Navbar.vue'
 import Swal from 'sweetalert2'
+import BaseButton from '@/components/common/BaseButton.vue'
+import { Field, Form } from 'vee-validate'
+import ValidationMessage from '@/components/common/ValidationMessage.vue'
+import { validationComments } from '@/schemas/validations'
 
 const route = useRoute()
 const id_workshop = Number(route.params.id_workshop)
@@ -270,9 +218,11 @@ onMounted(async () => {
 const submitComment = async () => {
   if (newComment.value.trim() === '') {
     Swal.fire({
-      icon: 'error',
-      title: 'Error al Comentar',
-      text: 'El comentario no puede estar vacío',
+      title: 'Error',
+      text: 'Tu comentario no puede estar vacío',
+      icon: 'warning',
+      confirmButtonColor: '#2563EB',
+      backdrop: 'rgba(4, 2, 115, 0.7)',
     })
     // alert('El comentario no puede estar vacío')
     return
@@ -316,8 +266,10 @@ const saveEdit = async () => {
     await workshopStore.updatedComment(editCommentId.value, { comment: editCommentText.value })
     Swal.fire({
       icon: 'success',
-      title: 'Actualizado correctamente',
-      text: 'Se actualizo correctamente su comentario',
+      title: 'Tu comentario fue actualizado',
+      showConfirmButton: false,
+      timer: 1500,
+      backdrop: 'rgba(4, 2, 115, 0.7)',
     })
     isEditing.value = false // Cierra el modal
   }
@@ -330,32 +282,37 @@ const cancelEdit = () => {
 
 const deleteComment = async (id_comment) => {
   const result = await Swal.fire({
-    title: '¿Estás seguro?',
-    text: 'No podrás deshacer esta acción.',
+    title: '¿Quieres eliminar tu comentario?',
+    text: 'Esta acción es irreversible',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Sí, eliminar',
+    cancelButtonColor: '#BCCCDC',
     cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#059669',
+    confirmButtonText: 'Confirmar',
+    backdrop: 'rgba(4, 2, 115, 0.7)',
   })
   // const confirmDelete = confirm('¿Estás seguro de que quieres eliminar este comentario?')
   if (result.isConfirmed) {
     try {
       await workshopStore.deleteComment(id_comment)
       Swal.fire({
+        title: 'Comentario eliminado',
+        text: 'Tu comentario ha sido eliminado correctamente',
         icon: 'success',
-        title: 'Success',
-        text: 'El comentario ha sido eliminado exitosamente.',
+        confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
       })
       await workshopStore.fetchCommentsByWorkshop(id_workshop)
       comments.value = workshopStore.comments
     } catch (error) {
       console.error('Error al Eliminar el comentario', error)
       Swal.fire({
-        icon: 'error',
         title: 'Error',
-        text: 'Hubo un problema al intentar eliminar el comentario. Por favor, inténtalo de nuevo.',
+        text: 'No se pudo eliminar tu comentario',
+        icon: 'error',
+        confirmButtonColor: '#2563EB',
+        backdrop: 'rgba(4, 2, 115, 0.7)',
       })
     }
   }
