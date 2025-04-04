@@ -125,7 +125,8 @@ const router = createRouter({
         {
           path: '/adminTipos',
           name: 'admin-tipos-taller',
-          component: () => import('../views/Administradores/workshop-types/PageTiposTallerView.vue'),
+          component: () =>
+            import('../views/Administradores/workshop-types/PageTiposTallerView.vue'),
         },
         {
           path: '/admin/userUpdate/:id',

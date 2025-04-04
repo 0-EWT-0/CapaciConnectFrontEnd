@@ -7,10 +7,12 @@ const handleError = async (error: any, context: string, details?: Record<string,
   const errorMessage = `Error en CalendarService.${context}: ${error.message}`
   console.error(errorMessage, {
     ...details,
-    response: error.response ? {
-      status: error.response.status,
-      data: error.response.data,
-    } : undefined,
+    response: error.response
+      ? {
+          status: error.response.status,
+          data: error.response.data,
+        }
+      : undefined,
   })
   throw error
 }
@@ -51,11 +53,7 @@ export const calendarService = {
       if (data.date_end) payload.date_end = this.formatDateForAPI(data.date_end)
       if (data.id_workshop_id) payload.id_workshop_id = Number(data.id_workshop_id)
 
-      const response = await genericRequestAuth(
-        `${BASE_URL}/UpdateCalendar/${id}`,
-        'PUT',
-        payload
-      )
+      const response = await genericRequestAuth(`${BASE_URL}/UpdateCalendar/${id}`, 'PUT', payload)
       return response.data
     } catch (error: any) {
       await handleError(error, 'update', { calendarId: id, updateData: data })
@@ -67,10 +65,7 @@ export const calendarService = {
     try {
       this.validateId(id)
 
-      const response = await genericRequestAuth(
-        `${BASE_URL}/DeleteCalendar/${id}`,
-        'DELETE'
-      )
+      const response = await genericRequestAuth(`${BASE_URL}/DeleteCalendar/${id}`, 'DELETE')
 
       if (![200, 204].includes(response.status)) {
         throw new Error(`Respuesta inesperada: ${response.status}`)
@@ -98,5 +93,5 @@ export const calendarService = {
     if (id === undefined || id === null || isNaN(id) || id <= 0) {
       throw new Error(`ID no válido: ${id}`)
     }
-  }
+  },
 }

@@ -38,43 +38,45 @@
       </div> -->
 
       <!-- Grid de talleres -->
-       <Loading v-if="loadingStore.isLoading"/>
-       <div v-else>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div
-          v-for="progress in filteredProgressions"
-          :key="progress.id_progression"
-          class="bg-white rounded-lg shadow-lg"
-        >
-          <div class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-t-lg">
-            Cierra el {{ progress.dateEnd }}
-          </div>
+      <Loading v-if="loadingStore.isLoading" />
+      <div v-else>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div
+            v-for="progress in filteredProgressions"
+            :key="progress.id_progression"
+            class="bg-white rounded-lg shadow-lg"
+          >
+            <div class="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-t-lg">
+              Cierra el {{ progress.dateEnd }}
+            </div>
 
-          <img
-            :src="'data:image/jpeg;base64,' + progress.workshopImage"
-            alt="Imagen del taller"
-            class="w-full h-40 object-cover"
-          />
+            <img
+              :src="'data:image/jpeg;base64,' + progress.workshopImage"
+              alt="Imagen del taller"
+              class="w-full h-40 object-cover"
+            />
 
-          <div class="p-4">
-            <!-- <h2 class="text-lg text-black font-bold">Title</h2>
+            <div class="p-4">
+              <!-- <h2 class="text-lg text-black font-bold">Title</h2>
             <p class="text-gray-600 text-sm">Descripcion</p> -->
 
-            <p class="text-blue-600 font-semibold mt-2">{{ progress.workshopTitle  }}</p>
-            <!-- <RouterLink to="/panel-Taller">
+              <p class="text-blue-600 font-semibold mt-2">{{ progress.workshopTitle }}</p>
+              <!-- <RouterLink to="/panel-Taller">
               <button class="bg-blue-700 rounded-lg shadow-lg font-bold m-2 h-12 w-40 text-sm">
                 Ver Contenido
               </button>
             </RouterLink> -->
-            <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
-              <div class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full">
-                Progreso: {{ progress.progression_status }}%
+              <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
+                <div
+                  class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
+                >
+                  Progreso: {{ progress.progression_status }}%
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
   <Footer />
@@ -103,61 +105,62 @@ import Loading from '@/components/common/Loading.vue'
 //   { name: 'Categoría 3', teacher: 'Instructor 3' },
 // ])
 
-const searchQuery = ref("");
+const searchQuery = ref('')
 const workshopStore = useWorkshopStore()
 const loadingStore = useLoadingStore()
 const progressions = ref([])
 const calendars = ref([])
 
 const progressionWhithWorkshop = computed(() => {
-   return progressions.value.map((progress) => {
-     const relateWorkshop = workshopStore.workshops.find(
-     (workshop) => workshop.id_workshop === progress.id_workshop_id
-     )
-     const relatedCalendar = calendars.value.find(
-       (calendar) => calendar.id_workshop_id === progress.id_workshop_id
-     )
-     return {
-       ...progress,
-       workshopTitle: relateWorkshop ? relateWorkshop.title : 'Taller no encontrado',
-       workshopImage: relateWorkshop ? relateWorkshop.image : 'Imagen no encontrado',
-       dateEnd: relatedCalendar?.date_end ? formatDate(relatedCalendar.date_end) : 'Sin fecha de cierra'
-     }
-   })
- })
+  return progressions.value.map((progress) => {
+    const relateWorkshop = workshopStore.workshops.find(
+      (workshop) => workshop.id_workshop === progress.id_workshop_id,
+    )
+    const relatedCalendar = calendars.value.find(
+      (calendar) => calendar.id_workshop_id === progress.id_workshop_id,
+    )
+    return {
+      ...progress,
+      workshopTitle: relateWorkshop ? relateWorkshop.title : 'Taller no encontrado',
+      workshopImage: relateWorkshop ? relateWorkshop.image : 'Imagen no encontrado',
+      dateEnd: relatedCalendar?.date_end
+        ? formatDate(relatedCalendar.date_end)
+        : 'Sin fecha de cierra',
+    }
+  })
+})
 
 onMounted(async () => {
   try {
-    loadingStore.startLoading();
+    loadingStore.startLoading()
     const response = await workshopStore.fetchProgression()
     progressions.value = response
 
-    if(workshopStore.workshops.length === 0) {
-       await workshopStore.fetchWorkshops()
-     }
-     const calendarsResponse = await Promise.all(
-       progressions.value.map((process) =>
-       workshopStore.fetchCalendarsByWorkshopId(process.id_workshop_id)
-      )
-     )
- 
-     calendars.value = calendarsResponse.flat()
+    if (workshopStore.workshops.length === 0) {
+      await workshopStore.fetchWorkshops()
+    }
+    const calendarsResponse = await Promise.all(
+      progressions.value.map((process) =>
+        workshopStore.fetchCalendarsByWorkshopId(process.id_workshop_id),
+      ),
+    )
 
+    calendars.value = calendarsResponse.flat()
   } catch (error) {
     console.log('Error al cargar progreso:', error)
   } finally {
-    loadingStore.stopLoading();
+    loadingStore.stopLoading()
   }
 })
 
 const formatDate = (dateString: string) => {
-   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
-   return new Date(dateString).toLocaleDateString('es-ES', options)
- }
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+  return new Date(dateString).toLocaleDateString('es-ES', options)
+}
 
- const filteredProgressions = computed(() => {
-   return progressionWhithWorkshop.value.filter((progress) =>
-     progress.workshopTitle.toLowerCase().includes(searchQuery.value.toLowerCase())
-   );
- });
+const filteredProgressions = computed(() => {
+  return progressionWhithWorkshop.value.filter((progress) =>
+    progress.workshopTitle.toLowerCase().includes(searchQuery.value.toLowerCase()),
+  )
+})
 </script>

@@ -32,10 +32,10 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
   }
 
-  const  fetchAllCalendars = async (): Promise<void> => {
+  const fetchAllCalendars = async (): Promise<void> => {
     await withLoading(async () => {
       activities.value = await calendarService.getAll()
-    }).catch(err => {
+    }).catch((err) => {
       throw handleError(err, 'obtener calendarios')
     })
   }
@@ -45,22 +45,22 @@ export const useCalendarStore = defineStore('calendar', () => {
       const newCalendar = await calendarService.create(data)
       activities.value.push(newCalendar)
       return newCalendar
-    }).catch(err => {
+    }).catch((err) => {
       throw handleError(err, 'crear calendario')
     })
   }
 
-  const  updateExistingCalendar = async (id: number, data: UpdateCalendarDTO): Promise<Calendar> => {
+  const updateExistingCalendar = async (id: number, data: UpdateCalendarDTO): Promise<Calendar> => {
     return withLoading(async () => {
       const updated = await calendarService.update(id, data)
-      const index = activities.value.findIndex(a => a.Id_calendar === id)
+      const index = activities.value.findIndex((a) => a.Id_calendar === id)
 
       if (index !== -1) {
         activities.value[index] = updated
       }
 
       return updated
-    }).catch(err => {
+    }).catch((err) => {
       throw handleError(err, 'actualizar calendario')
     })
   }
@@ -68,8 +68,8 @@ export const useCalendarStore = defineStore('calendar', () => {
   const deleteExistingCalendar = async (id: number): Promise<void> => {
     await withLoading(async () => {
       await calendarService.delete(id)
-      activities.value = activities.value.filter(a => a.Id_calendar !== id)
-    }).catch(err => {
+      activities.value = activities.value.filter((a) => a.Id_calendar !== id)
+    }).catch((err) => {
       throw handleError(err, 'eliminar calendario')
     })
   }

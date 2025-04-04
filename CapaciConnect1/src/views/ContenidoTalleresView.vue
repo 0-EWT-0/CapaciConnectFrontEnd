@@ -21,7 +21,7 @@
       />
       <div class="bg-[#F2F5FA] p-11">
         <div class="mb-4">
-          <h2 class="text-[#212122]">Taller de {{ workshop.title }}</h2>
+          <h2 class="text-[#212122]">{{ workshop.title }}</h2>
           <p class="text-[#212122]">
             {{ workshop.description ? workshop.description : 'sin descripcion' }}.
           </p>
@@ -237,6 +237,13 @@ const submitComment = async () => {
   newComment.value = ''
   await workshopStore.fetchCommentsByWorkshop(id_workshop)
   comments.value = workshopStore.comments
+  Swal.fire({
+        icon: 'success',
+        title: 'Comentario publicado',
+        showConfirmButton: false,
+        timer: 1500,
+        backdrop: 'rgba(4, 2, 115, 0.7)',
+      })
 }
 
 const editComment = (comment) => {

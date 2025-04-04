@@ -30,7 +30,7 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
   const fetchAllTypes = async (): Promise<void> => {
     await withLoading(async () => {
       types.value = await workshopTypeService.getAllTypes()
-    }).catch(err => {
+    }).catch((err) => {
       handleError(err, 'cargar tipos de taller')
     })
   }
@@ -44,7 +44,7 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
       const newType = await workshopTypeService.createType(typeData)
       await fetchAllTypes() // Actualizar la lista
       return newType
-    }).catch(err => {
+    }).catch((err) => {
       handleError(err, 'crear tipo de taller')
       throw err
     })
@@ -54,7 +54,7 @@ export const useWorkshopTypeStore = defineStore('workshopType', () => {
     await withLoading(async () => {
       await workshopTypeService.deleteType(id)
       await fetchAllTypes() // Actualizar la lista
-    }).catch(err => {
+    }).catch((err) => {
       handleError(err, 'eliminar tipo de taller')
       throw err
     })

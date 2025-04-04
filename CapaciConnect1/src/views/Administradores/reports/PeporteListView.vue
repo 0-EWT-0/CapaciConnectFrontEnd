@@ -1,6 +1,8 @@
 <template>
   <div class="bg-white shadow-xl rounded-2xl border border-gray-200 mx-4 sm:mx-6 lg:mx-8 my-6">
-    <div class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200">
+    <div
+      class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-gray-200"
+    >
       <h2 class="text-2xl font-semibold text-gray-900 mb-4 sm:mb-0">Reportes Pendientes</h2>
     </div>
 
@@ -14,7 +16,10 @@
       </div>
 
       <div v-else>
-        <div v-if="reportStore.reports.length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div
+          v-if="reportStore.reports.length > 0"
+          class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6"
+        >
           <div
             v-for="reporte in reportStore.reports"
             :key="reporte.id_Report"
@@ -117,7 +122,7 @@ const formatDate = (dateString: string) => {
     month: 'short',
     year: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   }
   return new Date(dateString).toLocaleDateString('es-ES', options)
 }
