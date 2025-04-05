@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
-import { useCalendarStore } from '@/stores/calendarStore'
-import { useWorkshopStore } from '@/stores/adminWorkshopStore'
+import { useCalendarStore } from '@/stores/CalendarStore'
+import { useWorkshopStore } from '@/stores/AdminWorkshopStore'
 import type { Calendar, CalendarDTO, UpdateCalendarDTO } from '@/interfaces/CalendarInterfaces'
 import type { Workshop } from '@/interfaces/Workshop'
 import Swal from 'sweetalert2'
@@ -349,14 +349,14 @@ const openDatePicker = (id) => {
 
                 <div class="pb-2">
                   <p class="text-[#212122]">Fecha de inicio</p>
-                  <h3 class="text-[#059669]">{{ formatDate(activity.date_start) }}</h3>
+                  <h3 class="bg-[#059669] p-2 rounded-lg">{{ formatDate(activity.date_start) }}</h3>
                 </div>
 
                 <p class="text-[#212122]">Fecha de cierre</p>
-                <h3 class="text-[#DC2626]">{{ formatDate(activity.date_end) }}</h3>
+                <h3 class="bg-[#33415C] p-2 rounded-lg">{{ formatDate(activity.date_end) }}</h3>
               </div>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex space-x-2 mt-4">
               <BaseButton
                 variant="orange"
                 :disabled="calendarStore.isLoading"

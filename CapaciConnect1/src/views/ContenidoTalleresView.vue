@@ -37,11 +37,9 @@
         <div class="flex flex-col space-y-2 ">
           <BaseButton @click="handleSubscribe" :disabled="isSubscribed">{{
             isSubscribed ? 'Ya estás inscrito' : 'Inscríbete'
-          }}</BaseButton>
+          }}</BaseButton>         
 
-          <BaseButton variant="red" v-if="isSubscribed" @click="$router.push('/Reportar')"
-            class="bg-red-500 hover:bg-red-600 text-white text-xl py-5 px-15 rounded-lg transition-colors">Reportar
-          </BaseButton>
+          <BaseButton variant="" v-if="isSubscribed" @click="$router.push('/Reportar')">Reportar</BaseButton>
         </div>
       </div>
     </div>

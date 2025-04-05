@@ -1,16 +1,16 @@
 <template>
   <Navbar />
-  <div class="max-w-4xl mx-auto p-30 m-30 bg-white shadow-2xl rounded-2xl text-black">
+  <div class="max-w-4xl mx-auto p-8 my-19 bg-[#F2F5FA] shadow-2xl rounded-2xl text-black">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Enviar Reporte</h2>
 
     <form @submit.prevent="handleSubmit">
       <!-- Título del Reporte -->
       <div class="mb-6">
-        <label class="block text-gray-700 text-xl font-semibold">Título del Reporte</label>
+        <label class="text-[#212122]"><h3 class="pb-2">Título</h3></label>
         <input
           v-model="form.tittle"
           type="text"
-          class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
+          class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Escribe el título del reporte..."
           required
         />
@@ -18,11 +18,11 @@
 
       <!-- Descripción del Problema -->
       <div class="mb-6">
-        <label class="block text-gray-700 text-xl font-semibold">Descripción del Problema</label>
+        <label class="text-[#212122]"><h3 class="pb-2">Descripción</h3></label>
         <textarea
           v-model="form.content"
           rows="6"
-          class="w-full mt-2 p-4 text-xl border rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500"
+          class="bg-white text-[#565656] rounded-lg w-full p-4 focus:outline-0"
           placeholder="Describe el problema..."
           required
         ></textarea>
@@ -43,14 +43,10 @@
       <input type="hidden" v-model="form.id_workshop_id" />
 
       <!-- Botón Enviar -->
-      <div class="flex justify-center mt-8">
-        <button
-          type="submit"
-          class="px-8 py-4 text-lg bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          :disabled="reportStore.isLoading || workshopStore.isLoading"
-        >
-          📩 {{ reportStore.isLoading ? 'Enviando...' : 'Enviar Reporte' }}
-        </button>
+      <div class="flex justify-center gap-2 mt-8 text-white">
+        <BaseButton variant="gray" @click="goBack">Regresar</BaseButton>
+
+        <BaseButton type="submit" :disabled="reportStore.isLoading || workshopStore.isLoading">{{ reportStore.isLoading ? 'Enviando...' : 'Enviar' }}</BaseButton>
       </div>
     </form>
   </div>
@@ -59,12 +55,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useReportStore } from '@/stores/adminReportStore'
-import { useWorkshopStore } from '@/stores/userStore'
-import { useAuthStore } from '@/stores/authStore'
+import { useReportStore } from '@/stores/AdminReportStore'
+import { useWorkshopStore } from '@/stores/UserStore'
+import { useAuthStore } from '@/stores/AuthStore'
 import Header from '@/components/global/Header.vue'
 import Footer from '@/components/global/Footer.vue'
 import Navbar from '@/components/global/Navbar.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const reportStore = useReportStore()
 const authStore = useAuthStore()
@@ -170,11 +167,17 @@ const handleSubmit = async () => {
     showSuccess.value = true
     form.value.tittle = ''
     form.value.content = ''
+
   } catch (error) {
     console.error('[ReportForm] Error en el componente:', error)
     reportStore.error = 'Error al enviar el reporte. Intenta de nuevo'
   }
 }
+
+
+const goBack = () => {
+  window.history.back();
+};
 </script>
 
 <style scoped>

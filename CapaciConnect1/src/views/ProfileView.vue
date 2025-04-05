@@ -107,40 +107,7 @@
     </div>
   </div>
 
-  <div class="p-19">
-    <h2 class="text-xl font-bold mt-10 text-black">Talleres completados</h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
-      <div v-for="index in 6" class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <!-- Cinta de cerrado -->
-        <div class="bg-gray-800 text-white text-sm font-bold px-3 py-1 rounded-t-lg">Cerrado</div>
-
-        <!-- Imagen -->
-        <img
-          src="../assets/imgs/workshopBanner.webp"
-          alt="Imagen del taller"
-          class="w-full h-40 object-cover"
-        />
-
-        <!-- Contenido -->
-        <div class="p-4">
-          <h2 class="text-lg font-bold">Título del taller</h2>
-          <p class="text-gray-600 text-sm">Descripción del taller de manera resumida</p>
-          <p class="text-blue-600 font-semibold mt-2">Tipo de taller</p>
-
-          <!-- Barra de progreso -->
-          <div class="bg-gray-200 h-6 rounded-full mt-4 flex items-center">
-            <div
-              class="bg-green-500 text-white text-xs font-bold text-center px-2 rounded-full"
-              style="width: 100%"
-            >
-              100% Completado
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 
   <Footer />
 </template>
